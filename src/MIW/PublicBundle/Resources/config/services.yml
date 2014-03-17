@@ -1,0 +1,7 @@
+parameters:
+#    miw_public.example.class: MIW\PublicBundle\Example
+
+services:
+#    miw_public.example:
+#        class: %miw_public.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

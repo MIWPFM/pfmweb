@@ -1,0 +1,16 @@
+miw_rest:
+    resource: "@MIWRestBundle/Resources/config/routing.yml"
+    prefix:   /
+
+miw_intranet:
+    resource: "@MIWIntranetBundle/Resources/config/routing.yml"
+    prefix:   /
+
+miw_public:
+    resource: "@MIWPublicBundle/Resources/config/routing.yml"
+    prefix:   /
+
+miw_data_access:
+    resource: "@MIWDataAccessBundle/Resources/config/routing.yml"
+    prefix:   /
+

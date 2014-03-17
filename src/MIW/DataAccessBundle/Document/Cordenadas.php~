@@ -1,0 +1,66 @@
+<?php
+
+namespace MuchaTapa\DataAccessBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/** @MongoDB\EmbeddedDocument */
+class Cordenadas
+{ 
+    /**
+     * @MongoDB\Id
+     */
+    protected $id;
+    
+    /** @MongoDB\Float */
+    public $longitud;
+
+    /** @MongoDB\Float */
+    public $latitud;
+
+
+    /**
+     * Set longitud
+     *
+     * @param float $longitud
+     * @return self
+     */
+    public function setLongitud($longitud)
+    {
+        $this->longitud = $longitud;
+        return $this;
+    }
+
+    /**
+     * Get longitud
+     *
+     * @return float $longitud
+     */
+    public function getLongitud()
+    {
+        return $this->longitud;
+    }
+
+    /**
+     * Set latitud
+     *
+     * @param float $latitud
+     * @return self
+     */
+    public function setLatitud($latitud)
+    {
+        $this->latitud = $latitud;
+        return $this;
+    }
+
+    /**
+     * Get latitud
+     *
+     * @return float $latitud
+     */
+    public function getLatitud()
+    {
+        return $this->latitud;
+    }
+}
+

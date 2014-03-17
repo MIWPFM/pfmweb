@@ -1,0 +1,91 @@
+<?php
+
+namespace MuchaTapa\DataAccessBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ * @MongoDB\Index(keys={"cordenadas"="2d"})
+ */
+class Tapa
+{
+    /**
+     * @MongoDB\Id
+     */
+    protected $id;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $nombre;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $descripcion;
+    /**
+     * @MongoDB\Float
+     */
+    protected $precio;
+    
+    /** @MongoDB\EmbedOne(targetDocument="Cordenadas") */
+    public $cordenadas;
+    
+    public function getId() {
+        return $this->id;
+    }
+
+    public function getNombre() {
+        return $this->nombre;
+    }
+
+    public function getDescripcion() {
+        return $this->descripcion;
+    }
+
+    public function getPrecio() {
+        return $this->precio;
+    }
+    
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setNombre($nombre) {
+        $this->nombre = $nombre;
+    }
+
+    public function setDescripcion($descripcion) {
+        $this->descripcion = $descripcion;
+    }
+
+    public function setPrecio($precio) {
+        $this->precio = $precio;
+    }
+
+
+
+    /**
+     * Set cordenadas
+     *
+     * @param MuchaTapa\DataAccessBundle\Document\Cordenadas $cordenadas
+     * @return self
+     */
+    public function setCordenadas(\MuchaTapa\DataAccessBundle\Document\Cordenadas $cordenadas)
+    {
+        $this->cordenadas = $cordenadas;
+        return $this;
+    }
+
+    /**
+     * Get cordenadas
+     *
+     * @return MuchaTapa\DataAccessBundle\Document\Cordenadas $cordenadas
+     */
+    public function getCordenadas()
+    {
+        return $this->cordenadas;
+    }
+}
+

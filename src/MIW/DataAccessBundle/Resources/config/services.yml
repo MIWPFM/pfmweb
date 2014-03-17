@@ -1,0 +1,7 @@
+parameters:
+#    miw_data_access.example.class: MIW\DataAccessBundle\Example
+
+services:
+#    miw_data_access.example:
+#        class: %miw_data_access.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
