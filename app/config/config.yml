@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: "%locale%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -23,7 +23,15 @@ framework:
         handler_id:  ~
     fragments:       ~
     http_method_override: true
-
+    
+# Framework Extra Configuration
+sensio_framework_extra:
+    router:   { annotations: true }
+    request:  { converters: true }
+    view:     { annotations: true }
+    cache:    { annotations: true }
+    security: { annotations: true }
+    
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -42,24 +50,6 @@ assetic:
         #yui_css:
         #    jar: "%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar"
 
-# Doctrine Configuration
-doctrine:
-    dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        # path:     "%database_path%"
-
-    orm:
-        auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
-
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -72,14 +62,15 @@ swiftmailer:
 doctrine_mongodb:
     connections:
         default:
-            server:   mongodb://muchatapa:muchatapa@ds027809.mongolab.com:27809/muchatapadb
+            server:   mongodb://localhost:27017
             options: {}
-    default_database: muchatapadb
+    default_database: weplay
     document_managers:
         default:
             auto_mapping: true
             
+# Fos User configuration              
 fos_user:
     db_driver: mongodb 
     firewall_name: main
-    user_class: MIW\DataAccessBundle\Document\Usuario
+    user_class: MIW\DataAccessBundle\Document\User

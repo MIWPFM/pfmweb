@@ -1,6 +1,6 @@
 <?php
 
-namespace MIW\IntranetBundle\Controller;
+namespace MIW\PublicBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,15 +10,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-class DefaultController extends Controller
+class UserController extends Controller
 {
     /**
-     * @Route("/dashboard/{name}")
-     * @Template("MIWIntranetBundle:Default:dashboard.html.twig");
+     * @Route("/registrarse")
+     * @Template("MIWPublicBundle:User:login.html.twig");
      */
-    public function dashboardAction($name)
+    public function registerAction()
     {
-
-        return array('name' => $name);
+        return array();
+    }
+    
+    /**
+     * @Route("/conectarse")
+     * @Template("MIWPublicBundle:User:login.html.twig");
+     */
+    public function loginAction()
+    {
+        return array();
     }
 }

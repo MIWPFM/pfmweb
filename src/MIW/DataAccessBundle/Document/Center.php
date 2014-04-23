@@ -6,9 +6,8 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
  * @MongoDB\Document
- * @MongoDB\Index(keys={"cordenadas"="2d"})
  */
-class Event
+class Center
 {
     /**
      * @MongoDB\Id
@@ -25,11 +24,9 @@ class Event
      */
     protected $description;
 
-    /** @MongoDB\EmbedOne(targetDocument="Geolocation") */
-    public $geolocation;
+    /** @MongoDB\EmbedOne(targetDocument="Address") */
+    public $address;
     
-     /** @MongoDB\Distance */
-    public $distance;
     
     public function getId() {
         return $this->id;
@@ -59,4 +56,26 @@ class Event
         $this->distance = $distance;
     }
 
+
+    /**
+     * Set address
+     *
+     * @param MIW\DataAccessBundle\Document\Address $address
+     * @return self
+     */
+    public function setAddress(\MIW\DataAccessBundle\Document\Address $address)
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return MIW\DataAccessBundle\Document\Address $address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
 }

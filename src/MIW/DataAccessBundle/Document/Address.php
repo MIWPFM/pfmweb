@@ -1,0 +1,151 @@
+<?php
+
+namespace MIW\DataAccessBundle\Document;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/** @MongoDB\EmbeddedDocument 
+ * @MongoDB\Index(keys={"cordenadas"="2d"})**/
+class Address
+{ 
+    /**
+     * @MongoDB\String
+     */
+    protected $address;
+    
+    /**
+     * @MongoDB\String
+     */
+    protected $city;
+
+    /**
+     * @MongoDB\String
+     */
+    protected $province;
+    
+    /**
+     * @MongoDB\String
+     */
+    protected $country;
+    
+    /** @MongoDB\Float */
+    public $long;
+
+    /** @MongoDB\Float */
+    public $lat;
+
+    public function getLong() {
+        return $this->long;
+    }
+
+    public function getLat() {
+        return $this->lat;
+    }
+
+    public function setLong($long) {
+        $this->long = $long;
+    }
+
+    public function setLat($lat) {
+        $this->lat = $lat;
+    }
+
+    
+    /**
+     * Get id
+     *
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set address
+     *
+     * @param string $address
+     * @return self
+     */
+    public function setAddress($address)
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string $address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set city
+     *
+     * @param string $city
+     * @return self
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
+        return $this;
+    }
+
+    /**
+     * Get city
+     *
+     * @return string $city
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set province
+     *
+     * @param string $province
+     * @return self
+     */
+    public function setProvince($province)
+    {
+        $this->province = $province;
+        return $this;
+    }
+
+    /**
+     * Get province
+     *
+     * @return string $province
+     */
+    public function getProvince()
+    {
+        return $this->province;
+    }
+
+    /**
+     * Set country
+     *
+     * @param string $country
+     * @return self
+     */
+    public function setCountry($country)
+    {
+        $this->country = $country;
+        return $this;
+    }
+
+    /**
+     * Get country
+     *
+     * @return string $country
+     */
+    public function getCountry()
+    {
+        return $this->country;
+    }
+}

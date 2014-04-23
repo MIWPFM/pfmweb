@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new MIW\PublicBundle\MIWPublicBundle(),
             new MIW\IntranetBundle\MIWIntranetBundle(),
             new MIW\RestBundle\MIWRestBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle()
+        
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

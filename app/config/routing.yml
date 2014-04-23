@@ -1,10 +1,10 @@
 miw_rest:
     resource: "@MIWRestBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /api
 
 miw_intranet:
     resource: "@MIWIntranetBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /intranet
 
 miw_public:
     resource: "@MIWPublicBundle/Resources/config/routing.yml"

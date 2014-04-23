@@ -1,3 +1,0 @@
-miw_data_access_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: MIWDataAccessBundle:Default:index }
