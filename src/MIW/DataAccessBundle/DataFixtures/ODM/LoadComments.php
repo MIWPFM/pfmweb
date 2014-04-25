@@ -33,31 +33,27 @@ class LoadComments extends AbstractFixture implements OrderedFixtureInterface,Co
         $user= $this->getReference('user');
         $user2= $this->getReference('user2');
         
-        $game = new Game();
-        $game->setAdmin($user);
-        $game->setCreated(new \DateTime());
-        $game->setLimitDate(new \Datetime());
-        $game->setPrice(10);
-        $game->setNumPlayers(22);
-        $game->setSport($football);
-        $game->setDescription("Creo este evento en tal sitio por que quiero bla bla");
-        $game->addPlayer($user2);
+        $comment = new Comment();
+        $comment->setComment("Me gusta");
+        $comment->setUser($user);
+        $comment->setCreated(new \Datetime());
+        $comment->setGame($game);
         
-        $game2 = new Game();
-        $game2->setAdmin($user2);
-        $game2->setCreated(new \DateTime());
-        $game2->setLimitDate(new \Datetime());
-        $game2->setPrice(2);
-        $game2->setNumPlayers(2);
-        $game2->setSport($paddel);
-        $game2->setDescription("Creo este evento en tal sitio por que quiero bla bla");
-        $game2->addPlayer($user);
+        $comment2 = new Comment();
+        $comment2->setComment("Eweewe");
+        $comment2->setUser($user2);
+        $comment2->setCreated(new \Datetime());
+        $comment2->setGame($game);
         
-        $manager->persist($game);
-        $manager->persist($game2);
-    	$manager->flush();
+        $comment3 = new Comment();
+        $comment3->setComment("Yejee");
+        $comment3->setUser($user);
+        $comment3->setCreated(new \Datetime());
+        $comment3->setGame($game2);
         
-        $this->addReference('game', $game);
-        $this->addReference('game2', $game2);
+        $manager->persist($comment);
+        $manager->persist($comment2);
+        $manager->persist($comment3);
+        $manager->flush();
     }
 }
