@@ -44,7 +44,6 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $address= new Address();
         $address->setAddress("C\Perú 22 4º 1");
         $address->setCity("Madrid");
-        $address->setCountry("España");
         $address->setLat(40.4);
         $address->setLong(-3.4);
         $address->setProvince("Madrid");

@@ -40,10 +40,6 @@ class Center
         return $this->description;
     }
 
-    public function getDistance() {
-        return $this->distance;
-    }
-
     public function setName($name) {
         $this->name = $name;
     }

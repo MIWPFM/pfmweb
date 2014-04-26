@@ -17,7 +17,7 @@ class Address
      * @MongoDB\String
      */
     protected $city;
-
+    
     /**
      * @MongoDB\String
      */
@@ -26,7 +26,7 @@ class Address
     /**
      * @MongoDB\String
      */
-    protected $country;
+    protected $community;
     
     /** @MongoDB\Float */
     public $long;
@@ -127,25 +127,14 @@ class Address
         return $this->province;
     }
 
-    /**
-     * Set country
-     *
-     * @param string $country
-     * @return self
-     */
-    public function setCountry($country)
-    {
-        $this->country = $country;
-        return $this;
+
+    public function getCommunity() {
+        return $this->community;
     }
 
-    /**
-     * Get country
-     *
-     * @return string $country
-     */
-    public function getCountry()
-    {
-        return $this->country;
+    public function setCommunity($community) {
+        $this->community = $community;
     }
+
+
 }

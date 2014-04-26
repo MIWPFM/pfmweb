@@ -2,5 +2,8 @@
 
 {% block content %}
 
-dasda
+<form action="{{path('intranet_create_game')}}" method="POST">
+    {{ form_widget(form) }}
+    <input type="submit" class="btn" value="Crear Partido"/>
+</form>
 {% endblock %}
