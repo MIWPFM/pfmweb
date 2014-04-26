@@ -39,21 +39,31 @@
 
                     <div class="nav-collapse">
                         <ul class="nav pull-right">
-
+                            {% if app.user %}
                             <li class="">						
-                                <a href="signup.html" class="">
-                                   ¿ No tienes todavía una cuenta?
+                                <a href="" class="">
+                                   {{app.user.username}}
+                                </a>
+
+                            </li>
+                            
+                            <li class="">						
+                                <a href="{{path('fos_user_security_logout')}}">desconectar</a> 
+                             
+
+                            </li>
+                           
+                        {% else %}
+                            <li class="">						
+                                <a href="{{path('fos_user_registration_register')}}">¿ No tienes todavía una cuenta?</a> 
                                 </a>
 
                             </li>
 
-                            <li class="">						
-                                <a href="index.html" class="">
-                                    <i class="icon-chevron-left"></i>
-                                    Back to Homepage
-                                </a>
+                                   
+                        {% endif%}
 
-                            </li>
+                            
                         </ul>
 
                     </div><!--/.nav-collapse -->	
@@ -70,9 +80,7 @@
         {% endblock%}
 
 
-        <div class="login-extra">
-            <a href="#">Reset Password</a>
-        </div> <!-- /login-extra -->
+      
 
 
         <script src="{{ asset('bundles/miwintranet/js/jquery-1.7.2.min.js') }}"></script> 

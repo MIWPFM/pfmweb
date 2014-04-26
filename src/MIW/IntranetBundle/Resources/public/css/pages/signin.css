@@ -85,7 +85,6 @@ span.login-checkbox {
 }
 
 span.login-checkbox > input[type='checkbox'] {
-    opacity: 0;
     float: left;
     width: 15px;
 }

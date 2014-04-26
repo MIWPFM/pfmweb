@@ -1,0 +1,70 @@
+{% extends "MIWPublicBundle:Default:base.html.twig" %}
+
+{% block content %}
+    {% if error %}
+        <div class="alert alert-error">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>¡Atención!</strong> {{ error|trans({}, 'FOSUserBundle') }}
+        </div>
+    {% endif %}
+    <div class="account-container">
+
+        <div class="content clearfix">
+
+            {% if app.user %}
+                <h2>bienvenido {{app.user.username}}</h2>	
+                <p>Ya puedes empezar a disfrutar de las ventajas de weplay</p>
+                <a href="" type="submit" class="button btn btn-success btn-large" >Entrar >></a>
+            {% else %}
+
+                <form action="{{ path("fos_user_security_check") }}" method="post">
+
+                   
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+                    <h1>conéctate</h1>		
+
+                    <div class="login-fields">
+
+                        <p>proporcionanos tus datos de acceso</p>
+
+                        <div class="field">
+                            <label for="username">username o email</label>
+                            <input type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="username o email" class="login username-field" />
+                        </div> <!-- /field -->
+
+                        <div class="field">
+                            <label for="password">contraseña</label>
+                            <input type="password" id="password" name="_password" required="required" value="" placeholder="contraseña" class="login password-field" />
+                        </div> <!-- /password -->
+
+                    </div> <!-- /login-fields -->
+
+
+                    <div class="login-actions">
+                        <span class="login-checkbox">
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"  class="field login-checkbox" tabindex="4" />
+                            <label class="choice" for="Field">¿Recordar contraseña?</label>
+                        </span>
+
+                        <input type="submit" class="button btn btn-success btn-large" value="Conectarse"/>
+
+                    </div> <!-- .actions -->
+
+
+
+                </form>
+
+            {% endif %}
+
+        </div> <!-- /content -->
+
+    </div> <!-- /account-container -->
+
+     {% if not app.user %}
+            <div class="login-extra">
+                <a href="#">¿Has olvidado tu contraseña?</a>
+            </div> <!-- /login-extra -->
+    {% endif%}
+    
+{% endblock%}

@@ -1,0 +1,63 @@
+{% extends "MIWPublicBundle:Default:base.html.twig" %}
+
+{% block content %}
+<div class="account-container">
+
+    <div class="content clearfix">
+        <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register">
+             
+                 
+            <h1>regístrate</h1>		
+
+            <div class="login-fields">
+
+                <p>proporcionanos tus datos de acceso</p>
+
+                <div class="field">
+                    <label for="username">username</label>
+                    {{ form_widget(form.username,{ 'attr': {'class': 'login username-field', 'placeholder':'username'} }) }}
+               
+                </div> <!-- /field -->
+                
+                <div class="field">
+                    <label for="username">email</label>
+                    {{ form_widget(form.email,{ 'attr': {'class': 'login ', 'placeholder':'email'} }) }}
+               
+                </div> <!-- /field -->
+
+                {% for passwordField in form.plainPassword %}
+                    {% if loop.first %}
+                        {% set placeholder="password" %}
+                    {% else %}
+                        {% set placeholder="repetir password" %}
+                    {% endif%}
+                   <div class="field">
+                        {{ form_widget(passwordField, { 'attr': {'class': 'form-input','placeholder':placeholder} }) }}
+                    </div>
+                {% endfor %}
+                
+                   
+              
+
+            </div> <!-- /login-fields -->
+
+            <div class="login-actions">
+                 {{ form_widget(form._token) }}
+                <input type="submit" class="button btn btn-success btn-large" value="registrarse"/>
+
+            </div> <!-- .actions -->
+
+
+
+        </form>
+
+    </div> <!-- /content -->
+
+</div> <!-- /account-container -->
+
+     {% if not app.user %}
+            <div class="login-extra">
+                <a href="{{path('fos_user_security_login')}}">¿Ya tienes una cuenta? Conéctate</a>
+            </div> <!-- /login-extra -->
+    {% endif%}
+{% endblock%}
