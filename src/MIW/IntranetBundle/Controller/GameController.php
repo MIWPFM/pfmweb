@@ -9,18 +9,30 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use MIW\DataAccessBundle\Document\User;
+use MIW\DataAccessBundle\Document\Game;
 
-class DefaultController extends Controller
+class GameController extends Controller
 {
     /**
-     * @Route("/dashboard",name="intranet_dashboard")
-     * @Template("MIWIntranetBundle:Default:dashboard.html.twig");
+     * @Route("/partidos",name="intranet_games")
+     * @Template("MIWIntranetBundle:Game:showGames.html.twig");
      */
-    public function dashboardAction()
+    public function showGamesAction()
     {
 
         return array();
     }
     
+    /**
+     * @Route("/partidos/organizar",name="intranet_create_game")
+     * @Template("MIWIntranetBundle:Game:createGame.html.twig");
+     */
+    public function createGameAction()
+    {
+        $game= new Game();
+
+        return array('game'=>$game);
+    }
     
 }

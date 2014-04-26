@@ -1,3 +1,7 @@
 intranet_default_controller:
     resource: "@MIWIntranetBundle/Controller/DefaultController.php"
     type:     annotation
+    
+intranet_game_controller:
+    resource: "@MIWIntranetBundle/Controller/GameController.php"
+    type:     annotation

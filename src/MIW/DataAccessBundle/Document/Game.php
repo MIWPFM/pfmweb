@@ -65,6 +65,7 @@ class Game {
     public function __construct() {
 
         $this->players = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->created= new \DateTime();
     }
 
     public function getId() {
