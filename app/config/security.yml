@@ -22,6 +22,7 @@ security:
                 provider: fos_userbundle
                 csrf_provider: form.csrf_provider
                 login_path: /
+                success_handler: security.authentication.success_handler
             logout:       true
             anonymous:    true
 

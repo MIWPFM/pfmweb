@@ -40,11 +40,16 @@ class User extends BaseUser
     /** @MongoDB\Hash  */
     private $sports;
 
+    /** @MongoDB\Boolean */
+    private $completedProfile;
+
     public function __construct()
     {
         parent::__construct();
         $this->created=new \DateTime();
+        $this->completedProfile=false;
     }
+    
 
     /**
      * Get id
@@ -187,4 +192,14 @@ class User extends BaseUser
     {
         return $this->sports;
     }
+    
+    public function getCompletedProfile() {
+        return $this->completedProfile;
+    }
+
+    public function setCompletedProfile($completedProfile) {
+        $this->completedProfile = $completedProfile;
+    }
+
+
 }

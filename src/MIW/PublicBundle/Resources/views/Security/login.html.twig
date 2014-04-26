@@ -14,7 +14,7 @@
             {% if app.user %}
                 <h2>bienvenido {{app.user.username}}</h2>	
                 <p>Ya puedes empezar a disfrutar de las ventajas de weplay</p>
-                <a href="" type="submit" class="button btn btn-success btn-large" >Entrar >></a>
+                <a href="{{path('intranet_dashboard')}}" type="submit" class="button btn btn-success btn-large" >Entrar >></a>
             {% else %}
 
                 <form action="{{ path("fos_user_security_check") }}" method="post">
