@@ -17,7 +17,7 @@ class CenterType extends AbstractType
          $builder
             ->add('name', 'text', array(
                 'label' => 'Instalación',
-                'attr' => array('class' => 'name')))
+                'attr' => array('class' => 'center-name')))
           ->add('address', new AddressType(),array('data_class'=>'MIW\DataAccessBundle\Document\Address'));
                  
             
