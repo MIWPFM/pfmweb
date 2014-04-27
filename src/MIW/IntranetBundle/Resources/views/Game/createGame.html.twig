@@ -138,4 +138,54 @@
 {% endblock %}
 {% block commondown%}
 </form>
-{% endblock%}
+
+ <script>
+     
+        $(document).ready(function(){
+            $('.center-name').autocomplete({
+                    source: function( request, response ) {
+                        $.ajax({
+                          method: "GET",
+                          url: "{{path('intranet_ajax_search_center')}}",
+                          dataType: "json",
+                          data: {
+                            center: $('.center-name').val(),
+                          },
+                          success: function( data ) {
+                            console.log(data);
+                           var array = data.error ? [] : $.map(data, function(item) {
+                                        return {
+                                            label: item.name,
+                                            value: item
+                                    };
+                            });
+                            response(array);
+
+                          }
+                        });
+                    },
+                    minLength: 2,
+                    open: function() {
+                        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                    },
+                    close: function() {
+                        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                      },
+                    select: function( event, ui ) {
+                        console.log("CIUDAD");
+                        console.log(ui.item.value);
+                        console.log(ui.item.value.city);
+                        $('#game_center_address_address').val(ui.item.value.address);
+                        $('.center-name').val(ui.item.value.name)
+                        $('#game_center_address_province').val(ui.item.value.province);
+                        $('#game_center_address_community').val(ui.item.value.community);
+                        $('#game_center_address_city').val(ui.item.value.city);
+                        event.preventDefault();
+                    }
+                })
+    
+  
+        });
+
+    </script>
+{% endblock %}
