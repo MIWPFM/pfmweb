@@ -1,92 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "::base.html.twig" %}
 
-    <head>
-        <meta charset="utf-8">
-        <title>{%block title%}weplay{% endblock%}</title>
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <meta name="apple-mobile-web-app-capable" content="yes"> 
-
-        <link href="{{ asset('bundles/miwintranet/css/bootstrap.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('bundles/miwintranet/css/bootstrap-responsive.min.css') }}" rel="stylesheet">
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
-              rel="stylesheet">
-        <link href="{{ asset('bundles/miwintranet/css/font-awesome.css') }}" rel="stylesheet">
-        <link href="{{ asset('bundles/miwintranet/css/style.css') }}" rel="stylesheet">
-        <link href="{{ asset('bundles/miwintranet/css/pages/signin.css') }}" rel="stylesheet">
-
-
-    </head>
-
-    <body>
-
-        <div class="navbar navbar-fixed-top">
-
-            <div class="navbar-inner">
-
-                <div class="container">
-
-                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </a>
-
-                    <a class="brand" href="index.html">
-                        weplay				
-                    </a>		
-
-                    <div class="nav-collapse">
-                        <ul class="nav pull-right">
-                            {% if app.user %}
-                            <li class="">						
-                                <a href="" class="">
-                                   {{app.user.username}}
-                                </a>
-
-                            </li>
-                            
-                            <li class="">						
-                                <a href="{{path('fos_user_security_logout')}}">desconectar</a> 
-                             
-
-                            </li>
-                           
-                        {% else %}
-                            <li class="">						
-                                <a href="{{path('fos_user_registration_register')}}">¿ No tienes todavía una cuenta?</a> 
-                                </a>
-
-                            </li>
-
-                                   
-                        {% endif%}
-
-                            
-                        </ul>
-
-                    </div><!--/.nav-collapse -->	
-
-                </div> <!-- /container -->
-
-            </div> <!-- /navbar-inner -->
-
-        </div> <!-- /navbar -->
-
-
-        {% block content%}
-        
-        {% endblock%}
-
-
-      
-
-
-        <script src="{{ asset('bundles/miwintranet/js/jquery-1.7.2.min.js') }}"></script> 
-        <script src="{{ asset('bundles/miwintranet/js/bootstrap.js') }}"></script>
-        <script src="{{ asset('bundles/miwintranet/js/signin.js') }}"></script> 
-
-    </body>
-
-</html>
+{%block title%}WePlay{% endblock%}
+{% block stylesheets %}
+{% endblock %}
+{% block body %}
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                WePlay				
+            </a>
+        </div>
+        <div class="navbar-collapse collapse navbar-inverse-collapse">
+            <ul class="nav navbar-nav navbar-right">
+            {% if app.user %}
+                <li>						
+                    <a href="">{{app.user.username}}</a>
+                </li>
+                <li>						
+                    <a href="{{path('fos_user_security_logout')}}"><i class="fa fa-power-off fa-fw"></i>Cerrar sesión</a>                          
+                </li>
+            {% else %}
+                <li>						
+                    <a href="{{path('fos_user_registration_register')}}">¿No tienes todavía una cuenta?</a>
+                </li>
+            {% endif%}
+            </ul>
+        </div>
+    </div>
+</div> <!-- /navbar -->
+<div class="row">
+    <div class="col-xs-3">
+    {% block sidecontent%}
+    {% endblock%}
+    </div>
+    <div class="col-xs-6">
+    {% block maincontent%}
+    {% endblock%}
+    </div>
+</div>
+    {% block javascripts%}
+    {% endblock%}
+{% endblock %}
