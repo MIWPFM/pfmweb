@@ -52,9 +52,15 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {  
                 $dm = $this->get('doctrine.odm.mongodb.document_manager');
-                
-                $center=$game->getCenter();
-                $dm->persist($center);
+
+                $centerName=$game->getCenter()->getName();
+                $center=$dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
+               
+                if(!$center)
+                    $dm->persist($game->getCenter());
+                else
+                    $game->setCenter($center);
+                        
                 $dm->persist($game);
                 $dm->flush();
 

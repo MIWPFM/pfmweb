@@ -5,3 +5,7 @@ intranet_default_controller:
 intranet_game_controller:
     resource: "@MIWIntranetBundle/Controller/GameController.php"
     type:     annotation
+    
+intranet_center_controller:
+    resource: "@MIWIntranetBundle/Controller/CenterController.php"
+    type:     annotation
