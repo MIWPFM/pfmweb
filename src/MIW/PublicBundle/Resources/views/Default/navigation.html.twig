@@ -1,0 +1,20 @@
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                WePlay				
+            </a>
+        </div>
+        <div class="navbar-collapse collapse navbar-inverse-collapse">
+            <ul class="nav navbar-nav navbar-right">
+            {% if app.user %}                
+                {% include "::user-dropdown.html.twig" %}
+            {% else %}
+                <li>						
+                    <a href="{{path('fos_user_registration_register')}}">¿No tienes todavía una cuenta?</a>
+                </li>
+            {% endif%}
+            </ul>
+        </div>
+    </div>
+</div> <!-- /navbar -->

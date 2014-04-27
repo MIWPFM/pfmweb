@@ -1,0 +1,37 @@
+<li class="dropdown">						
+    <a href="" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user fa-fw"></i> {{app.user.username}}<i class="fa fa-caret-down fa-fw"></i></a>
+              <ul class="dropdown-menu">
+            <li>
+                <a href="#">
+                    <i class="fa fa-male fa-fw"></i>
+                    Mis Datos
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-dribbble fa-fw"></i>
+                    Mis Deportes
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-calendar fa-fw"></i>
+                    Mis Partidos
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-envelope fa-fw"></i>
+                    Mis Mensajes
+                    <span class="badge">0</span>
+                </a>
+            </li>
+            <li class="divider"></li>
+            <li>
+                <a href="{{path('fos_user_security_logout')}}">
+                    <i class="fa fa-power-off fa-fw"></i>
+                    Cerrar sesión
+                </a>
+            </li>
+          </ul>
+</li>
