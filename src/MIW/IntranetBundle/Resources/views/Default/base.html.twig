@@ -5,6 +5,8 @@
 {% endblock %}
 {% block body %}
 {% include "MIWIntranetBundle:Default:navigation.html.twig" %}
+{% block commonup%}
+{% endblock%}
 <div class="row">
     <div class="col-xs-3">
     {% block sidecontent%}
@@ -15,6 +17,8 @@
     {% endblock%}
     </div>
 </div>
+{% block commondown%}
+{% endblock%}
     {% block javascripts%}
     {% endblock%}
 {% endblock %}
