@@ -13,8 +13,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/dashboard",name="intranet_dashboard")
-     * @Template("MIWIntranetBundle:Default:dashboard.html.twig");
+     * @Route("/home",name="intranet_dashboard")
+     * @Template("MIWIntranetBundle:Default:home.html.twig");
      */
     public function dashboardAction()
     {
