@@ -1,4 +1,17 @@
 {% extends "MIWPublicBundle:Default:base.html.twig" %}
+{% block sidecontent %}
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+        <h4 class="text-center">¿Qué es WePlay?</h4>
+        <ul class="fa-ul">
+            <li><i class="fa fa-smile-o fa-li"></i>Juega a cualquier deporte</li>
+            <li><i class="fa fa-smile-o fa-li"></i>Organiza partidos</li>
+            <li><i class="fa fa-smile-o fa-li"></i>Invita a tus amigos</li>
+            <li><i class="fa fa-smile-o fa-li"></i>Conoce deportistas como tú</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
 
 {% block maincontent %}
     {% if error %}
@@ -37,10 +50,12 @@
             <input type="submit" class="button btn btn-success btn-large" value="¡A Jugar!"/>
         </div>
         <div class="row">
-            <a href="{{path('fos_user_registration_register')}}">Regístrate</a>
+            <button class="btn btn-link" data-toggle="modal" data-target="#registerModal">Regístrate</button>
         </div>
     </form>
-
+    <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{ render(controller("MIWPublicBundle:User:register")) }}
+    </div> <!-- /modal -->
             {% endif %}
 
 </div> <!-- /content -->

@@ -10,7 +10,13 @@ and open the template in the editor.
 body { 
     padding-top: 70px;
 }
+.bg-green {
+    background-color: #18BC9C !important;
+}
 .divider-vertical {
     border-right: 1px solid #FFFFFF;
+}
+.text-white {
+    color: #FFFFFF !important;
 }
 
