@@ -23,9 +23,10 @@ class GameType extends AbstractType
                 'attr' => array('class' => 'datepicker')))
             ->add('gameTime', 'time', array(
                 'label' => 'Hora',
+                'widget' => 'single_text',
                 'data' => new \DateTime('now'),
                 'mapped' => false,
-                'attr' => array('class' => 'datepicker')))
+                'attr' => array('class' => 'timepicker')))
             ->add('limitDate', 'date', array(
                 'label' => 'Fecha Límite de Baja',
                 'widget' => 'single_text',
@@ -34,9 +35,10 @@ class GameType extends AbstractType
                 'attr' => array('class' => 'datepicker')))
             ->add('limitTime', 'time', array(
                 'label' => 'Hora',
+                'widget' => 'single_text',
                 'data' => new \DateTime('now'),
                 'mapped' => false,
-                'attr' => array('class' => 'datepicker')))
+                'attr' => array('class' => 'timepicker')))
             ->add('sport', 'document', array(
                 'class' => 'MIWDataAccessBundle:Sport',
                 'property' => 'name',

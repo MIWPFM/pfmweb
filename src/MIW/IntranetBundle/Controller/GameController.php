@@ -15,7 +15,7 @@ use MIW\DataAccessBundle\Document\Game;
 use MIW\DataAccessBundle\Document\Center;
 use MIW\DataAccessBundle\Document\Address;
 use MIW\IntranetBundle\Form\Type\GameType;
-
+use MIW\IntranetBundle\Utility\Utility;
 class GameController extends Controller
 {
     /**
@@ -52,15 +52,21 @@ class GameController extends Controller
             $form->handleRequest($request);
             if ($form->isValid()) {  
                 $dm = $this->get('doctrine.odm.mongodb.document_manager');
-
+                
+                // Check if is a new center or not
                 $centerName=$game->getCenter()->getName();
                 $center=$dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
-               
-                if(!$center)
+                if (!$center) {
                     $dm->persist($game->getCenter());
-                else
+                } else
                     $game->setCenter($center);
-                        
+
+                // Transform dates, possible move to event
+                $gameDate=Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
+                $gameLimitDate=Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
+                $game->setGameDate($gameDate);
+                $game->setLimitDate($gameLimitDate);
+                
                 $dm->persist($game);
                 $dm->flush();
 
@@ -70,5 +76,6 @@ class GameController extends Controller
         
         return array('form'=>$form->createView(),'game'=>$game);
     }
+    
     
 }

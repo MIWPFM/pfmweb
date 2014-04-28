@@ -11,13 +11,13 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-                                {{ form_widget(form.username,{ 'attr': {'class': 'form-control', 'placeholder':'Introduce tu Nickname'} }) }}
+                                {{ form_widget(form.username,{ 'attr': {'class': 'form-control input-group-element', 'placeholder':'Introduce tu Nickname'} }) }}
                             </div>                       
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
-                                {{ form_widget(form.email,{ 'attr': {'class': 'form-control ', 'placeholder':'Introduce tu Email'} }) }}
+                                {{ form_widget(form.email,{ 'attr': {'class': 'form-control input-group-element', 'placeholder':'Introduce tu Email'} }) }}
                             </div>                    
                         </div>
                 {% for passwordField in form.plainPassword %}
@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                        {{ form_widget(passwordField, { 'attr': {'class': 'form-control','placeholder':placeholder} }) }}
+                        {{ form_widget(passwordField, { 'attr': {'class': 'form-control input-group-element','placeholder':placeholder} }) }}
                             </div>
                         </div>
                 {% endfor %}

@@ -1,16 +1,12 @@
 {% extends "MIWPublicBundle:Default:base.html.twig" %}
 {% block sidecontent %}
-<div class="row">
-    <div class="col-xs-10 col-xs-offset-1">
-        <h4 class="text-center">¿Qué es WePlay?</h4>
-        <ul class="fa-ul">
-            <li><i class="fa fa-smile-o fa-li"></i>Juega a cualquier deporte</li>
-            <li><i class="fa fa-smile-o fa-li"></i>Organiza partidos</li>
-            <li><i class="fa fa-smile-o fa-li"></i>Invita a tus amigos</li>
-            <li><i class="fa fa-smile-o fa-li"></i>Conoce deportistas como tú</li>
-        </ul>
-    </div>
-</div>
+<h4 class="text-center">¿Qué es WePlay?</h4>
+<ul class="fa-ul">
+    <li><i class="fa fa-smile-o fa-li"></i>Juega a cualquier deporte</li>
+    <li><i class="fa fa-smile-o fa-li"></i>Organiza partidos</li>
+    <li><i class="fa fa-smile-o fa-li"></i>Invita a tus amigos</li>
+    <li><i class="fa fa-smile-o fa-li"></i>Conoce deportistas como tú</li>
+</ul>
 {% endblock %}
 
 {% block maincontent %}
@@ -34,14 +30,14 @@
             <div class="col-xs-6 col-xs-offset-3 text-center">
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
-                        <input class="form-control" type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Introduce tu Nickname o Email" />
+                        <span class="input-group-addon input-group-element"><i class="fa fa-user fa-fw"></i></span>
+                        <input class="form-control input-group-element" type="text" id="username" name="_username" value="{{ last_username }}" required="required" placeholder="Introduce tu Nickname o Email" />
                     </div> <!-- /field -->
                 </div>                
                 <div class="form-group">
                     <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
-                        <input class="form-control" type="password" id="password" name="_password" required="required" value="" placeholder="Introduce tu contraseña" />
+                        <span class="input-group-addon input-group-element"><i class="fa fa-key fa-fw"></i></span>
+                        <input class="form-control input-group-element" type="password" id="password" name="_password" required="required" value="" placeholder="Introduce tu contraseña" />
                     </div> <!-- /password -->
                 </div>
             </div>

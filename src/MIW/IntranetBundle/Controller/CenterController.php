@@ -36,7 +36,7 @@ class CenterController extends Controller
                 'address' => $center->getAddress()->getAddress(),
                 'community' => $center->getAddress()->getCommunity(),
                 'province' => $center->getAddress()->getProvince(),
-                'city   ' => $center->getAddress()->getCity(),
+                'city' => $center->getAddress()->getCity(),
                 'id' => $center->getId()
             );
         }
