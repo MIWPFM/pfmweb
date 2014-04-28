@@ -11,7 +11,7 @@
                 {% include "::user-dropdown.html.twig" %}
             {% else %}
                 <li>						
-                    <a href="{{path('fos_user_registration_register')}}">¿No tienes todavía una cuenta?</a>
+                    <a href="{{path('fos_user_registration_register')}}" data-toggle="modal" data-target="#registerModal">¿No tienes todavía una cuenta?</a>
                 </li>
             {% endif%}
             </ul>

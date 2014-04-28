@@ -17,6 +17,8 @@ class GameType extends AbstractType
          $builder
             ->add('gameDate', 'date', array(
                 'label' => 'Fecha',
+                'widget' => 'single_text',
+                'format' => 'd/M/y',
                 'data' => new \DateTime('now'),
                 'attr' => array('class' => 'datepicker')))
             ->add('gameTime', 'time', array(
@@ -26,6 +28,8 @@ class GameType extends AbstractType
                 'attr' => array('class' => 'datepicker')))
             ->add('limitDate', 'date', array(
                 'label' => 'Fecha Límite de Baja',
+                'widget' => 'single_text',
+                'format' => 'd/M/y',
                 'data' => new \DateTime('now'),
                 'attr' => array('class' => 'datepicker')))
             ->add('limitTime', 'time', array(
