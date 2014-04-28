@@ -64,10 +64,12 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.price) }}
+
                             <div class="input-group">
                             {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element'} }) }}
                                 <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -83,6 +85,7 @@
 {% endblock %}
 
 {% block maincontent %}
+
     <blockquote class="margin-top-20">
                 <p>Empieza a organizar tus partidos rellenando la información del evento y la instalación deportiva.</p>
                 <p>Para encontrar tu localización emplea el autocompletado del campo instalación.</p>
@@ -136,7 +139,7 @@
             </div>
         </div>
     </div>
-    
+
      <div class="row">
         <div class="col-xs-8 col-xs-offset-4">
             <div class="row">
@@ -155,6 +158,7 @@
         </div>
     </div>
     
+
 {% endblock %}
 {% block commondown%}
 </form>
@@ -192,9 +196,6 @@
                 $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
             },
             select: function(event, ui) {
-                console.log("CIUDAD");
-                console.log(ui.item.item);
-                console.log(ui.item.item.city);
                 $('#game_center_address_address').val(ui.item.item.address);
                 $('.center-name').val(ui.item.item.name)
                 $('#game_center_address_province').val(ui.item.item.province);
@@ -203,6 +204,7 @@
                 event.preventDefault();
             }
         })
+
 
         $('.datepicker').datepicker({
             changeMonth: true,
