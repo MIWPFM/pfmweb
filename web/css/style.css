@@ -19,4 +19,41 @@ body {
 .text-white {
     color: #FFFFFF !important;
 }
+#map_canvas {
+    height: 300px;
+    width: 100%;
+}
+.margin-top-20 {
+    margin-top: 20px;
+}
+.form-control {
+    border: 1px solid #18BC9C !important;
+    border-radius: 4px !important;
+    color: #2C3E50 !important;
+    font-size: 13px !important;
+    height: 34px !important;
+    line-height: 1.42857 !important;
+    padding: 4px 4px !important;
+    width: 100% !important;
+}
+.input-group .input-group-element {
+    border-radius: 0px 0px 0px 0px !important;
+}
+.input-group .input-group-element:first-child {
+    border-radius: 4px 0px 0px 4px !important;
+}
+.input-group .input-group-element:last-child {
+    border-radius: 0px 4px 4px 0px !important;
+}
+.input-group-addon {
+    border: 1px solid #18BC9C !important;
+    color: #2C3E50 !important;
+    font-size: 13px !important;
+    height: 34px !important;
+    line-height: 1.42857 !important;
+    padding: 4px 4px !important;
+}
+textarea[class="form-control"] {
+    height: auto !important;
+}
 

@@ -5,20 +5,22 @@
 {% endblock %}
 {% block body %}
 {% include "MIWIntranetBundle:Default:navigation.html.twig" %}
+<div class="container">
 {% block commonup%}
 {% endblock%}
-<div class="row">
-    <div class="col-xs-3">
+    <div class="row">
+        <div class="col-xs-3">
     {% block sidecontent%}
     {% endblock%}
-    </div>
-    <div class="col-xs-9">
+        </div>
+        <div class="col-xs-9">
     {% block maincontent%}
     {% endblock%}
+        </div>
     </div>
-</div>
 {% block commondown%}
 {% endblock%}
-    {% block javascripts%}
-    {% endblock%}
+</div>
+{% block javascripts%}
+{% endblock%}
 {% endblock %}
