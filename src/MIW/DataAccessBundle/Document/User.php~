@@ -1,0 +1,146 @@
+<?php
+namespace MIW\DataAccessBundle\Document;
+
+use FOS\UserBundle\Document\User as BaseUser;
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document
+ */
+class User extends BaseUser
+{
+    /**
+     * @MongoDB\Id(strategy="auto")
+     */
+    protected $id;
+    
+    /**
+     * @MongoDB\String
+     */
+    protected $name;
+    
+    /**
+     * @MongoDB\String
+     */
+    protected $hash;
+    
+    /** 
+     * @MongoDB\Date 
+     */
+    private $created;
+    
+        /** 
+     * @MongoDB\Date 
+     */
+    private $birthday;
+    
+    /** @MongoDB\EmbedOne(targetDocument="Address") */
+    public $address;
+    
+    /** @MongoDB\Hash  */
+    private $sports;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->created=new \DateTime();
+    }
+
+    /**
+     * Get id
+     *
+     * @return id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set hash
+     *
+     * @param string $hash
+     * @return self
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
+        return $this;
+    }
+
+    /**
+     * Get hash
+     *
+     * @return string $hash
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * Set created
+     *
+     * @param date $created
+     * @return self
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return date $created
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set address
+     *
+     * @param MIW\DataAccessBundle\Document\Address $address
+     * @return self
+     */
+    public function setAddress(\MIW\DataAccessBundle\Document\Address $address)
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return MIW\DataAccessBundle\Document\Address $address
+     */
+    public function getAddress()
+    {
+        return $this->address;
+    }
+}

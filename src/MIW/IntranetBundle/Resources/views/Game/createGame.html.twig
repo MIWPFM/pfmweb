@@ -1,87 +1,83 @@
 {% extends "MIWIntranetBundle:Default:base.html.twig" %}
 
 {% block commonup%}
+
+<ul class="breadcrumb" style="margin-bottom: 5px;">
+    <li><a href="#">weplay</a></li>
+    <li><a href="#">partidos</a></li>
+    <li class="active">organizar partido</li>
+</ul>
+
 <form action="{{path('intranet_create_game')}}" method="POST">
-    <div class="row">
-        <div class="col-xs-7 col-xs-offset-4">
-            <div class="row">
-                <div class="col-xs-6">
-                    {{ form_widget(form._token) }}
-                    <button class="btn btn-success btn-block" type="submit">
-                        <i class="fa fa-check fa-fw"></i>
-                        Crear
-                    </button>
-                </div>
-                <div class="col-xs-6">
-                    <a href="{{path('intranet_dashboard')}}" class="btn btn-danger btn-block pull-right">
-                        <i class="fa fa-times fa-fw"></i>
-                        Cancelar
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 {% endblock%}
 {% block sidecontent %}
+
     <div class="row margin-top-20">
         <div class="col-xs-12">
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
+            <div class="well bs-component">
+                
+                <legend>organiza tu partido</legend>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
                         {{ form_label(form.gameDate) }}
-                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control datepicker'} }) }}
+                        </div>
                     </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-group">
+                    <div class="col-xs-6">
+                        <div class="form-group">
                         {{ form_label(form.gameTime) }}
-                        {{ form_widget(form.gameTime,{ 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        {{ form_label(form.limitDate) }}
-                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        {{ form_label(form.limitTime) }}
-                        {{ form_widget(form.limitTime,{ 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        {{ form_label(form.sport) }}
-                        {{ form_widget(form.sport,{ 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        {{ form_label(form.numPlayers) }}
-                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control'} }) }}
-                    </div>
-                </div>
-                <div class="col-xs-6">
-                    <div class="form-group">
-                        {{ form_label(form.price) }}
-                        <div class="input-group">
-                            {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element'} }) }}
-                            <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
+                        {{ form_widget(form.gameTime,{ 'attr': {'class': 'form-control timepicker'} }) }}
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        {{ form_label(form.limitDate) }}
+                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control datepicker'} }) }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        {{ form_label(form.limitTime) }}
+                        {{ form_widget(form.limitTime,{ 'attr': {'class': 'form-control timepicker'} }) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        {{ form_label(form.sport) }}
+                        {{ form_widget(form.sport,{ 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        {{ form_label(form.numPlayers) }}
+                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control','style': 'z-index:0'} }) }}
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                        {{ form_label(form.price) }}
+
+                            <div class="input-group">
+                            {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element'} }) }}
+                                <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
                     {{ form_label(form.description) }}
                     {{ form_widget(form.description,{ 'attr': {'class': 'form-control'} }) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,7 +85,14 @@
 {% endblock %}
 
 {% block maincontent %}
+
+    <blockquote class="margin-top-20">
+                <p>Empieza a organizar tus partidos rellenando la información del evento y la instalación deportiva.</p>
+                <p>Para encontrar tu localización emplea el autocompletado del campo instalación.</p>
+    </blockquote>
+    <h2>busca el lugar adecuado</h2>
     <div class="row margin-top-20">
+        
         <div class="col-xs-5">
             <div class="row">
                 <div class="well">
@@ -146,6 +149,26 @@
             </div>
         </div>
     </div>
+
+     <div class="row">
+        <div class="col-xs-8 col-xs-offset-4">
+            <div class="row">
+                <div class="col-xs-offset-6 col-xs-6">
+                                        {{ form_widget(form._token) }}
+                    <button class="btn btn-success" type="submit">
+                        <i class="fa fa-check fa-fw"></i>
+                        Crear
+                    </button>
+                    <a href="{{path('intranet_dashboard')}}" class="btn btn-danger pull-right">
+                        <i class="fa fa-times fa-fw"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
 {% endblock %}
 {% block commondown%}
 </form>
@@ -166,7 +189,8 @@
                         var array = data.error ? [] : $.map(data, function(item) {
                             return {
                                 label: item.name,
-                                value: item
+                                value: item.name,
+                                item : item
                             };
                         });
                         response(array);
@@ -182,18 +206,29 @@
                 $(this).removeClass("ui-corner-top").addClass("ui-corner-all");
             },
             select: function(event, ui) {
-                console.log("CIUDAD");
-                console.log(ui.item.value);
-                console.log(ui.item.value.city);
-                $('#game_center_address_address').val(ui.item.value.address);
-                $('.center-name').val(ui.item.value.name)
-                $('#game_center_address_province').val(ui.item.value.province);
-                $('#game_center_address_community').val(ui.item.value.community);
-                $('#game_center_address_city').val(ui.item.value.city);
+                $('#game_center_address_address').val(ui.item.item.address);
+                $('.center-name').val(ui.item.item.name)
+                $('#game_center_address_province').val(ui.item.item.province);
+                $('#game_center_address_community').val(ui.item.item.community);
+                $('#game_center_address_city').val(ui.item.item.city);
                 event.preventDefault();
             }
         })
 
+
+        $('.datepicker').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'd/m/y',
+            yearRange: "-0:+1"
+        });
+
+        $('.timepicker').timepicker({
+            defaultTime: 'current',
+            showMeridian: false,
+            showInputs: true,
+            template: 'dropdown'
+        });
 
     });
 
