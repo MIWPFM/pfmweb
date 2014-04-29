@@ -10,8 +10,11 @@ and open the template in the editor.
 body { 
     padding-top: 70px;
 }
-.bg-green {
+.bg-success {
     background-color: #18BC9C !important;
+}
+.bg-primary {
+    background-color: #2C3E50 !important;
 }
 .divider-vertical {
     border-right: 1px solid #FFFFFF;
@@ -27,7 +30,7 @@ body {
     margin-top: 20px;
 }
 .form-control {
-    border: 1px solid #18BC9C !important;
+    border: 1px solid #2C3E50 !important;
     border-radius: 4px !important;
     color: #2C3E50 !important;
     font-size: 13px !important;
@@ -46,7 +49,7 @@ body {
     border-radius: 0px 4px 4px 0px !important;
 }
 .input-group-addon {
-    border: 1px solid #18BC9C !important;
+    border: 1px solid #2C3E50 !important;
     color: #2C3E50 !important;
     font-size: 13px !important;
     height: 34px !important;
