@@ -27,6 +27,7 @@ class AddressType extends AbstractType
             ->add('city', 'text', array(
                 'label' => 'Localidad',
             ))
+            ->add('zipcode', 'hidden', array( ))
             ->add('lat', 'hidden', array( ))
             ->add('long', 'hidden', array( ));
            

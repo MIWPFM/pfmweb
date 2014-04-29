@@ -5,16 +5,14 @@
                 WePlay				
             </a>
         </div>
-        <div class="navbar-collapse collapse navbar-inverse-collapse">
-            <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right">
             {% if app.user %}
                 {% include "::user-dropdown.html.twig" %}
             {% else %}
-                <li>						
-                    <a href="#" data-toggle="modal" data-target="#registerModal">¿No tienes todavía una cuenta?</a>
-                </li>
+            <li>						
+                <a href="#" data-toggle="modal" data-target="#registerModal">¿No tienes todavía una cuenta?</a>
+            </li>
             {% endif%}
-            </ul>
-        </div>
+        </ul>
     </div>
 </div> <!-- /navbar -->

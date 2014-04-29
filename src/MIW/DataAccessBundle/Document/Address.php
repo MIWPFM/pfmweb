@@ -16,6 +16,11 @@ class Address
     /**
      * @MongoDB\String
      */
+    protected $zipcode;
+    
+    /**
+     * @MongoDB\String
+     */
     protected $city;
     
     /**
@@ -81,6 +86,28 @@ class Address
     public function getAddress()
     {
         return $this->address;
+    }
+
+    /**
+     * Set zipcode
+     *
+     * @param string $zipcode
+     * @return self
+     */
+    public function setZipcode($zipcode)
+    {
+        $this->zipcode = $zipcode;
+        return $this;
+    }
+
+    /**
+     * Get address
+     *
+     * @return string $zipcode
+     */
+    public function getZipcode()
+    {
+        return $this->zipcode;
     }
 
     /**

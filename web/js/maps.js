@@ -5,7 +5,7 @@ var marker;
 function initialize() {
     geocoder = new google.maps.Geocoder();
     infowindow = new google.maps.InfoWindow();
-    var position = new google.maps.LatLng(40.437248, -3.649104);
+    var position = new google.maps.LatLng(40.416761, -3.703489);
     //var position = findPosition("Polideportivo pueblo nuevo", "ascao", "Comunidad de Madrid", "Madrid", "Madrid");
     var mapOptions = {
         zoom: 16,
@@ -38,15 +38,13 @@ function findPosition() {
     if (province.length > 0) {
         placeToFind += province;
     }
-    console.log(placeToFind);
 
     geocoder.geocode({'address': placeToFind}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
-            marker = new google.maps.Marker({
-                map: map,
-                position: results[0].geometry.location
-            });
+            marker.setPosition(results[0].geometry.location);
+            fillLatLongInputs(results[0].geometry.location.lat, results[0].geometry.location.lng);
+            reverseGeocoding(results[0].geometry.location, true);
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
@@ -57,14 +55,12 @@ function findMe() {
         navigator.geolocation.getCurrentPosition(function(position) {
             var pos = new google.maps.LatLng(position.coords.latitude,
                     position.coords.longitude);
+            fillLatLongInputs(position.coords.latitude, position.coords.longitude);
             map.setCenter(pos);
-            marker = new google.maps.Marker({
-                map: map,
-                position: pos
-            });
+            marker.setPosition(pos);
 
             map.setCenter(pos);
-            reverseGeocoding(pos);
+            reverseGeocoding(pos, false);
         }, function() {
             handleNoGeolocation(true);
         });
@@ -73,16 +69,18 @@ function findMe() {
     }
 }
 
-function reverseGeocoding(pos) {
-    geocoder.geocode({'latLng': pos}, function(results, status) {
+function reverseGeocoding(pos, reducedSearch) {
+    geocoder.geocode({'latLng': pos, 'region': 'ES'}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            if (results[1]) {
-                marker = new google.maps.Marker({
-                    position: pos,
-                    map: map
-                });
-                infowindow.setContent(results[1].formatted_address);
+            if (results[0]) {
+                marker.setPosition(pos);
+                infowindow.setContent(results[0].formatted_address);
                 infowindow.open(map, marker);
+                if (reducedSearch) {
+                    fillReducedFormInputs(results[0]);
+                } else {
+                    fillFormInputs(results[0]);
+                }
             } else {
                 alert('No results found');
             }
@@ -101,17 +99,81 @@ function handleNoGeolocation(errorFlag) {
 
     var options = {
         map: map,
-        position: new google.maps.LatLng(60, 105),
+        position: new google.maps.LatLng(40.416761, -3.703489),
         content: content
     };
 
     infowindow = new google.maps.InfoWindow(options);
     map.setCenter(options.position);
 }
+
+function fillLatLongInputs(lat, long) {
+    $("form").find(".center-lat").val(lat);
+    $("form").find(".center-long").val(long);
+}
+function fillReducedFormInputs(item) {
+    var arrAddress = item.address_components;
+    var itemZipcode = '';
+    
+    $.each(arrAddress, function(i, address_component) {
+        if (address_component.types[0] == "postal_code") {
+            console.log("itemZipcode:" + address_component.long_name);
+            itemZipcode = address_component.long_name;
+        }
+    });
+    $("form").find(".center-zipcode").val(itemZipcode);
+}
+function fillFormInputs(item) {
+    var arrAddress = item.address_components;
+    var itemCenterName='';
+    var itemAddress = '';
+    var itemCity = '';
+    var itemProvince = '';
+    var itemCommunity = '';
+    var itemZipcode = '';
+    var itemNumber = '';
+    
+    $.each(arrAddress, function(i, address_component) {
+        if (address_component.types[0] == "premise") {
+            console.log(i + ": itemCenterName:" + address_component.long_name);
+            itemCenterName = address_component.long_name;
+        }
+        if (address_component.types[0] == "route") {
+            console.log("itemAddress:" + address_component.long_name);
+            itemAddress = address_component.long_name;
+        }
+        if (address_component.types[0] == "locality") {
+            console.log("itemCity:" + address_component.long_name);
+            itemCity = address_component.long_name;
+        }
+        if (address_component.types[0] == "administrative_area_level_2") {
+            console.log("itemProvince:" + address_component.long_name);
+            itemProvince = address_component.long_name;
+        }
+        if (address_component.types[0] == "administrative_area_level_1") {
+            console.log("itemCommunity:" + address_component.long_name);
+            itemCommunity = address_component.long_name;
+        }
+        if (address_component.types[0] == "postal_code") {
+            console.log("itemZipcode:" + address_component.long_name);
+            itemZipcode = address_component.long_name;
+        }
+        if (address_component.types[0] == "street_number") {
+            console.log("itemNumber:" + address_component.long_name);
+            itemNumber = address_component.long_name;
+        }
+    });
+    $("form").find(".center-name").val(itemCenterName);
+    $("form").find(".center-address").val(itemAddress + ", " + itemNumber);
+    $("form").find(".center-city").val(itemCity);
+    $("form").find(".center-province").val(itemProvince);
+    $("form").find(".center-community").val(itemCommunity);
+    $("form").find(".center-zipcode").val(itemZipcode);
+}
 function loadScript() {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&region=ES&callback=initialize";
+    script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&region=ES&language=es&callback=initialize";
     document.body.appendChild(script);
 }
 

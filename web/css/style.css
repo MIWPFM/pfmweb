@@ -7,6 +7,11 @@ and open the template in the editor.
     Created on : 26-abr-2014, 20:21:30
     Author     : Alberto
 */
+/****** Disable Responsiveness ******/
+.container {
+    width: 1200px !important;
+}
+/************************************/
 body { 
     padding-top: 70px;
 }
@@ -16,11 +21,17 @@ body {
 .bg-primary {
     background-color: #2C3E50 !important;
 }
+.close {
+    opacity: 1;
+}
 .divider-vertical {
     border-right: 1px solid #FFFFFF;
 }
 .text-white {
     color: #FFFFFF !important;
+}
+.z-index-0 {
+    z-index: 0 !important;
 }
 #map_canvas {
     height: 300px;

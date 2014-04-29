@@ -17,7 +17,7 @@
         <div class="col-xs-12">
             <div class="well bs-component">
                 
-                <legend>organiza tu partido</legend>
+                <legend>Organiza tu Partido</legend>
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="form-group">
@@ -58,7 +58,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.numPlayers) }}
-                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control','style': 'z-index:0'} }) }}
+                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control'} }) }}
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -66,7 +66,7 @@
                         {{ form_label(form.price) }}
 
                             <div class="input-group">
-                            {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element'} }) }}
+                            {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element z-index-0'} }) }}
                                 <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
                             </div>
 
@@ -87,8 +87,8 @@
 {% block maincontent %}
 
     <blockquote class="margin-top-20">
-                <p>Empieza a organizar tus partidos rellenando la información del evento y la instalación deportiva.</p>
-                <p>Para encontrar tu localización emplea el autocompletado del campo instalación.</p>
+                <p>Rellena la información del evento y de la instalación deportiva.</p>
+                <p>Para encontrar tu localización utiliza el autocompletado del campo instalación.</p>
     </blockquote>
     <h2>busca el lugar adecuado</h2>
     <div class="row margin-top-20">
@@ -154,7 +154,10 @@
         <div class="col-xs-8 col-xs-offset-4">
             <div class="row">
                 <div class="col-xs-offset-6 col-xs-6">
-                                        {{ form_widget(form._token) }}
+                    {{ form_widget(form.center.address.lat,{ 'attr': {'class': 'center-lat'} }) }}
+                    {{ form_widget(form.center.address.long,{ 'attr': {'class': 'center-long'} }) }}
+                    {{ form_widget(form.center.address.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
+                    {{ form_widget(form._token) }}
                     <button class="btn btn-success" type="submit">
                         <i class="fa fa-check fa-fw"></i>
                         Crear

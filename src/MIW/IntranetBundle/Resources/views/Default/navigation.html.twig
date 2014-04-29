@@ -1,23 +1,21 @@
 <div class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                weplay				
+            <a class="navbar-brand" href="{{path('intranet_dashboard')}}">
+                WePlay				
             </a>
         </div>
-        <div class="navbar-collapse collapse navbar-inverse-collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="{{path('intranet_dashboard')}}"><i class="fa fa-home fa-fw"></i>Inicio</a>            
-                </li>
-                <li>
-                    <a href="{{path('intranet_games')}}"><i class="fa fa-calendar fa-fw"></i>Partidos</a>            
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="{{path('intranet_dashboard')}}"><i class="fa fa-home fa-fw"></i>Inicio</a>            
+            </li>
+            <li>
+                <a href="{{path('intranet_games')}}"><i class="fa fa-calendar fa-fw"></i>Partidos</a>            
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
                 {% include "::user-dropdown.html.twig" %}
-            </ul>
-        </div>
+        </ul>
     </div>
 
 </div> <!-- /navbar -->
