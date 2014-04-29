@@ -21,7 +21,7 @@
             {% if app.user %}
     <h2>Bienvenido {{app.user.username}}</h2>	
     <p>Ya puedes empezar a jugar con WePlay</p>
-    <a href="{{path('intranet_dashboard')}}" type="submit" class="button btn btn-success btn-large" >Entrar >></a>
+    <a href="{{path('intranet_home')}}" type="submit" class="button btn btn-success btn-large" >Entrar >></a>
             {% else %}
     <form action="{{ path("fos_user_security_check") }}" method="post">                  
         <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />

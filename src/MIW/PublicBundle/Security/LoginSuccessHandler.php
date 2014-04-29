@@ -33,12 +33,12 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface
        
       if (!$token->getUser()->getCompletedProfile())
       {
-         $uri = $this->router->generate('intranet_dashboard');
+         $uri = $this->router->generate('intranet_home');
       }
       else
       {
           //TODO: Redirect to profile
-         $uri = $this->router->generate('intranet_dashboard');
+         $uri = $this->router->generate('intranet_home');
       }
  
       return new RedirectResponse($uri);

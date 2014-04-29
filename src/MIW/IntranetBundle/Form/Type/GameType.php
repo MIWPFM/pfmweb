@@ -50,7 +50,7 @@ class GameType extends AbstractType
                 'currency' => 'false',
             ))
             ->add('numPlayers', 'integer', array(
-                'label' => 'Máx. Jugadores',
+                'label' => 'Nº Jugadores',
             ))
             ->add('description', 'textarea', array(
                 'label' => 'Descripción',

@@ -30,6 +30,9 @@ body {
 .text-white {
     color: #FFFFFF !important;
 }
+.ui-datepicker {
+    z-index: 10000 !important;
+}
 .z-index-0 {
     z-index: 0 !important;
 }
@@ -39,6 +42,15 @@ body {
 }
 .margin-top-20 {
     margin-top: 20px;
+}
+.margin-bottom-20 {
+    margin-bottom: 20px;
+}
+.padding-top-20 {
+    padding-top: 20px;
+}
+.padding-bottom-20 {
+    padding-bottom: 20px;
 }
 .form-control {
     border: 1px solid #2C3E50 !important;

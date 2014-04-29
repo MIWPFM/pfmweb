@@ -3,51 +3,72 @@
 {% block commonup%}
 
 <ul class="breadcrumb" style="margin-bottom: 5px;">
-    <li><a href="#">weplay</a></li>
-    <li><a href="#">partidos</a></li>
-    <li class="active">organizar partido</li>
+    <li><a href="{{path('intranet_home')}}">WePlay</a></li>
+    <li><a href="{{path('intranet_games')}}">Partidos</a></li>
+    <li class="active">Organizar Partido</li>
 </ul>
 
 <form action="{{path('intranet_create_game')}}" method="POST">
-   
+
 {% endblock%}
 {% block sidecontent %}
 
     <div class="row margin-top-20">
         <div class="col-xs-12">
             <div class="well bs-component">
-                
-                <legend>Organiza tu Partido</legend>
+                <legend>Info de Partido</legend>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                        {{ form_label(form.gameDate) }}
-                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control datepicker'} }) }}
+                    <div class="col-xs-12">
+                        <div class="row text-center">
+                            <label>Fecha y Hora del Partido</label>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                        {{ form_label(form.gameTime) }}
-                        {{ form_widget(form.gameTime,{ 'attr': {'class': 'form-control timepicker'} }) }}
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-clock-o fa-fw"></i></span>
+                                        {{ form_widget(form.gameTime,{ 'attr': {'class': 'form-control input-group-element timepicker'} }) }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                        {{ form_label(form.limitDate) }}
-                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control datepicker'} }) }}
+                    <div class="col-xs-12">
+                        <div class="row text-center">
+                            <label>Límite de Baja</label>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div class="form-group">
-                        {{ form_label(form.limitTime) }}
-                        {{ form_widget(form.limitTime,{ 'attr': {'class': 'form-control timepicker'} }) }}
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-clock-o fa-fw"></i></span>
+                                        {{ form_widget(form.limitTime,{ 'attr': {'class': 'form-control input-group-element timepicker'} }) }}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
                         <div class="form-group">
                         {{ form_label(form.sport) }}
                         {{ form_widget(form.sport,{ 'attr': {'class': 'form-control'} }) }}
@@ -87,23 +108,20 @@
 {% block maincontent %}
 
     <blockquote class="margin-top-20">
-                <p>Rellena la información del evento y de la instalación deportiva.</p>
-                <p>Para encontrar tu localización utiliza el autocompletado del campo instalación.</p>
+        <p>Rellena la información del evento y de la instalación deportiva.</p>
+        <p>Para encontrar tu localización utiliza el autocompletado del campo instalación.</p>
     </blockquote>
-    <h2>busca el lugar adecuado</h2>
+    <h2>¿Dónde Jugamos?</h2>
     <div class="row margin-top-20">
-        
+
         <div class="col-xs-5">
             <div class="row">
                 <div class="well">
                     <div id="map_canvas"></div>
                 </div>
             </div>
-            <div class="row">
-                <button class="btn btn-block btn-primary" onclick="findMe()">Localízame</button>
-            </div>
         </div>
-        <div class="col-xs-7">
+        <div class="col-xs-7 margin-top-20">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -142,27 +160,35 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-xs-8 col-xs-offset-2">
-                    <button class="btn btn-block btn-primary" onclick="findPosition()">Comprobar Dirección</button>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-5">
+            <button class="btn btn-block btn-primary" onclick="findMe()">Localízame</button>
+        </div>
+        <div class="col-xs-5 col-xs-offset-1">
+            <button class="btn btn-block btn-primary" onclick="findPosition()">Comprobar Dirección</button>
         </div>
     </div>
 
-     <div class="row">
-        <div class="col-xs-8 col-xs-offset-4">
+
+{% endblock %}
+{% block commondown%}
+    <div class="row padding-top-20 padding-bottom-20">
+        <div class="col-xs-6 col-xs-offset-3">
+            {{ form_widget(form.center.address.lat,{ 'attr': {'class': 'center-lat'} }) }}
+            {{ form_widget(form.center.address.long,{ 'attr': {'class': 'center-long'} }) }}
+            {{ form_widget(form.center.address.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
+            {{ form_widget(form._token) }}
             <div class="row">
-                <div class="col-xs-offset-6 col-xs-6">
-                    {{ form_widget(form.center.address.lat,{ 'attr': {'class': 'center-lat'} }) }}
-                    {{ form_widget(form.center.address.long,{ 'attr': {'class': 'center-long'} }) }}
-                    {{ form_widget(form.center.address.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
-                    {{ form_widget(form._token) }}
-                    <button class="btn btn-success" type="submit">
+                <div class="col-xs-6">
+                    <button class="btn btn-success btn-block" type="submit">
                         <i class="fa fa-check fa-fw"></i>
                         Crear
                     </button>
-                    <a href="{{path('intranet_dashboard')}}" class="btn btn-danger pull-right">
+                </div>
+                <div class="col-xs-6">
+                    <a href="{{path('intranet_home')}}" class="btn btn-danger btn-block">
                         <i class="fa fa-times fa-fw"></i>
                         Cancelar
                     </a>
@@ -170,10 +196,6 @@
             </div>
         </div>
     </div>
-    
-
-{% endblock %}
-{% block commondown%}
 </form>
 
 <script>
@@ -193,7 +215,7 @@
                             return {
                                 label: item.name,
                                 value: item.name,
-                                item : item
+                                item: item
                             };
                         });
                         response(array);
