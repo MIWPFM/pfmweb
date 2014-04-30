@@ -9,3 +9,7 @@ intranet_game_controller:
 intranet_center_controller:
     resource: "@MIWIntranetBundle/Controller/CenterController.php"
     type:     annotation
+    
+intranet_myprofile_controller:
+    resource: "@MIWIntranetBundle/Controller/MyProfileController.php"
+    type:     annotation
