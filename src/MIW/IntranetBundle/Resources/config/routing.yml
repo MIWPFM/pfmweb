@@ -13,3 +13,7 @@ intranet_center_controller:
 intranet_myprofile_controller:
     resource: "@MIWIntranetBundle/Controller/MyProfileController.php"
     type:     annotation
+    
+intranet_sport_controller:
+    resource: "@MIWIntranetBundle/Controller/SportController.php"
+    type:     annotation

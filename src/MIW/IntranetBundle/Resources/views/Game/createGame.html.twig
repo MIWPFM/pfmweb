@@ -71,7 +71,7 @@
                     <div class="col-xs-12">
                         <div class="form-group">
                         {{ form_label(form.sport) }}
-                        {{ form_widget(form.sport,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.sport,{ 'attr': {'class': 'form-control select-sport'} }) }}
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.numPlayers) }}
-                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control'} }) }}
+                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control num-players'} }) }}
                         </div>
                     </div>
                     <div class="col-xs-6">
@@ -253,9 +253,23 @@
             showInputs: true,
             template: 'dropdown'
         });
+        
+        $('.select-sport').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{path('intranet_ajax_find_sport')}}",
+                    dataType: "json",
+                    data: {
+                        sport: this.value
+                    },
+                    success: function(data) {
+                        $('.num-players').val(data.min_players);
+                    }
+                });
+    
 
-    });
-
+         });
+ });
 </script>
 {% endblock %}
 {% block javascripts%}

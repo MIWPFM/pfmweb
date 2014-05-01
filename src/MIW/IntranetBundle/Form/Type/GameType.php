@@ -14,29 +14,30 @@ class GameType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $now=new \DateTime('now');
          $builder
             ->add('gameDate', 'date', array(
                 'label' => 'Fecha',
                 'widget' => 'single_text',
                 'format' => 'd/M/y',
-                'data' => new \DateTime('now'),
+                'data' => $now,
                 'attr' => array('class' => 'datepicker')))
             ->add('gameTime', 'time', array(
                 'label' => 'Hora',
                 'widget' => 'single_text',
-                'data' => new \DateTime('now'),
+                'data' => $now,
                 'mapped' => false,
                 'attr' => array('class' => 'timepicker')))
             ->add('limitDate', 'date', array(
                 'label' => 'Fecha Límite de Baja',
                 'widget' => 'single_text',
                 'format' => 'd/M/y',
-                'data' => new \DateTime('now'),
+                'data' => $now,
                 'attr' => array('class' => 'datepicker')))
             ->add('limitTime', 'time', array(
                 'label' => 'Hora',
                 'widget' => 'single_text',
-                'data' => new \DateTime('now'),
+                'data' => $now,
                 'mapped' => false,
                 'attr' => array('class' => 'timepicker')))
             ->add('sport', 'document', array(

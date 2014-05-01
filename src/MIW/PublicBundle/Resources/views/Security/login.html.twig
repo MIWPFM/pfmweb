@@ -11,10 +11,11 @@
 
 {% block maincontent %}
     {% if error %}
-<div class="alert alert-error">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    <strong>¡Atención!</strong> {{ error|trans({}, 'FOSUserBundle') }}
-</div>
+    <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                 <strong>¡Atención!</strong> {{ error|trans({}, 'FOSUserBundle') }}
+    </div>
+
     {% endif %}
 
 <div class="well text-center">
