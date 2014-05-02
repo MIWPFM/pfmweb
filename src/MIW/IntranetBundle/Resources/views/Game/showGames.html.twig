@@ -1,6 +1,79 @@
 {% extends "MIWIntranetBundle:Default:base.html.twig" %}
 
+{% block commonup%}
+
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+        <li><a href="{{path('intranet_home')}}">WePlay</a></li>
+        <li><a href="{{path('intranet_games')}}">Partidos</a></li>
+        <li class="active">Mostrar Partidos</li>
+    </ul>
+
+{% endblock%}
+
+{% block sidecontent %}
+    
+    <div class="row margin-top-20">
+        <div class="col-xs-12">
+            <div class="well bs-component">
+                <legend>Filtrar</legend>
+                
+             </div>
+        </div>
+    </div>  
+        
+{% endblock%}
+    
 {% block maincontent %}
 
+    <blockquote class="margin-top-20">
+        <p>Actualmente participas en {{ gamesToday | length }} partidos.</p>
+    </blockquote>  
+    <div class="col-xs-7 margin-top-20">
+        <h2>Hoy</h2>
+        {% for game in gamesToday %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">                        
+                        {{ game.gameDate | date("d/m/Y h:m") }}
+                        {{ game.sport.name }}
+                        {{ game.center.name }}, {{ game.center.address.city }}
+                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                        Num. Jugadores: {{ game.numPlayers }}                        
+                    </div>
+                </div>
+            </div>
+        {% endfor %}       
+        <h2>Mañana</h2>
+        {% for game in gamesTomorrow %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">                        
+                        {{ game.gameDate | date("d/m/Y h:m") }}
+                        {{ game.sport.name }}
+                        {{ game.center.name }}, {{ game.center.address.city }}
+                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                        Num. Jugadores: {{ game.numPlayers }}                       
+                    </div>
+                </div>
+            </div>
+        {% endfor %}        
+        <h2>Esta Semana</h2>
+        {% for game in gamesThisWeek %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="form-group">                        
+                        {{ game.gameDate | date("d/m/Y h:m") }}
+                        {{ game.sport.name }}
+                        {{ game.center.name }}, {{ game.center.address.city }}
+                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                        Num. Jugadores: {{ game.numPlayers }}                          
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+   </div>
 
 {% endblock %}

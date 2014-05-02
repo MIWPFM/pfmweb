@@ -10,12 +10,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use MIW\DataAccessBundle\Document\User;
 use MIW\DataAccessBundle\Document\Game;
+use MIW\DataAccessBundle\Document\Sport;
 use MIW\DataAccessBundle\Document\Center;
 use MIW\DataAccessBundle\Document\Address;
 use MIW\IntranetBundle\Form\Type\GameType;
 use MIW\IntranetBundle\Utility\Utility;
+use DateTime;
+use DateInterval;
+
 class GameController extends Controller
 {
     /**
@@ -24,8 +29,23 @@ class GameController extends Controller
      */
     public function showGamesAction()
     {
-
-        return array();
+         // get user
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        // querys of games
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $today = new DateTime('now');
+        //$gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($today);
+        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAll();
+        
+        $tomorrow = $today->add(new DateInterval('P1D'));
+        $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($tomorrow);
+        
+        $week = $today->add(new DateInterval('P6D'));
+        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $week);
+                
+        return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow, 
+                    'gamesThisWeek' => $gamesThisWeek);
     }
     
     /**
@@ -33,8 +53,7 @@ class GameController extends Controller
      * @Template("MIWIntranetBundle:Game:createGame.html.twig");
      */
     public function createGameAction(Request $request)
-    {
-        
+    {        
         // get user
         $user = $this->get('security.context')->getToken()->getUser();
         

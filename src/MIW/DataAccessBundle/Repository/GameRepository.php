@@ -48,4 +48,21 @@ class GameRepository extends DocumentRepository
             ->getQuery()
             ->execute();
     }
+    
+    public function findAllByDate($valueDate)
+    {
+        return $this->createQueryBuilder()
+           ->field('gameDate')->equals($valueDate)
+           ->getQuery()
+           ->execute();
+    }  
+    
+    public function findAllBetweenDates($initDate, $endDate)
+    {
+        return $this->createQueryBuilder()
+            ->field('gameDate')->range($initDate, $endDate)
+            ->getQuery()
+            ->execute();
+    }  
+    
 }

@@ -5,11 +5,11 @@ namespace MIW\DataAccessBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
-* @MongoDB\Document(repositoryClass="MIW\DataAccessBundle\Repository\GameRepository")
+ * @MongoDB\Document(repositoryClass="MIW\DataAccessBundle\Repository\GameRepository")
  * @MongoDB\Index(keys={"cordenadas"="2d"})
  */
 class Game {
-
+    
     /**
      * @MongoDB\Id
      */
