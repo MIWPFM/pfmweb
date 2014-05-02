@@ -1,0 +1,72 @@
+{% extends "MIWIntranetBundle:Default:base.html.twig" %}
+
+{% block commonup%}
+
+<ul class="breadcrumb" style="margin-bottom: 5px;">
+    <li><a href="{{path('intranet_home')}}">WePlay</a></li>
+    <li><a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a></li>
+    <li class="active">partidos por jugar</li>
+</ul>
+
+{% endblock%}
+{% block sidecontent %}
+
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+        <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/default-user-photo.png') }}" alt="Nombre de usuario"/>
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <a href="{{path('intranet_myprofile_info')}}">Mis Datos</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_sports')}}">Mis Deportes</a>
+            </li>
+            <li class="active">
+                <a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_messages')}}">
+                    <span class="badge pull-right">0</span>
+                    Mis Mensajes
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block maincontent %}
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+       
+        <div class="bs-component">
+            {% if playingGames | length > 0%}
+            <h3>Partidos por jugar</h3>
+            <div class="list-group">
+                  {% for game in playingGames %}
+                <a href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y h:i')}} </h4>
+                    <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
+                    <span class="label label-danger">Finalizado</span>
+
+                    <span class="badge">{{game.players | length + 1}}  / {{game.numPlayers}}</span>
+
+                    
+                </a>
+                  {% endfor%}
+                 
+            </div>
+            {% else %}
+                    <h2>Todavía has participado en ningún partido</h2>
+               <p>Comienza a disfrutar de las ventajas de WePlay participando en un nuevo partido </p>
+            {% endif%}
+    </div>
+
+
+
+{% endblock %}
+{% block commondown%}
+{% endblock %}
+{% block javascripts%}
+{% endblock%}
+

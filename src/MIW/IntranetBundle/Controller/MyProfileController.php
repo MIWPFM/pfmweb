@@ -24,14 +24,72 @@ class MyProfileController extends Controller
     {
         return array();
     }
+    
     /**
      * @Route("/mis-partidos",name="intranet_myprofile_games")
      * @Template("MIWIntranetBundle:MyProfile:myGames.html.twig")
      */
     public function viewMyGamesAction()
     {
-        return array();
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
+        $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
+        $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
+            
+        return array('ownerGames'=>$ownerGames,
+                    'playingGames'=>$playingGames,
+                    'playedGames'=>$playedGames);
     }
+    
+    /**
+     * @Route("/mis-partidos/organizados",name="intranet_myprofile_games_owner")
+     * @Template("MIWIntranetBundle:MyProfile:ownerGames.html.twig")
+     */
+    public function viewMyOwnerGamesAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
+       
+            
+        return array('ownerGames'=>$ownerGames);
+    }
+    
+        /**
+     * @Route("/mis-partidos/por-jugar",name="intranet_myprofile_games_playing")
+     * @Template("MIWIntranetBundle:MyProfile:playingGames.html.twig")
+     */
+    public function viewMyPlayingGamesAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+       
+        $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
+
+            
+        return array('playingGames'=>$playingGames);
+    }
+    
+    /**
+     * @Route("/mis-partidos/jugados",name="intranet_myprofile_games_played")
+     * @Template("MIWIntranetBundle:MyProfile:playedGames.html.twig")
+     */
+    public function viewMyPlayedGamesAction()
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+       
+        $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
+
+            
+        return array('playedGames'=>$playedGames);
+    }
+    
     /**
      * @Route("/mis-mensajes",name="intranet_myprofile_messages")
      * @Template("MIWIntranetBundle:MyProfile:myMessages.html.twig")

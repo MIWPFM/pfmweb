@@ -4,7 +4,8 @@
 
 <ul class="breadcrumb" style="margin-bottom: 5px;">
     <li><a href="{{path('intranet_home')}}">WePlay</a></li>
-    <li class="active">Mis Partidos</li>
+    <li><a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a></li>
+    <li class="active">Partidos Organizados</li>
 </ul>
 
 {% endblock%}
@@ -37,12 +38,12 @@
 {% block maincontent %}
 <div class="row margin-top-20">
     <div class="col-xs-12">
-        {% if ownerGames | length > 0 or playingGames | length > 0 or playedGames | length > 0 %}
+       
         <div class="bs-component">
             {% if ownerGames | length > 0%}
             <h3>partidos organizados</h3>
             <div class="list-group">
-                  {% for game in ownerGames |slice(0,3) %}
+                  {% for game in ownerGames %}
                 <a href="#" class="list-group-item">
                     <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y H:i')}} </h4>
                     <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
@@ -61,47 +62,12 @@
 
                 </a>
                   {% endfor%}
-                    <a href="{{path('intranet_myprofile_games_owner')}}" class="btn btn-success pull-right">ver todos</a>
+                 
             </div>
+            {% else %}
+                    <h2>Todavía has organizado ningún partido</h2>
+               <p>Comienza a disfrutar de las ventajas de WePlay organizando un nuevo partido </p>
             {% endif%}
-            
-            {% if playingGames | length > 0%}
-            <h3>partidos por jugar</h3>
-            <div class="list-group">
-                  {% for game in playingGames %}
-                <a href="#" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y h:i')}} </h4>
-                    <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
-                    <span class="label label-danger">Finalizado</span>
-
-                    <span class="badge">{{game.players | length + 1}}  / {{game.numPlayers}}</span>
-
-                    
-                </a>
-                  {% endfor%}
-                 <a href="{{path('intranet_myprofile_games_playing')}}" class="btn btn-success pull-right">ver todos</a>
-            </div>
-            {% endif%}
-            
-            {% if playedGames | length >0 %}
-            <h3>partidos jugados</h3>
-            <div class="list-group">
-                  {% for game in playedGames | slice(0,3) %}
-                <a href="#" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y h:i')}} </h4>
-                    <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
-                    <span class="label label-danger">Finalizado</span>
-                    <p class="list-group-item-text">{{game.description}}</p>
-                </a>
-                  {% endfor%}
-                <a href="{{path('intranet_myprofile_games_played')}}" class="btn btn-success pull-right">ver todos</a>
-            </div>
-            {% endif%}
-        </div>
-        {% else%}
-        <h2>Todavía no te has inscrito ni creado ningún partido</h2>
-        <p>Comienza a disfrutar de las ventajas de WePlay organizando un partido o buscando partidos que se adecúen a tus preferencias</p>
-        {% endif%}
     </div>
 
 

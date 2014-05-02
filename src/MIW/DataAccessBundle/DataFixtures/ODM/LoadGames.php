@@ -36,6 +36,7 @@ class LoadGames extends AbstractFixture implements OrderedFixtureInterface,Conta
         $game = new Game();
         $game->setAdmin($user);
         $game->setCreated(new \DateTime());
+        $game->setGameDate(new \DateTime());
         $game->setLimitDate(new \Datetime());
         $game->setPrice(10);
         $game->setNumPlayers(22);
@@ -45,6 +46,7 @@ class LoadGames extends AbstractFixture implements OrderedFixtureInterface,Conta
         
         $game2 = new Game();
         $game2->setAdmin($user2);
+        $game2->setGameDate(new \DateTime());
         $game2->setCreated(new \DateTime());
         $game2->setLimitDate(new \Datetime());
         $game2->setPrice(2);
