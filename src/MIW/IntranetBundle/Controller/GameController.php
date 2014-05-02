@@ -31,21 +31,29 @@ class GameController extends Controller
     {
          // get user
         $user = $this->get('security.context')->getToken()->getUser();
+        $idUser = $user->getId();
         
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $today = new DateTime('now');
-        //$gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($today);
-        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAll();
+        $tomorrow = clone $today;
+        $tomorrow->add(new DateInterval('P1D'));
+        $tomorrow->setTime(0, 0, 0);
+        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $tomorrow, $idUser);
         
-        $tomorrow = $today->add(new DateInterval('P1D'));
-        $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($tomorrow);
+        $twodays = clone $today;
+        $twodays->add(new DateInterval('P2D'));
+        $twodays->setTime(0, 0, 0);
+        $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($tomorrow, $twodays, $idUser);
         
-        $week = $today->add(new DateInterval('P6D'));
-        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $week);
-                
+        $week = clone $today;
+        $week->add(new DateInterval('P7D'));
+        $week->setTime(0, 0, 0);
+        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($twodays, $week, $idUser);
+        
+        $gamesCount = count($gamesToday) + count($gamesTomorrow) + count($gamesThisWeek);
         return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow, 
-                    'gamesThisWeek' => $gamesThisWeek);
+                        'gamesThisWeek' => $gamesThisWeek, 'gamesCount' => $gamesCount);
     }
     
     /**
