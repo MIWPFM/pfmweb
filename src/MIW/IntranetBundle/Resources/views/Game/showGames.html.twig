@@ -24,56 +24,86 @@
 {% endblock%}
     
 {% block maincontent %}
+      
+    {% if gamesCount > 0 %}
+        <blockquote class="margin-top-20">
+            <p>Actualmente participas en {{ gamesCount }} partidos.</p>
+        </blockquote>
+        
+            <div class="bs-component">
+                <h3>Hoy</h3>
+            
+                {% for game in gamesToday %}
+            
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">                        
+                                <h4 class="list-group-item-heading">
+                                    {{ game.gameDate | date("d/m/Y h:m") }}
+                                    {{ game.sport.name }}
+                                    {{ game.center.name }}, {{ game.center.address.city }}
+                                </h4>
+                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                            </div>
+                        </div>
+                    </div>
+            
+                {% endfor %}
+                       
+            <h3>Mañana</h3>
+            
+                {% for game in gamesTomorrow %}
 
-    <blockquote class="margin-top-20">
-        <p>Actualmente participas en {{ gamesToday | length }} partidos.</p>
-    </blockquote>  
-    <div class="col-xs-7 margin-top-20">
-        <h2>Hoy</h2>
-        {% for game in gamesToday %}
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">                        
-                        {{ game.gameDate | date("d/m/Y h:m") }}
-                        {{ game.sport.name }}
-                        {{ game.center.name }}, {{ game.center.address.city }}
-                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                        Num. Jugadores: {{ game.numPlayers }}                        
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">                        
+                                <h4 class="list-group-item-heading">
+                                    {{ game.gameDate | date("d/m/Y h:m") }}
+                                    {{ game.sport.name }}
+                                    {{ game.center.name }}, {{ game.center.address.city }}
+                                </h4>
+                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}       
-        <h2>Mañana</h2>
-        {% for game in gamesTomorrow %}
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">                        
-                        {{ game.gameDate | date("d/m/Y h:m") }}
-                        {{ game.sport.name }}
-                        {{ game.center.name }}, {{ game.center.address.city }}
-                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                        Num. Jugadores: {{ game.numPlayers }}                       
+
+                {% endfor %} 
+            
+            <h3>Esta Semana</h3>
+            
+                {% for game in gamesThisWeek %}
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">                        
+                                <h4 class="list-group-item-heading">
+                                    {{ game.gameDate | date("d/m/Y h:m") }}
+                                    {{ game.sport.name }}
+                                    {{ game.center.name }}, {{ game.center.address.city }}
+                                </h4>
+                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
+                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}        
-        <h2>Esta Semana</h2>
-        {% for game in gamesThisWeek %}
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="form-group">                        
-                        {{ game.gameDate | date("d/m/Y h:m") }}
-                        {{ game.sport.name }}
-                        {{ game.center.name }}, {{ game.center.address.city }}
-                        <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                        <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                        Num. Jugadores: {{ game.numPlayers }}                          
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-   </div>
+
+                {% endfor %}
+             </div>
+        
+    {% else %}
+
+        <blockquote class="margin-top-20">
+            <p>No tienes partidos.</p>
+        </blockquote>
+        <div class="col-xs-7 margin-top-20">
+            <a href="{{path('intranet_create_game')}}">Organizate uno.</a>
+        </div>
+    
+    {% endif %}
 
 {% endblock %}
