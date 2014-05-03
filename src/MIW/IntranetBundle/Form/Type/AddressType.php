@@ -9,7 +9,6 @@ class AddressType extends AbstractType
 {
     public function __construct()
     {
-
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -22,15 +21,12 @@ class AddressType extends AbstractType
                 'label' => 'Comunidad Autónoma',
                 'attr' => array('class' => 'community')))
             ->add('province', 'text', array(
-                'label' => 'Provincia',
-            ))
+                'label' => 'Provincia'))
             ->add('city', 'text', array(
-                'label' => 'Localidad',
-            ))
+                'label' => 'Localidad'))
             ->add('zipcode', 'hidden', array( ))
             ->add('lat', 'hidden', array( ))
-            ->add('long', 'hidden', array( ));
-           
+            ->add('long', 'hidden', array( ));           
     }
 
     public function getDefaultOptions(array $options) {
