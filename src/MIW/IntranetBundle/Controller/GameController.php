@@ -20,6 +20,7 @@ use MIW\IntranetBundle\Form\Type\GameType;
 use MIW\IntranetBundle\Utility\Utility;
 use DateTime;
 use DateInterval;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GameController extends Controller
 {
@@ -34,18 +35,40 @@ class GameController extends Controller
         
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $today = new DateTime('now');
-        //$gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($today);
-        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAll();
         
-        $tomorrow = $today->add(new DateInterval('P1D'));
+        $today = new DateTime('now');
+        $tomorrow= clone $today;
+        $tomorrow->add(new DateInterval('P1D'));
+        $tomorrow->setTime(0, 0, 0);
+        
+        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today,$tomorrow,$user);
+
+
         $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllByDate($tomorrow);
         
         $week = $today->add(new DateInterval('P6D'));
-        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $week);
+        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $week,$user);
                 
         return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow, 
                     'gamesThisWeek' => $gamesThisWeek);
+    }
+    
+    /**
+     * @Route("/partidos/ver/{id}",name="intranet_games_show")
+     * @Template("MIWIntranetBundle:Game:showGame.html.twig");
+     */
+    public function showGameAction($id)
+    {
+        
+        // get game
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game= $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+        
+        if (!$game) {
+            throw new NotFoundHttpException("Partido no encontrado");
+        }
+
+        return array('game' => $game);
     }
     
     /**

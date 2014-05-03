@@ -18,8 +18,11 @@ class DefaultController extends Controller
      */
     public function dashboardAction()
     {
-
-        return array();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
+        
+        return array('playingGames'=>$playingGames);
     }
     
     

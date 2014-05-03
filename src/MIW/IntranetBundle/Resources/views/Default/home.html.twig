@@ -8,15 +8,15 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-bookmark"></span> Accesos Rápidos</h3>
+                        <i class="fa fa-dot-circle-o "></i> Accesos Rápidos</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-12 col-md-12">
-                            <a href="{{path('intranet_myprofile_games')}}" class="btn btn-danger btn-lg" role="button"><span class="glyphicon glyphicon-list-alt"></span> <br/>mis partidos</a>
-                            <a href="{{path('intranet_myprofile_sports')}}" class="btn btn-warning btn-lg" role="button"><span class="glyphicon glyphicon-bookmark"></span> <br/>mis deportes</a>
-                            <a href="{{path('intranet_myprofile_messages')}}" class="btn btn-primary btn-lg" role="button"><span class="glyphicon glyphicon-signal"></span> <br/>mis mensajes</a>
-                            <a href="{{path('intranet_myprofile_info')}}" class="btn btn-success btn-lg" role="button"><span class="glyphicon glyphicon-comment"></span> <br/>mis datos</a>
+                            <a href="{{path('intranet_myprofile_games')}}" class="btn btn-danger btn-lg" role="button"><i class="fa fa-calendar fa-2x"></i> <br/>mis partidos</a>
+                            <a href="{{path('intranet_myprofile_sports')}}" class="btn btn-warning btn-lg" role="button"><i class="fa fa-dribbble fa-2x"></i> <br/>mis deportes</a>
+                            <a href="{{path('intranet_myprofile_messages')}}" class="btn btn-primary btn-lg" role="button"><i class="fa fa-envelope fa-2x"></i> <br/>mis mensajes</a>
+                            <a href="{{path('intranet_myprofile_info')}}" class="btn btn-success btn-lg" role="button"><i class="fa fa-user fa-2x"></i> <br/>mis datos</a>
                         </div>
                     </div>
 
@@ -27,23 +27,20 @@
         </div>
         <div class="col-md-6">
             <div class="bs-component">
-                <h3>próximos partidos</h3>
+                <h3>Mis próximos partidos</h3>
+                {% if playingGames | length > 0 %}
                 <div class="list-group">
-
+                    {% for game in playingGames | slice(0,3)%}
                     <a href="#" class="list-group-item">
-                        <h4 class="list-group-item-heading">fecha </h4>
-                        <h3 class="list-group-item-heading">deporte</h3>
+                        <h4 class="list-group-item-heading">{{game.gameDate | date('d/m/Y H:i')}} </h4>
+                        <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
                         <p> {% if game.center is defined%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
-                      {% if date('now') %}
-                        <span class="label label-danger">Finalizado</span>
-                       {% else %}
-
-                       {% endif%}
-
-
                     </a>
-
-
+                    {% endfor %}
+                    <a href=""> ver información de mis partidos</a>
+                {% else%}
+                    <p> Actualmente no tiene ningún partido pendiente </p>
+                {% endif%}
                 </div>
             </div>
         </div>
