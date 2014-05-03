@@ -18,10 +18,11 @@ use MIW\DataAccessBundle\Document\Center;
 use MIW\DataAccessBundle\Document\Address;
 use MIW\IntranetBundle\Form\Type\GameType;
 use MIW\IntranetBundle\Utility\Utility;
-use DateTime;
-use DateInterval;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use DateTime;
+use DateInterval;
+
 class GameController extends Controller
 {
     /**
@@ -172,5 +173,34 @@ class GameController extends Controller
         return array('form'=>$form->createView(),'game'=>$game);
     }
     
+    /**
+        * @Route("/ajax/suscribe/game/",name="intranet_ajax_suscribe_game")
+     */
+    public function ajaxSuscribeGameAction(Request $request)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $idGame = $request->get('game');
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
+        
+        // Check if the user suscribed to the game
+        if(!in_array($user, $game->getPlayers())) {
+            $game->addPlayer($user);
+            $code = 1;
+        } else {
+            $game->removePlayer($user);
+            $code = 0;
+        }
+        $dm->persist($game);
+        $dm->flush();
+        
+        $available = $game->getNumPlayers() - \count($game->getPlayers());
+        $json = array('code' => $code, 'available' => $available);
+        
+        $response = new Response();
+        $response->setContent(json_encode($json));
+        return $response;
+    }
     
 }
