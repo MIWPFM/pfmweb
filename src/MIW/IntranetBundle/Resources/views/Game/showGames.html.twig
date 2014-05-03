@@ -37,15 +37,15 @@
             
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group">                        
+                            <div class="form-group" data-game="{{ game.id }}">                        
                                 <h4 class="list-group-item-heading">
                                     {{ game.gameDate | date("d/m/Y h:m") }}
                                     {{ game.sport.name }}
                                     {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>
-                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                                </h4>                                
+                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
+                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
                             </div>
                         </div>
                     </div>
@@ -58,15 +58,15 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group">                        
+                            <div class="form-group" data-game="{{ game.id }}">                        
                                 <h4 class="list-group-item-heading">
                                     {{ game.gameDate | date("d/m/Y h:m") }}
                                     {{ game.sport.name }}
                                     {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>
-                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                                </h4>                                
+                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
+                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
                             </div>
                         </div>
                     </div>
@@ -79,15 +79,15 @@
 
                     <div class="row">
                         <div class="col-xs-12">
-                            <div class="form-group">                        
+                            <div class="form-group" data-game="{{ game.id }}">                        
                                 <h4 class="list-group-item-heading">
                                     {{ game.gameDate | date("d/m/Y h:m") }}
                                     {{ game.sport.name }}
                                     {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>
-                                <img src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <img src="{{ asset('bundles/framework/images/blue_picto_less.gif') }}" />
-                                <span class="badge">Num. Jugadores: {{ game.numPlayers }}</span>                        
+                                </h4>                                
+                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
+                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
+                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
                             </div>
                         </div>
                     </div>
@@ -106,4 +106,30 @@
     
     {% endif %}
 
+    <script>
+        $(document).ready(function() {
+            $('.btn-suscribe').on('click', function() {
+                    $.ajax({
+                        method: "GET",
+                        url: "{{path('intranet_ajax_suscribe_game')}}",
+                        dataType: "json",
+                        data: {
+                            game: $(this).parent().getAttribute('data-game')
+                        },
+                        success: function(data) {
+                            // modify image and available
+                            //var plant = document.getElementById('strawberry-plant');
+                            //var fruitCount = plant.getAttribute('data-fruit');
+                            //$(selector).val(value);
+                            //$('.badge').val(data.available);                    
+                            if(data.code)                                
+                                $(this).css({"src":"{{ asset('bundles/framework/images/blue_picto_less.gif') }}"});
+                            else 
+                                $(this).css({"src":"{{ asset('bundles/framework/images/blue_picto_more.gif') }}"});
+                        }
+                    });
+             });
+        });
+    </script>
+    
 {% endblock %}
