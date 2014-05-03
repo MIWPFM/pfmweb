@@ -5,6 +5,13 @@ namespace MIW\IntranetBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use MIW\DataAccessBundle\Document\User;
+use MIW\DataAccessBundle\Document\Address;
+use MIW\IntranetBundle\Form\Type\UserType;
+use MIW\IntranetBundle\Form\Type\AddressType;
+use MIW\IntranetBundle\Form\Type\PasswordType;
 
 class MyProfileController extends Controller
 {
@@ -14,7 +21,16 @@ class MyProfileController extends Controller
      */
     public function viewMyInfoAction()
     {
-        return array();
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        // create forms
+        $formUser = $this->createForm(new UserType(), $user);
+        $formAddress = $this->createForm(new AddressType(), new Address());
+        $formPassword = $this->createForm(new PasswordType());
+        
+        return array('formUser'=>$formUser->createView(), 
+                    'formAddress'=>$formAddress->createView(),
+                    'formPassword'=>$formPassword->createView());
     }
     /**
      * @Route("/mis-deportes",name="intranet_myprofile_sports")
@@ -52,8 +68,7 @@ class MyProfileController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
-       
+        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);       
             
         return array('ownerGames'=>$ownerGames);
     }
@@ -66,10 +81,8 @@ class MyProfileController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-       
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');       
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
-
             
         return array('playingGames'=>$playingGames);
     }
@@ -82,10 +95,8 @@ class MyProfileController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-       
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');       
         $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
-
             
         return array('playedGames'=>$playedGames);
     }
