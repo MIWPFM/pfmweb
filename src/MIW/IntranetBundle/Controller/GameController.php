@@ -21,7 +21,7 @@ use MIW\IntranetBundle\Utility\Utility;
 use DateTime;
 use DateInterval;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class GameController extends Controller
 {
     /**
@@ -95,6 +95,52 @@ class GameController extends Controller
         $center->setAddress($address);
         $game->setCenter($center);
 
+        // get form
+        $form = $this->createForm(new GameType(), $game);
+        if($request->getMethod()=="POST"){
+            $form->handleRequest($request);
+            if ($form->isValid()) {  
+                $dm = $this->get('doctrine.odm.mongodb.document_manager');
+                
+                // Check if is a new center or not
+                $centerName=$game->getCenter()->getName();
+                $center=$dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
+                if (!$center) {
+                    $dm->persist($game->getCenter());
+                } else
+                    $game->setCenter($center);
+
+                // Transform dates, possible move to event
+                $gameDate=Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
+                $gameLimitDate=Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
+                $game->setGameDate($gameDate);
+                $game->setLimitDate($gameLimitDate);
+                
+                $dm->persist($game);
+                $dm->flush();
+
+                return $this->redirect($this->generateUrl('intranet_games'));
+            }
+        }
+        
+        return array('form'=>$form->createView(),'game'=>$game);
+    }
+    
+    /**
+     * @Route("/partidos/editar/{id}",name="intranet_edit_game")
+     * @Template("MIWIntranetBundle:Game:editGame.html.twig");
+     */
+    public function editGameAction(Request $request,$id)
+    {        
+        // get user
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game= $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+        
+        if($game->getAdmin() != $user)
+            throw new AccessDeniedException();
+        
         // get form
         $form = $this->createForm(new GameType(), $game);
         if($request->getMethod()=="POST"){

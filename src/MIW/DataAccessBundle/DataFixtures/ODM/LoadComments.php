@@ -23,7 +23,7 @@ class LoadComments extends AbstractFixture implements OrderedFixtureInterface,Co
 
 
     public function getOrder(){
-        return 4;
+        return 5;
     }
    /* php app/console doctrine:mongodb:fixtures:load --fixtures src/MIW/DataAccessBundle/DataFixtures/ODM */
     public function load(ObjectManager $manager){

@@ -23,7 +23,7 @@ class LoadGames extends AbstractFixture implements OrderedFixtureInterface,Conta
 
 
     public function getOrder(){
-        return 3;
+        return 4;
     }
    /* php app/console doctrine:mongodb:fixtures:load --fixtures src/MIW/DataAccessBundle/DataFixtures/ODM */
     public function load(ObjectManager $manager){
@@ -32,27 +32,33 @@ class LoadGames extends AbstractFixture implements OrderedFixtureInterface,Conta
         $paddel= $this->getReference('paddel');
         $user= $this->getReference('user');
         $user2= $this->getReference('user2');
+        $center= $this->getReference('center');
+        
+        $gameDate=new \DateTime();
+        $gameDate->modify('+3 days');
         
         $game = new Game();
         $game->setAdmin($user);
         $game->setCreated(new \DateTime());
-        $game->setGameDate(new \DateTime());
-        $game->setLimitDate(new \Datetime());
+        $game->setGameDate($gameDate);
+        $game->setLimitDate($gameDate);
         $game->setPrice(10);
         $game->setNumPlayers(22);
         $game->setSport($football);
         $game->setDescription("Creo este evento en tal sitio por que quiero bla bla");
+        $game->setCenter($center);
         $game->addPlayer($user2);
         
         $game2 = new Game();
         $game2->setAdmin($user2);
-        $game2->setGameDate(new \DateTime());
-        $game2->setCreated(new \DateTime());
+        $game2->setGameDate($gameDate);
+        $game2->setCreated($gameDate);
         $game2->setLimitDate(new \Datetime());
         $game2->setPrice(2);
         $game2->setNumPlayers(2);
         $game2->setSport($paddel);
         $game2->setDescription("Creo este evento en tal sitio por que quiero bla bla");
+        $game2->setCenter($center);
         $game2->addPlayer($user);
         
         $manager->persist($game);

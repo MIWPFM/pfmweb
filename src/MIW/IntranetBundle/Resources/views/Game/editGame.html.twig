@@ -5,10 +5,10 @@
 <ul class="breadcrumb" style="margin-bottom: 5px;">
     <li><a href="{{path('intranet_home')}}">WePlay</a></li>
     <li><a href="{{path('intranet_games')}}">Partidos</a></li>
-    <li class="active">Organizar Partido</li>
+    <li class="active">Editar Partido</li>
 </ul>
 
-<form action="{{path('intranet_create_game')}}" method="POST">
+<form action="{{path('intranet_edit_game',{'id':game.id})}}" method="POST">
 
 {% endblock%}
 {% block sidecontent %}

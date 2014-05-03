@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 margin-top-20">
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -37,7 +37,7 @@
                         <p> {% if game.center is defined%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
                     </a>
                     {% endfor %}
-                    <a href=""> ver información de mis partidos</a>
+                    <a href="{{path('intranet_myprofile_games')}}" class="btn btn-success pull-right"> ver información de mis partidos</a>
                 {% else%}
                     <p> Actualmente no tiene ningún partido pendiente </p>
                 {% endif%}

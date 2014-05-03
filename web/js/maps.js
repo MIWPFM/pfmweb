@@ -18,7 +18,32 @@ function initialize() {
         map: map,
         position: map.getCenter()
     });
+    
+    var input = document.getElementsByClassName('center-address')[0];
+    console.log(input);
+    var autocomplete = new google.maps.places.Autocomplete(input, {
+             types: ["geocode"]
+         });
+
+         autocomplete.bindTo('bounds', map);
+         var infowindow = new google.maps.InfoWindow();
+
+         google.maps.event.addListener(autocomplete, 'place_changed', function (event) {
+              var place = autocomplete.getPlace();
+              console.log("Place Changes");
+              console.log(place.geometry);
+              fillLatLongInputs(place.geometry.location.k, place.geometry.location.A);
+              fillFormInputs(place);    
+              
+            var pos = new google.maps.LatLng(place.geometry.location.k,
+               place.geometry.location.A);
+            map.setCenter(pos);
+            marker.setPosition(pos);
+         });
+
 }
+    
+    
 
 function findPosition() {
     var placeToFind = "";
@@ -56,6 +81,7 @@ function findMe() {
             var pos = new google.maps.LatLng(position.coords.latitude,
                     position.coords.longitude);
             fillLatLongInputs(position.coords.latitude, position.coords.longitude);
+            
             map.setCenter(pos);
             marker.setPosition(pos);
 
@@ -108,6 +134,9 @@ function handleNoGeolocation(errorFlag) {
 }
 
 function fillLatLongInputs(lat, long) {
+    console.log("Coordenadas");
+    console.log(lat);
+    console.log(long);
     $("form").find(".center-lat").val(lat);
     $("form").find(".center-long").val(long);
 }
@@ -173,7 +202,7 @@ function fillFormInputs(item) {
 function loadScript() {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src = "http://maps.googleapis.com/maps/api/js?sensor=false&region=ES&language=es&callback=initialize";
+    script.src = "http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false&region=ES&language=es&callback=initialize";
     document.body.appendChild(script);
 }
 
