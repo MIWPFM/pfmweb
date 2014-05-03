@@ -65,7 +65,7 @@ class Game {
     public function __construct() {
 
         $this->players = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->created= new \DateTime();
+        $this->created = new \DateTime();
     }
 
     public function getId() {
@@ -254,7 +254,8 @@ class Game {
      * @param MIW\DataAccessBundle\Document\User $player
      */
     public function addPlayer(\MIW\DataAccessBundle\Document\User $player) {
-        $this->players[] = $player;
+        //$this->players[] = $player;
+        $this->players->add($player);
     }
 
     /**
