@@ -44,27 +44,36 @@
             <div class="list-group">
                   {% for game in ownerGames |slice(0,3) %}
                 <a href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item">
-                    <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y H:i')}} </h4>
-                    <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
-                    <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
-                      {% if date('now') > game.gameDate %}
-                            <span class="label label-danger">Finalizado</span>
+                    <div class="date">
+                        <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m')}} </h4>
+                        <h4 class="list-group-item-heading">{{ game.gameDate | date('H:i')}} </h4>
+                        <h4 class="list-group-item-heading">{{ game.price}} € </h4>
+                    </div>
+                    <div class="details">
+                        {% if date('now') > game.gameDate %}
+                        <span class="label label-danger">Finalizado</span>
                        {% else %}
                             {% if game.players | length == game.numPlayers%}
-                            <span class="label label-warning">Completo</span>
+                        <span class="label label-warning">Completo</span>
                              {% else %}
-                            <span class="label label-success">Organizandose</span>
+                        <span class="label label-success">Organizandose</span>
                             {% endif%}
                        {% endif%}
-                    <span class="badge">{{game.players | length + 1}}  / {{game.numPlayers}}</span>
-                    <span class="badge"> Creado el día {{game.created | date('d/m/y H:i')}}</span>
-
+                        <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
+                        <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
+                      
+                    </div>
+                    <div class="actions pull-right">
+                        <span class="badge">{{game.players | length + 1}}  / {{game.numPlayers}}</span>
+                        <span class="badge"> Creado el día {{game.created | date('d/m/y H:i')}}</span>
+                    </div>
+                    <div class="clearfix"></div>
                 </a>
                   {% endfor%}
-                    <a href="{{path('intranet_myprofile_games_owner')}}" class="btn btn-success pull-right">ver todos</a>
+                <a href="{{path('intranet_myprofile_games_owner')}}" class="btn btn-success pull-right">ver todos</a>
             </div>
             {% endif%}
-            
+
             {% if playingGames | length > 0%}
             <h3>partidos por jugar</h3>
             <div class="list-group">
@@ -76,18 +85,18 @@
 
                     <span class="badge">{{game.players | length + 1}}  / {{game.numPlayers}}</span>
 
-                    
+
                 </a>
                   {% endfor%}
-                 <a href="{{path('intranet_myprofile_games_playing')}}" class="btn btn-success pull-right">ver todos</a>
+                <a href="{{path('intranet_myprofile_games_playing')}}" class="btn btn-success pull-right">ver todos</a>
             </div>
             {% endif%}
-            
+
             {% if playedGames | length >0 %}
             <h3>partidos jugados</h3>
             <div class="list-group">
                   {% for game in playedGames | slice(0,3) %}
-               <a href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item">
+                <a href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item">
                     <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m/y h:i')}} </h4>
                     <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
                     <span class="label label-danger">Finalizado</span>
