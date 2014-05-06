@@ -6,7 +6,6 @@ function initialize() {
     geocoder = new google.maps.Geocoder();
     infowindow = new google.maps.InfoWindow();
     var position = new google.maps.LatLng(40.416761, -3.703489);
-    //var position = findPosition("Polideportivo pueblo nuevo", "ascao", "Comunidad de Madrid", "Madrid", "Madrid");
     var mapOptions = {
         zoom: 16,
         center: position,
@@ -18,32 +17,44 @@ function initialize() {
         map: map,
         position: map.getCenter()
     });
-    
-    var input = document.getElementsByClassName('center-address')[0];
-    console.log(input);
-    var autocomplete = new google.maps.places.Autocomplete(input, {
-             types: ["geocode"]
-         });
 
-         autocomplete.bindTo('bounds', map);
-         var infowindow = new google.maps.InfoWindow();
+    var inputAddress = document.getElementsByClassName('center-address')[0];
+    console.log(inputAddress);
+    var autocomplete = new google.maps.places.Autocomplete(inputAddress, {
+        types: ["geocode"]
+    });    var inputCity = document.getElementsByClassName('center-city')[0];
+    console.log(inputCity);
+    /*var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
+        types: ['(cities)']
+    });
+    var inputCommunity = document.getElementsByClassName('center-community')[0];
+    console.log(inputCommunity);
+    var autocomplete3 = new google.maps.places.Autocomplete(inputCommunity, {
+        types: ['(regions)']
+    });
+    var inputProvince = document.getElementsByClassName('center-province')[0];
+    console.log(inputProvince);
+    var autocomplete4 = new google.maps.places.Autocomplete(inputProvince, {
+        types: ['(regions)']
+    });*/
 
-         google.maps.event.addListener(autocomplete, 'place_changed', function (event) {
-              var place = autocomplete.getPlace();
-              console.log("Place Changes");
-              console.log(place.geometry);
-              fillLatLongInputs(place.geometry.location.k, place.geometry.location.A);
-              fillFormInputs(place);    
-              
-            var pos = new google.maps.LatLng(place.geometry.location.k,
-               place.geometry.location.A);
-            map.setCenter(pos);
-            marker.setPosition(pos);
-         });
+
+    autocomplete.bindTo('bounds', map);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
+        var place = autocomplete.getPlace();
+        console.log("Place Changes");
+        console.log(place.geometry);
+        fillLatLongInputs(place.geometry.location.k, place.geometry.location.A);
+        fillFormInputs(place);
+
+        var pos = new google.maps.LatLng(place.geometry.location.k,
+                place.geometry.location.A);
+        map.setCenter(pos);
+        marker.setPosition(pos);
+    });
 
 }
-    
-    
 
 function findPosition() {
     var placeToFind = "";
@@ -81,7 +92,7 @@ function findMe() {
             var pos = new google.maps.LatLng(position.coords.latitude,
                     position.coords.longitude);
             fillLatLongInputs(position.coords.latitude, position.coords.longitude);
-            
+
             map.setCenter(pos);
             marker.setPosition(pos);
 
@@ -143,7 +154,7 @@ function fillLatLongInputs(lat, long) {
 function fillReducedFormInputs(item) {
     var arrAddress = item.address_components;
     var itemZipcode = '';
-    
+
     $.each(arrAddress, function(i, address_component) {
         if (address_component.types[0] == "postal_code") {
             console.log("itemZipcode:" + address_component.long_name);
@@ -154,14 +165,14 @@ function fillReducedFormInputs(item) {
 }
 function fillFormInputs(item) {
     var arrAddress = item.address_components;
-    var itemCenterName='';
+    var itemCenterName = '';
     var itemAddress = '';
     var itemCity = '';
     var itemProvince = '';
     var itemCommunity = '';
     var itemZipcode = '';
     var itemNumber = '';
-    
+
     $.each(arrAddress, function(i, address_component) {
         if (address_component.types[0] == "premise") {
             console.log(i + ": itemCenterName:" + address_component.long_name);
