@@ -22,9 +22,10 @@ function initialize() {
     console.log(inputAddress);
     var autocomplete = new google.maps.places.Autocomplete(inputAddress, {
         types: ["geocode"]
-    });    var inputCity = document.getElementsByClassName('center-city')[0];
+    });    
+    /*var inputCity = document.getElementsByClassName('center-city')[0];
     console.log(inputCity);
-    /*var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
+    var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
         types: ['(cities)']
     });
     var inputCommunity = document.getElementsByClassName('center-community')[0];
@@ -43,13 +44,12 @@ function initialize() {
 
     google.maps.event.addListener(autocomplete, 'place_changed', function(event) {
         var place = autocomplete.getPlace();
-        console.log("Place Changes");
-        console.log(place.geometry);
-        fillLatLongInputs(place.geometry.location.k, place.geometry.location.A);
+        fillLatLongInputs(place.geometry.location.lat(), place.geometry.location.lng());
         fillFormInputs(place);
-
-        var pos = new google.maps.LatLng(place.geometry.location.k,
-                place.geometry.location.A);
+        var lat = place.geometry.location.lat();
+        var lng = place.geometry.location.lng();
+        var pos = new google.maps.LatLng(lat,
+                lng);
         map.setCenter(pos);
         marker.setPosition(pos);
     });
@@ -59,18 +59,22 @@ function initialize() {
 function findPosition() {
     var placeToFind = "";
     var address = $("form").find(".center-address").val();
+    console.log(address);
     if (address.length > 0) {
         placeToFind += address + " ";
     }
     var city = $("form").find(".center-city").val();
+    console.log(city);
     if (city.length > 0) {
         placeToFind += city + " ";
     }
     var community = $("form").find(".center-community").val();
+    console.log(community);
     if (community.length > 0) {
         placeToFind += community + " ";
     }
     var province = $("form").find(".center-province").val();
+    console.log(province);
     if (province.length > 0) {
         placeToFind += province;
     }
@@ -79,7 +83,7 @@ function findPosition() {
         if (status == google.maps.GeocoderStatus.OK) {
             map.setCenter(results[0].geometry.location);
             marker.setPosition(results[0].geometry.location);
-            fillLatLongInputs(results[0].geometry.location.lat, results[0].geometry.location.lng);
+            fillLatLongInputs(results[0].geometry.location.lat(), results[0].geometry.location.lng());
             reverseGeocoding(results[0].geometry.location, true);
         } else {
             alert("Geocode was not successful for the following reason: " + status);

@@ -164,8 +164,8 @@
     
 <script>
     function initialize() {
-        geocoder = new google.maps.Geocoder();
-        infowindow = new google.maps.InfoWindow();
+        var geocoder = new google.maps.Geocoder();
+        var infowindow = new google.maps.InfoWindow();
         var position = new google.maps.LatLng({{game.center.address.lat}}, {{game.center.address.long}});
 
         var mapOptions = {
@@ -173,9 +173,9 @@
             center: position,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 
-        marker = new google.maps.Marker({
+        var marker = new google.maps.Marker({
             map: map,
             position: map.getCenter()
         });
