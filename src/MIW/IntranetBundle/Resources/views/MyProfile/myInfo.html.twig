@@ -10,108 +10,110 @@
 {% endblock%}
 {% block sidecontent %}
 
-    <div class="row margin-top-20">
-        <div class="col-xs-12">
-            <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/default-user-photo.png') }}" alt="Nombre de usuario"/>
-            <ul class="nav nav-pills nav-stacked">
-                <li class="active">
-                    <a href="{{path('intranet_myprofile_info')}}">Mis Datos</a>
-                </li>
-                <li>
-                    <a href="{{path('intranet_myprofile_sports')}}">Mis Deportes</a>
-                </li>
-                <li>
-                    <a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a>
-                </li>
-                <li>
-                    <a href="{{path('intranet_myprofile_messages')}}">
-                        <span class="badge pull-right">0</span>
-                        Mis Mensajes
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+        <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/default-user-photo.png') }}" alt="Nombre de usuario"/>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="active">
+                <a href="{{path('intranet_myprofile_info')}}">Mis Datos</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_sports')}}">Mis Deportes</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_messages')}}">
+                    <span class="badge pull-right">0</span>
+                    Mis Mensajes
+                </a>
+            </li>
+        </ul>
     </div>
+</div>
 {% endblock %}
 
 {% block maincontent %}
 
-    <blockquote class="margin-top-20">
-        <p>Rellena tus datos para que te hagamos las mejores recomendaciones.</p>
-    </blockquote>
-    <div class="row margin-top-20">
-        <div class="col-xs-12">
-            <!-- Nav tabs -->
-            <ul class="nav nav-pills nav-justified">
-              <li class="active">
-                  <a href="#userInfo" data-toggle="tab">Datos de Usuario</a>
-              </li>
-              <li>
-                  <a href="#userLocation" data-toggle="tab">Datos de Localización</a>
-              </li>
-              <li>
-                  <a href="#userPassword" data-toggle="tab">Cambiar Contraseña</a>
-              </li>
-            </ul>
+<blockquote class="margin-top-20">
+    <p>Rellena tus datos para que te hagamos las mejores recomendaciones.</p>
+</blockquote>
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+        <!-- Nav tabs -->
+        <ul class="nav nav-pills nav-justified">
+            <li class="active">
+                <a href="#userInfo" data-toggle="tab">Datos de Usuario</a>
+            </li>
+            <li>
+                <a href="#userLocation" data-toggle="tab">Datos de Localización</a>
+            </li>
+            <li>
+                <a href="#userPassword" data-toggle="tab">Cambiar Contraseña</a>
+            </li>
+        </ul>
 
-            <!-- Tab panes -->
-            <div class="tab-content margin-top-20"> 
-                <div class="tab-pane active" id="userInfo">
-                    <div class="col-xs-7 margin-top-20">
-                       <div class="row">
-                           <div class="col-xs-12">
-                               <div class="form-group">
+        <!-- Tab panes -->
+        <div class="tab-content margin-top-20"> 
+            <div class="tab-pane active" id="userInfo">
+                <div class="col-xs-6 col-xs-offset-3 margin-top-20">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
                                     {{ form_label(formUser.username) }}
                                     {{ form_widget(formUser.username, { 'attr': {'class': 'form-control'} }) }}
-                               </div>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-12">
-                               <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
                                     {{ form_label(formUser.name) }}
                                     {{ form_widget(formUser.name, { 'attr': {'class': 'form-control'} }) }}
-                               </div>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-7">
-                               <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <div class="form-group">
                                     {{ form_label(formUser.email) }}
                                     {{ form_widget(formUser.email, { 'attr': {'class': 'form-control email'} }) }}
-                               </div>
-                           </div>
-                           <div class="col-xs-5">
-                               <div class="form-group">
-                                   <div class="input-group">
-                                        {{ form_label(formUser.birthday) }}
-                                        {{ form_widget(formUser.birthday, { 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
-                                    </div>
-                               </div>
-                           </div>
-                       </div>
-                       <div class="row">
-                            <div class="col-xs-6">
-                                <button class="btn btn-success btn-block" type="submit">
-                                    <i class="fa fa-check fa-fw"></i>
-                                    Guardar Cambios
-                                </button>
                             </div>
-                       </div>
-                   </div>
-              </div>
-        
-              <div class="tab-pane" id="userLocation">
-                  <div class="col-xs-4">
-                            <div class="row">
-                                <div class="well">
-                                    <div id="map_canvas"></div>
+                        </div>
+                        <div class="col-xs-5">
+                            <div class="form-group">
+                                {{ form_label(formUser.birthday) }}
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
+                                    {{ form_widget(formUser.birthday, { 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
                                 </div>
                             </div>
-                  </div>  
-                  <div class="col-xs-8 margin-top-20">
-                      <div class="row">
-                            <div class="col-xs-7">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 col-xs-offset-2">
+                            <button class="btn btn-success btn-block" type="submit">
+                                <i class="fa fa-check fa-fw"></i>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="userLocation">
+                <div class="row">
+                    <div class="col-xs-5">
+                        <div class="row">
+                            <div class="well">
+                                <div id="map_canvas"></div>
+                            </div>
+                        </div>
+                    </div>  
+                    <div class="col-xs-7 margin-top-20">
+                        <div class="row">
+                            <div class="col-xs-12">
                                 <div class="form-group">
                                         {{ form_label(formAddress.address) }}
                                         {{ form_widget(formAddress.address,{ 'attr': {'class': 'form-control center-address'} }) }}
@@ -133,7 +135,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-xs-7">
+                            <div class="col-xs-12">
                                 <div class="form-group">
                                         {{ form_label(formAddress.city) }}
                                         {{ form_widget(formAddress.city,{ 'attr': {'class': 'form-control center-city'} }) }}
@@ -141,60 +143,61 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="row margin-bottom-20">
+                    <div class="col-xs-5">
+                        <button class="btn btn-block btn-primary" onclick="findMe()">Localízame</button>
+                    </div>
+                    <div class="col-xs-5 col-xs-offset-1">
+                        <button class="btn btn-block btn-primary" onclick="findPosition()">Comprobar Dirección</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4 col-xs-offset-4">
+                        <button class="btn btn-success btn-block" type="submit">
+                            <i class="fa fa-check fa-fw"></i>
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane" id="userPassword">
+                <div class="col-xs-4 col-xs-offset-4 margin-top-20">
                     <div class="row">
-                        <div class="col-xs-4">
-                            <button class="btn btn-block btn-primary" onclick="findMe()">Localízame</button>
-                        </div>
-                        <div class="col-xs-4">
-                            <button class="btn btn-block btn-primary" onclick="findPosition()">Comprobar Dirección</button>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                    {{ form_label(formPassword.passwordOld) }}
+                                    {{ form_widget(formPassword.passwordOld, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
                         </div>
                     </div>
                     <div class="row">
-                            <div class="col-xs-5">
-                                <button class="btn btn-success btn-block" type="submit">
-                                    <i class="fa fa-check fa-fw"></i>
-                                    Guardar Cambios
-                                </button>
-                            </div>
-                   </div>
-              </div>
-         
-              <div class="tab-pane" id="userPassword">
-                  <div class="col-xs-7 margin-top-20">
-                       <div class="row">
-                           <div class="col-xs-7">
-                               <div class="form-group">
-                                    {{ form_label(formPassword.passwordOld) }}
-                                    {{ form_widget(formPassword.passwordOld, { 'attr': {'class': 'form-control'} }) }}
-                               </div>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-7">
-                               <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="form-group">
                                     {{ form_label(formPassword.passwordNew) }}
                                     {{ form_widget(formPassword.passwordNew, { 'attr': {'class': 'form-control'} }) }}
-                               </div>
-                           </div>
-                       </div>
-                       <div class="row">
-                           <div class="col-xs-7">
-                               <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="form-group">
                                     {{ form_label(formPassword.passwordConfirmNew) }}
                                     {{ form_widget(formPassword.passwordConfirmNew, { 'attr': {'class': 'form-control'} }) }}
-                               </div>
-                           </div>
-                       </div>
-                      <div class="row">
-                            <div class="col-xs-6">
-                                <button class="btn btn-success btn-block" type="submit">
-                                    <i class="fa fa-check fa-fw"></i>
-                                    Guardar Cambios
-                                </button>
                             </div>
-                       </div>
-                   </div>
-              </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <button class="btn btn-success btn-block" type="submit">
+                                <i class="fa fa-check fa-fw"></i>
+                                Guardar Cambios
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -202,28 +205,27 @@
 {% endblock %}
 
 {% block commondown%}
-        
+
 {% endblock %}
 
 {% block javascripts%}
 
+<script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
 <script type="text/javascript">
-    
-    $('#myInfoTab a').click(function (e) {
+
+    $('#myInfoTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
-    
+
     $('.datepicker').datepicker({
         changeMonth: true,
         changeYear: true,
         dateFormat: 'd/m/y',
         yearRange: "-0:+1"
     });
-        
-</script>
 
-<script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
+</script>
 
 {% endblock%}
 
