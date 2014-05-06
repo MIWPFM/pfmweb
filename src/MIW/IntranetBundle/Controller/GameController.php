@@ -38,6 +38,8 @@ class GameController extends Controller
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         
+        $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
+        
         $today = new DateTime('now');
 
         $tomorrow = clone $today;
@@ -55,10 +57,9 @@ class GameController extends Controller
         $week->setTime(0, 0, 0);
         $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($twodays, $week, $idUser);
         
-        $gamesCount = count($gamesToday) + count($gamesTomorrow) + count($gamesThisWeek);
 
         return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow, 
-                        'gamesThisWeek' => $gamesThisWeek, 'gamesCount' => $gamesCount);
+                        'gamesThisWeek' => $gamesThisWeek, 'playingGames' => $playingGames);
     }
     
     /**
@@ -174,9 +175,9 @@ class GameController extends Controller
     }
     
     /**
-        * @Route("/ajax/suscribe/game/",name="intranet_ajax_suscribe_game")
+        * @Route("/ajax/subscribe/game/",name="intranet_ajax_subscribe_game")
      */
-    public function ajaxSuscribeGameAction(Request $request)
+    public function ajaxSubscribeGameAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $idGame = $request->get('game');
@@ -185,18 +186,46 @@ class GameController extends Controller
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
         
         // Check if the user suscribed to the game
-        if(!in_array($user, $game->getPlayers())) {
+         $code = 0;
+        if(!$game->getPlayers()->contains($user)) {
             $game->addPlayer($user);
             $code = 1;
-        } else {
-            $game->removePlayer($user);
-            $code = 0;
         }
         $dm->persist($game);
         $dm->flush();
         
-        $available = $game->getNumPlayers() - \count($game->getPlayers());
-        $json = array('code' => $code, 'available' => $available);
+        $gamePlaces =$game->getNumPlayers();
+        $places=count($game->getPlayers())+1;
+        $json = array('code' => $code, 'places' => "$places/$gamePlaces");
+        
+        $response = new Response();
+        $response->setContent(json_encode($json));
+        return $response;
+    }
+    
+    /**
+        * @Route("/ajax/unsubscribe/game/",name="intranet_ajax_unsubscribe_game")
+     */
+    public function ajaxUnsubscribeGameAction(Request $request)
+    {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $idGame = $request->get('game');
+        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
+        
+         $code = 0;
+        // Check if the user suscribed to the game
+        if($game->getPlayers()->contains($user)) {
+             $game->removePlayer($user);
+              $code = 1;
+        } 
+        $dm->persist($game);
+        $dm->flush();
+        
+        $gamePlaces =$game->getNumPlayers();
+        $places=count($game->getPlayers())+1;
+        $json = array('code' => $code, 'places' => "$places/$gamePlaces");
         
         $response = new Response();
         $response->setContent(json_encode($json));

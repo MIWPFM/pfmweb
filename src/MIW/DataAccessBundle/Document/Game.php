@@ -275,5 +275,9 @@ class Game {
     public function getPlayers() {
         return $this->players;
     }
+    
+    public function isFull(){
+        return (count($this->players)+1 == $this->numPlayers);
+    }
 
 }

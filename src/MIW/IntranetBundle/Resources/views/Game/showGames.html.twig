@@ -2,134 +2,224 @@
 
 {% block commonup%}
 
-    <ul class="breadcrumb" style="margin-bottom: 5px;">
-        <li><a href="{{path('intranet_home')}}">WePlay</a></li>
-        <li><a href="{{path('intranet_games')}}">Partidos</a></li>
-        <li class="active">Mostrar Partidos</li>
-    </ul>
+<ul class="breadcrumb" style="margin-bottom: 5px;">
+    <li><a href="{{path('intranet_home')}}">WePlay</a></li>
+    <li><a href="{{path('intranet_games')}}">Partidos</a></li>
+    <li class="active">Mostrar Partidos</li>
+</ul>
+
+<div class="alert alert-success fade in"style="display:none">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
+    </div>
 
 {% endblock%}
 
 {% block sidecontent %}
-    
-    <div class="row margin-top-20">
-        <div class="col-xs-12">
-            <div class="well bs-component">
-                <legend>Filtrar</legend>
-                
-             </div>
+
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+        <div class="well bs-component">
+            <legend>Filtrar</legend>
+
         </div>
-    </div>  
-        
+    </div>
+</div>  
+
 {% endblock%}
-    
+
 {% block maincontent %}
-      
-    {% if gamesCount > 0 %}
-        <blockquote class="margin-top-20">
-            <p>Actualmente participas en {{ gamesCount }} partidos.</p>
-        </blockquote>
-        
-            <div class="bs-component">
-                <h3>Hoy</h3>
-            
-                {% for game in gamesToday %}
-            
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group" data-game="{{ game.id }}">                        
-                                <h4 class="list-group-item-heading">
-                                    {{ game.gameDate | date("d/m/Y h:m") }}
-                                    {{ game.sport.name }}
-                                    {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>                                
-                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
-                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
-                            </div>
-                        </div>
-                    </div>
-            
-                {% endfor %}
-                       
-            <h3>Mañana</h3>
-            
-                {% for game in gamesTomorrow %}
 
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group" data-game="{{ game.id }}">                        
-                                <h4 class="list-group-item-heading">
-                                    {{ game.gameDate | date("d/m/Y h:m") }}
-                                    {{ game.sport.name }}
-                                    {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>                                
-                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
-                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
-                            </div>
-                        </div>
-                    </div>
+<div class="col-xs-12 margin-top-20">
+    <a href=""> Actualmente participas en {{playingGames|length}} partidos </a>
+    <a href="{{path('intranet_create_game')}}" class="btn btn-success pull-right    "><i class="fa fa-plus"></i> Organiza un partido.</a>
+</div>
 
-                {% endfor %} 
-            
-            <h3>Esta Semana</h3>
-            
-                {% for game in gamesThisWeek %}
+<div class="bs-component margin-top-20">
+    <h3>Hoy</h3>
+    {% if gamesToday | length >0 %}
+    <div class="list-group">
 
-                    <div class="row">
-                        <div class="col-xs-12">
-                            <div class="form-group" data-game="{{ game.id }}">                        
-                                <h4 class="list-group-item-heading">
-                                    {{ game.gameDate | date("d/m/Y h:m") }}
-                                    {{ game.sport.name }}
-                                    {{ game.center.name }}, {{ game.center.address.city }}
-                                </h4>                                
-                                <img class="btn-suscribe" src="{{ asset('bundles/framework/images/blue_picto_more.gif') }}" />
-                                <a href="{{path('intranet_games_show', {'id': game.id})}}"><img src="{{ asset('bundles/framework/images/grey_magnifier.png') }}" /></a>
-                                <span class="badge">Plazas Disponibles: {{ game.numPlayers - game.players | length }}</span>                       
-                            </div>
-                        </div>
-                    </div>
+{% for game in gamesToday %}
+        <div class="list-group-item" data-id="{{game.id}}">
 
-                {% endfor %}
-             </div>
-        
-    {% else %}
+            <div class="date">
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('H:i')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.price}} € </h4>
+            </div>
+            <div class="details">
+                {% if ((game.players | length) + 1) == game.numPlayers%}
+                    <span class="label label-warning">Completo</span>
+                {% else %}
+                    <span class="label label-success">Organizandose</span>
+                {% endif%}
+                <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
+                <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
+            </div>
+            <div class="actions pull-right">
+                <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>      
+                {% if game.players.contains(app.user)%}
+                    <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
+                {%elseif not game.isFull%}
+                    <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
+                {% endif%}
 
-        <blockquote class="margin-top-20">
-            <p>No tienes partidos.</p>
-        </blockquote>
-        <div class="col-xs-7 margin-top-20">
-            <a href="{{path('intranet_create_game')}}">Organizate uno.</a>
+                <a href="#" class="btn btn-default counter"> {{game.players | length + 1}}  / {{game.numPlayers}}</a>
+
+            </div>
+            <div class="clearfix"></div>
         </div>
-    
-    {% endif %}
+              {% endfor%}
 
-    <script>
-        $(document).ready(function() {
-            $('.btn-suscribe').on('click', function() {
-                    $.ajax({
-                        method: "GET",
-                        url: "{{path('intranet_ajax_suscribe_game')}}",
-                        dataType: "json",
-                        data: {
-                            game: $(this).parent().getAttribute('data-game')
-                        },
-                        success: function(data) {
-                            // modify image and available
-                            //var plant = document.getElementById('strawberry-plant');
-                            //var fruitCount = plant.getAttribute('data-fruit');
-                            //$(selector).val(value);
-                            //$('.badge').val(data.available);                    
-                            if(data.code)                                
-                                $(this).css({"src":"{{ asset('bundles/framework/images/blue_picto_less.gif') }}"});
-                            else 
-                                $(this).css({"src":"{{ asset('bundles/framework/images/blue_picto_more.gif') }}"});
-                        }
-                    });
-             });
-        });
-    </script>
-    
+    </div>
+    {% else%}
+    <p>No hay partidos previstos para el día de hoy</p>
+    {% endif%}
+</div>
+
+<div class="bs-component">
+    <h3>Mañana</h3>
+            {% if gamesTomorrow | length >0%}
+    <div class="list-group">
+                  {% for game in gamesTomorrow %}
+        <div  class="list-group-item" data-id="{{game.id}}">
+            <div class="date">
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('H:i')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.price}} € </h4>
+            </div>
+            <div class="details">
+                        {% if ((game.players | length) + 1) == game.numPlayers%}
+                <span class="label label-warning">Completo</span>
+                        {% else %}
+                <span class="label label-success">Organizandose</span>
+                        {% endif%}
+                <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
+                <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
+
+            </div>
+            <div class="actions pull-right">
+                <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+      
+             {% if game.players.contains(app.user)%}
+                <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
+            {%elseif not game.isFull%}
+                <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
+            {% endif%}
+
+                <a href="#" class="btn btn-default counter"> {{game.players | length + 1}}  / {{game.numPlayers}}</a>
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+                  {% endfor%}
+
+    </div>
+            {% else%}
+    <p>No hay partidos previstos para mañana</p>
+            {% endif%}
+</div>
+
+<div class="bs-component">
+    <h3>Esta semana</h3>
+                {% if gamesThisWeek | length > 0 %}
+    <div class="list-group" >
+                  {% for game in gamesThisWeek %}
+        <div href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item" data-id="{{game.id}}">
+            <div class="date">
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('d/m')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.gameDate | date('H:i')}} </h4>
+                <h4 class="list-group-item-heading">{{ game.price}} € </h4>
+            </div>
+            <div class="details">
+                        {% if ((game.players | length) + 1) == game.numPlayers%}
+                <span class="label label-warning">Completo</span>
+                        {% else %}
+                <span class="label label-success">Organizandose</span>
+                        {% endif%}
+                <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
+                <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
+
+            </div>
+           <div class="actions pull-right">
+                <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>
+      
+            {% if game.players.contains(app.user)%}
+                <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
+            {%elseif not game.isFull%}
+                <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
+            {% endif%}
+                
+
+                <a href="#" class="btn btn-default counter"> {{game.players | length + 1}}  / {{game.numPlayers}}</a>
+
+
+            </div>
+            <div class="clearfix"></div>
+        </div>
+                  {% endfor%}
+
+    </div>
+            {% else%}
+    <p>No hay partidos previstos para esta semana</p>
+            {% endif%}
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $(document).on("click", '.action-subscribe', function(event) {
+            event.preventDefault();
+            var element=$(this).closest('div.list-group-item');
+            var id=element.data('id');
+            
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_subscribe_game')}}",
+                dataType: "json",
+                data: {
+                    game: id
+                },
+                success: function(data) {
+                   var button=element.find('.action-subscribe');
+                    button.removeClass('action-subscribe');
+                    button.removeClass('btn-succces');
+                    button.addClass('action-unsubscribe');
+                    button.addClass('btn-danger');
+                    button.find('i').addClass('fa-minus');
+                    button.find('i').removeClass('fa-plus')
+                    element.find('.counter').html(data.places);
+                    $('.alert-success').alert();    
+                }
+            });
+        })
+        
+         $(document).on("click", '.action-unsubscribe', function(event) {
+            event.preventDefault();
+            var element=$(this).closest('div.list-group-item');
+            var id=element.data('id');
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_unsubscribe_game')}}",
+                dataType: "json",
+                data: {
+                    game: id
+                },
+                success: function(data) {
+                    var button=element.find('.action-unsubscribe');
+                    button.removeClass('action-unsubscribe');
+                    button.removeClass('btn-danger');
+                    button.addClass('action-subscribe');
+                    button.addClass('btn-success');                
+                    button.find('i').removeClass('fa-minus');
+                    button.find('i').addClass('fa-plus')
+                    element.find('.counter').html(data.places);
+                }
+            });
+        })
+    });
+</script>
+
 {% endblock %}
