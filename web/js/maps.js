@@ -19,10 +19,9 @@ function initialize() {
     });
 
     var inputAddress = document.getElementsByClassName('center-address')[0];
-    console.log(inputAddress);
     var autocomplete = new google.maps.places.Autocomplete(inputAddress, {
         types: ["geocode"]
-    });    
+    });
     /*var inputCity = document.getElementsByClassName('center-city')[0];
     console.log(inputCity);
     var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
