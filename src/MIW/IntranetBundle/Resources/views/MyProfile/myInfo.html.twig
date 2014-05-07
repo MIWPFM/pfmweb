@@ -57,6 +57,7 @@
         <!-- Tab panes -->
         <div class="tab-content margin-top-20"> 
             <div class="tab-pane active" id="userInfo">
+                {{ form_start(formUser, {'method': 'POST'}) }}
                 <div class="col-xs-6 col-xs-offset-3 margin-top-20">
                     <div class="row">
                         <div class="col-xs-12">
@@ -100,9 +101,11 @@
                         </div>
                     </div>
                 </div>
+                {{ form_end(formUser) }}
             </div>
-
+            
             <div class="tab-pane" id="userLocation">
+                {{ form_start(formAddress, {'method': 'POST'}) }}
                 <div class="row">
                     <div class="col-xs-5">
                         <div class="row">
@@ -152,6 +155,12 @@
                         <button class="btn btn-block btn-primary" onclick="findPosition()">Comprobar Dirección</button>
                     </div>
                 </div>
+                <div class="col-xs-6 col-xs-offset-3">
+                        {{ form_widget(formAddress.lat,{ 'attr': {'class': 'center-lat'} }) }}
+                        {{ form_widget(formAddress.long,{ 'attr': {'class': 'center-long'} }) }}
+                        {{ form_widget(formAddress.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
+                        {{ form_widget(formAddress._token) }}
+                </div>
                 <div class="row">
                     <div class="col-xs-4 col-xs-offset-4">
                         <button class="btn btn-success btn-block" type="submit">
@@ -160,9 +169,11 @@
                         </button>
                     </div>
                 </div>
+                {{ form_end(formAddress) }}
             </div>
-
+            
             <div class="tab-pane" id="userPassword">
+                {{ form_start(formPassword, {'method': 'POST'}) }}
                 <div class="col-xs-4 col-xs-offset-4 margin-top-20">
                     <div class="row">
                         <div class="col-xs-12">
@@ -197,7 +208,9 @@
                         </div>
                     </div>
                 </div>
+                {{ form_end(formPassword) }}
             </div>
+            
         </div>
     </div>
 </div>
