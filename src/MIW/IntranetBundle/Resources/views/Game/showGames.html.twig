@@ -185,7 +185,7 @@
                 success: function(data) {
                    var button=element.find('.action-subscribe');
                     button.removeClass('action-subscribe');
-                    button.removeClass('btn-succces');
+                    button.removeClass('btn-success');
                     button.addClass('action-unsubscribe');
                     button.addClass('btn-danger');
                     button.find('i').addClass('fa-minus');
@@ -194,7 +194,7 @@
                     $('.alert-success').alert();    
                 }
             });
-        })
+        });
         
          $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
@@ -218,7 +218,7 @@
                     element.find('.counter').html(data.places);
                 }
             });
-        })
+        });
     });
 </script>
 

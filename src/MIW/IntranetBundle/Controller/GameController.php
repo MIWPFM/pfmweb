@@ -23,213 +23,207 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use DateTime;
 use DateInterval;
 
-class GameController extends Controller
-{
+class GameController extends Controller {
+
     /**
      * @Route("/partidos",name="intranet_games")
      * @Template("MIWIntranetBundle:Game:showGames.html.twig");
      */
-    public function showGamesAction()
-    {
-         // get user
+    public function showGamesAction() {
+        // get user
         $user = $this->get('security.context')->getToken()->getUser();
         $idUser = $user->getId();
-        
+
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        
+
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
-        
+
         $today = new DateTime('now');
 
         $tomorrow = clone $today;
         $tomorrow->add(new DateInterval('P1D'));
         $tomorrow->setTime(0, 0, 0);
         $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $tomorrow, $idUser);
-        
+
         $twodays = clone $today;
         $twodays->add(new DateInterval('P2D'));
         $twodays->setTime(0, 0, 0);
         $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($tomorrow, $twodays, $idUser);
-        
+
         $week = clone $today;
         $week->add(new DateInterval('P7D'));
         $week->setTime(0, 0, 0);
         $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($twodays, $week, $idUser);
-        
 
-        return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow, 
-                        'gamesThisWeek' => $gamesThisWeek, 'playingGames' => $playingGames);
+
+        return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow,
+            'gamesThisWeek' => $gamesThisWeek, 'playingGames' => $playingGames);
     }
-    
+
     /**
      * @Route("/partidos/ver/{id}",name="intranet_games_show")
      * @Template("MIWIntranetBundle:Game:showGame.html.twig");
      */
-    public function showGameAction($id)
-    {
-        
+    public function showGameAction($id) {
+
         // get game
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $game= $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
-        
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+
         if (!$game) {
             throw new NotFoundHttpException("Partido no encontrado");
         }
 
         return array('game' => $game);
     }
-    
+
     /**
      * @Route("/partidos/organizar",name="intranet_create_game")
      * @Template("MIWIntranetBundle:Game:createGame.html.twig");
      */
-    public function createGameAction(Request $request)
-    {        
+    public function createGameAction(Request $request) {
         // get user
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         // create new game
-        $game= new Game();
-        $center= new Center();
-        $address= new Address();
+        $game = new Game();
+        $center = new Center();
+        $address = new Address();
         $game->setAdmin($user);
         $center->setAddress($address);
         $game->setCenter($center);
 
         // get form
         $form = $this->createForm(new GameType(), $game);
-        if($request->getMethod()=="POST"){
+        if ($request->getMethod() == "POST") {
             $form->handleRequest($request);
-            if ($form->isValid()) {  
+            if ($form->isValid()) {
                 $dm = $this->get('doctrine.odm.mongodb.document_manager');
-                
+
                 // Check if is a new center or not
-                $centerName=$game->getCenter()->getName();
-                $center=$dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
+                $centerName = $game->getCenter()->getName();
+                $center = $dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
                 if (!$center) {
                     $dm->persist($game->getCenter());
                 } else
                     $game->setCenter($center);
 
                 // Transform dates, possible move to event
-                $gameDate=Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
-                $gameLimitDate=Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
+                $gameDate = Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
+                $gameLimitDate = Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
                 $game->setGameDate($gameDate);
                 $game->setLimitDate($gameLimitDate);
-                
+
                 $dm->persist($game);
                 $dm->flush();
 
                 return $this->redirect($this->generateUrl('intranet_games'));
             }
         }
-        
-        return array('form'=>$form->createView(),'game'=>$game);
+
+        return array('form' => $form->createView(), 'game' => $game);
     }
-    
+
     /**
      * @Route("/partidos/editar/{id}",name="intranet_edit_game")
      * @Template("MIWIntranetBundle:Game:editGame.html.twig");
      */
-    public function editGameAction(Request $request,$id)
-    {        
+    public function editGameAction(Request $request, $id) {
         // get user
         $user = $this->get('security.context')->getToken()->getUser();
-        
+
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $game= $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
-        
-        if($game->getAdmin() != $user)
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+
+        if ($game->getAdmin() != $user)
             throw new AccessDeniedException();
-        
+
         // get form
         $form = $this->createForm(new GameType(), $game);
-        if($request->getMethod()=="POST"){
+        if ($request->getMethod() == "POST") {
             $form->handleRequest($request);
-            if ($form->isValid()) {  
+            if ($form->isValid()) {
                 $dm = $this->get('doctrine.odm.mongodb.document_manager');
-                
+
                 // Check if is a new center or not
-                $centerName=$game->getCenter()->getName();
-                $center=$dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
+                $centerName = $game->getCenter()->getName();
+                $center = $dm->getRepository('MIWDataAccessBundle:Center')->findOneByName($centerName);
                 if (!$center) {
                     $dm->persist($game->getCenter());
                 } else
                     $game->setCenter($center);
 
                 // Transform dates, possible move to event
-                $gameDate=Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
-                $gameLimitDate=Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
+                $gameDate = Utility::addTimeToDate($game->getGameDate(), $form->get('gameTime')->getData());
+                $gameLimitDate = Utility::addTimeToDate($game->getLimitDate(), $form->get('limitTime')->getData());
                 $game->setGameDate($gameDate);
                 $game->setLimitDate($gameLimitDate);
-                
+
                 $dm->persist($game);
                 $dm->flush();
 
                 return $this->redirect($this->generateUrl('intranet_games'));
             }
         }
-        
-        return array('form'=>$form->createView(),'game'=>$game);
+
+        return array('form' => $form->createView(), 'game' => $game);
     }
-    
+
     /**
-        * @Route("/ajax/subscribe/game/",name="intranet_ajax_subscribe_game")
+     * @Route("/ajax/subscribe/game/",name="intranet_ajax_subscribe_game")
      */
-    public function ajaxSubscribeGameAction(Request $request)
-    {
+    public function ajaxSubscribeGameAction(Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
         $idGame = $request->get('game');
-        
+
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
-        
+
         // Check if the user suscribed to the game
-         $code = 0;
-        if(!$game->getPlayers()->contains($user)) {
+        $code = 0;
+        if (!$game->getPlayers()->contains($user)) {
             $game->addPlayer($user);
             $code = 1;
         }
         $dm->persist($game);
         $dm->flush();
-        
-        $gamePlaces =$game->getNumPlayers();
-        $places=count($game->getPlayers())+1;
+
+        $gamePlaces = $game->getNumPlayers();
+        $places = count($game->getPlayers()) + 1;
         $json = array('code' => $code, 'places' => "$places/$gamePlaces");
-        
+
         $response = new Response();
         $response->setContent(json_encode($json));
         return $response;
     }
-    
+
     /**
-        * @Route("/ajax/unsubscribe/game/",name="intranet_ajax_unsubscribe_game")
+     * @Route("/ajax/unsubscribe/game/",name="intranet_ajax_unsubscribe_game")
      */
-    public function ajaxUnsubscribeGameAction(Request $request)
-    {
+    public function ajaxUnsubscribeGameAction(Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
         $idGame = $request->get('game');
-        
+
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
-        
-         $code = 0;
+
+        $code = 0;
         // Check if the user suscribed to the game
-        if($game->getPlayers()->contains($user)) {
-             $game->removePlayer($user);
-              $code = 1;
-        } 
+        if ($game->getPlayers()->contains($user)) {
+            $game->removePlayer($user);
+            $code = 1;
+        }
         $dm->persist($game);
         $dm->flush();
-        
-        $gamePlaces =$game->getNumPlayers();
-        $places=count($game->getPlayers())+1;
+
+        $gamePlaces = $game->getNumPlayers();
+        $places = count($game->getPlayers()) + 1;
         $json = array('code' => $code, 'places' => "$places/$gamePlaces");
-        
+
         $response = new Response();
         $response->setContent(json_encode($json));
         return $response;
     }
-    
+
 }

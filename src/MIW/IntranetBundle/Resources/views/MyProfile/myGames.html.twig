@@ -40,7 +40,7 @@
         {% if ownerGames | length > 0 or playingGames | length > 0 or playedGames | length > 0 %}
         <div class="bs-component">
             {% if ownerGames | length > 0%}
-            <h3>partidos organizados</h3>
+            <h3>Partidos Organizados</h3>
             <div class="list-group" >
                   {% for game in ownerGames |slice(0,3) %}
                 <div href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item" data-id="{{game.id}}">
@@ -76,7 +76,7 @@
             {% endif%}
 
             {% if playingGames | length > 0%}
-            <h3>partidos por jugar</h3>
+            <h3>Partidos por Jugar</h3>
             <div class="list-group" >
                   {% for game in playingGames |slice(0,3) %}
                 <div href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item" data-id="{{game.id}}">
@@ -119,8 +119,8 @@
             {% endif%}
 
             {% if playedGames | length >0 %}
-            <h3>partidos jugados</h3>
-           <div class="list-group" >
+            <h3>Partidos Jugados</h3>
+            <div class="list-group" >
                   {% for game in playedGames |slice(0,3) %}
                 <div href="{{path('intranet_games_show',{'id':game.id})}}" class="list-group-item" data-id="{{game.id}}">
                     <div class="date">
@@ -152,19 +152,19 @@
         </div>
         {% else%}
         <h2>Todavía no te has inscrito ni creado ningún partido</h2>
-        <p>Comienza a disfrutar de las ventajas de WePlay organizando un partido o buscando partidos que se adecúen a tus preferencias</p>
+        <p>Busca tu partido o, sino, organízalo con WePlay</p>
         {% endif%}
     </div>
-
-    <script>
+</div>
+<script>
 
     $(document).ready(function() {
-        
-        
-         $(document).on("click", '.action-unsubscribe', function(event) {
+        $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
-            var element=$(this).closest('div.list-group-item');
-            var id=element.data('id');
+            var element = $(this).closest('div.list-group-item');
+            console.log(element);
+            console.log(element.parent());
+            var id = element.data('id');
             $.ajax({
                 method: "GET",
                 url: "{{path('intranet_ajax_unsubscribe_game')}}",
@@ -173,10 +173,16 @@
                     game: id
                 },
                 success: function(data) {
-                    element.hide(500);
+                    var parentElement = element.parent();
+                    var title = parentElement.prev('h3');
+                    element.remove();
+                    if (parentElement.find('.list-group-item').length == 0) {
+                        parentElement.remove();
+                        title.remove();
+                    }
                 }
             });
-        })
+        });
     });
 </script>
 
