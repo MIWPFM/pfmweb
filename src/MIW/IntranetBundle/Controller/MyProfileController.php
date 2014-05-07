@@ -4,7 +4,11 @@ namespace MIW\IntranetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MIW\DataAccessBundle\Document\User;
@@ -19,14 +23,53 @@ class MyProfileController extends Controller
      * @Route("/mis-datos",name="intranet_myprofile_info")
      * @Template("MIWIntranetBundle:MyProfile:myInfo.html.twig")
      */
-    public function viewMyInfoAction()
+    public function viewMyInfoAction(Request $request)
     {
         $user = $this->get('security.context')->getToken()->getUser();
+        $address = $user->getAddress();
         
         // create forms
         $formUser = $this->createForm(new UserType(), $user);
-        $formAddress = $this->createForm(new AddressType(), new Address());
+        $formAddress = $this->createForm(new AddressType(), $address);
         $formPassword = $this->createForm(new PasswordType());
+        
+        if($request->getMethod() == "POST"){
+            $dm = $this->get('doctrine.odm.mongodb.document_manager'); 
+            $formUser->handleRequest($request);
+            $formAddress->handleRequest($request);
+            $formPassword->handleRequest($request);
+            
+            if ($formUser->isValid()) {  
+                $user->setName($formUser->get('name')->getData());
+                $user->setBirthday($formUser->get('birthday')->getData());
+                //falta email                
+                $dm->persist($user);
+                $dm->flush();                
+                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+           }   
+           
+           if ($formAddress->isValid()) {  
+                $address->setAddress($formAddress->get('address')->getData());
+                $address->setCommunity($formAddress->get('community')->getData());
+                $address->setProvince($formAddress->get('province')->getData());
+                $address->setCity($formAddress->get('city')->getData());
+                $address->setZipcode($formAddress->get('zipcode')->getData());
+                $address->setLat($formAddress->get('lat')->getData());
+                $address->setLong($formAddress->get('long')->getData());
+                $user->setAddress($address);                
+                $dm->persist($user);
+                $dm->flush();                
+                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+           }
+           
+           if ($formPassword->isValid()) {  
+                $user->setHash($formPassword->get('passwordNew')->getData());
+                //verificar password
+                $dm->persist($user);
+                $dm->flush();                
+                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+           }
+        }
         
         return array('formUser'=>$formUser->createView(), 
                     'formAddress'=>$formAddress->createView(),
