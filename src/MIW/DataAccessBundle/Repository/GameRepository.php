@@ -53,10 +53,10 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('gameDate')->range($initDate, $endDate)
-            ->field('admin.id')->notEqual($idUser)
+            ->field('admin.id')->equals($idUser)
+            ->sort('created', 'asc')
             ->getQuery()
             ->execute();
-        //->field('admin.id')->notEqual($user->getId())
     }  
     
 }
