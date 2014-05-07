@@ -103,7 +103,7 @@
                 </div>
                 {{ form_end(formUser) }}
             </div>
-            
+
             <div class="tab-pane" id="userLocation">
                 {{ form_start(formAddress, {'method': 'POST'}) }}
                 <div class="row">
@@ -171,7 +171,7 @@
                 </div>
                 {{ form_end(formAddress) }}
             </div>
-            
+
             <div class="tab-pane" id="userPassword">
                 {{ form_start(formPassword, {'method': 'POST'}) }}
                 <div class="col-xs-4 col-xs-offset-4 margin-top-20">
@@ -210,7 +210,7 @@
                 </div>
                 {{ form_end(formPassword) }}
             </div>
-            
+
         </div>
     </div>
 </div>
@@ -229,6 +229,10 @@
     $('#myInfoTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
+    });
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+        initialize();
     });
 
     $('.datepicker').datepicker({

@@ -5,7 +5,14 @@ var marker;
 function initialize() {
     geocoder = new google.maps.Geocoder();
     infowindow = new google.maps.InfoWindow();
-    var position = new google.maps.LatLng(40.416761, -3.703489);
+    var lat = 40.416761;
+    var lng = -3.703489;
+    if($("form").find(".center-lat").val().length>0 && $("form").find(".center-long").val().length>0) {
+        lat = $("form").find(".center-lat").val();
+        lng = $("form").find(".center-long").val();
+    }
+    var position = new google.maps.LatLng(lat, lng);
+    
     var mapOptions = {
         zoom: 16,
         center: position,
@@ -23,20 +30,20 @@ function initialize() {
         types: ["geocode"]
     });
     /*var inputCity = document.getElementsByClassName('center-city')[0];
-    console.log(inputCity);
-    var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
-        types: ['(cities)']
-    });
-    var inputCommunity = document.getElementsByClassName('center-community')[0];
-    console.log(inputCommunity);
-    var autocomplete3 = new google.maps.places.Autocomplete(inputCommunity, {
-        types: ['(regions)']
-    });
-    var inputProvince = document.getElementsByClassName('center-province')[0];
-    console.log(inputProvince);
-    var autocomplete4 = new google.maps.places.Autocomplete(inputProvince, {
-        types: ['(regions)']
-    });*/
+     console.log(inputCity);
+     var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
+     types: ['(cities)']
+     });
+     var inputCommunity = document.getElementsByClassName('center-community')[0];
+     console.log(inputCommunity);
+     var autocomplete3 = new google.maps.places.Autocomplete(inputCommunity, {
+     types: ['(regions)']
+     });
+     var inputProvince = document.getElementsByClassName('center-province')[0];
+     console.log(inputProvince);
+     var autocomplete4 = new google.maps.places.Autocomplete(inputProvince, {
+     types: ['(regions)']
+     });*/
 
 
     autocomplete.bindTo('bounds', map);
