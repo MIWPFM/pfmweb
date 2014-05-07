@@ -12,6 +12,8 @@
 
 {% block sidecontent %}
 
+<input id="game-id" type="hidden" value="{{game.id}}">
+
 <div class="row margin-top-20">
     <div class="col-xs-12">
         <div class="well bs-component">
@@ -77,14 +79,14 @@
 <div class="row margin-top-20">
     <div class="col-xs-12">
         <div class="well">
-            <h4>Jugadores Inscritos ({{game.players | length + 1 }} /{{game.numPlayers }})</h4>
-            <div class="row">
-                <div class="col-xs-4">
+            <h4>Jugadores Inscritos <span class="counter">({{game.players | length + 1 }} /{{game.numPlayers }})</span></h4>
+            <div class="row players">
+                <div class="col-xs-4 user">
                     <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">
                     {{game.admin.name}} (Admin)
                 </div>
                 {% for player in game.players %}
-                <div class="col-xs-4">
+                <div class="col-xs-4 user" data-id="{{player.id}}" id="{{player.id}}">
                     <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">
                     {{player.name}}
                 </div>
@@ -95,6 +97,13 @@
                 </div>
                 {% endif %}
             </div>
+        </div>
+        <div class="actions">
+        {% if game.players.contains(app.user)%}
+                <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> Desinscribirse </a>
+            {%elseif not game.isFull%}
+                <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> Inscribirse </a>
+            {% endif%}
         </div>
     </div>
 
@@ -166,6 +175,61 @@
     }
 
     window.onload = loadScript;
+    
+     $(document).ready(function() {
+        $(document).on("click", '.action-subscribe', function(event) {
+            event.preventDefault();
+            var id=$('#game-id').val();
+            
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_subscribe_game')}}",
+                dataType: "json",
+                data: {
+                    game: id
+                },
+                success: function(data) {
+                   var button=$('.action-subscribe');
+                    button.removeClass('action-subscribe');
+                    button.removeClass('btn-success');
+                    button.addClass('action-unsubscribe');
+                    button.addClass('btn-danger');
+                    button.html('<i class="fa fa-minus"></i> Desinscribirse')
+                     $('.counter').html(data.places);
+                     var obj = JSON.parse(data.user);
+                     $('.players').append('<div class="col-xs-4 user" data-id="'+obj.id+'" id="'+obj.id+'"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">'+obj.username+'</div>')
+     
+                }
+            });
+        });
+        
+         $(document).on("click", '.action-unsubscribe', function(event) {
+            event.preventDefault();
+             var id=$('#game-id').val();
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_unsubscribe_game')}}",
+                dataType: "json",
+                data: {
+                    game: id
+                },
+                success: function(data) {
+                    var button=$('.action-unsubscribe');
+                    button.removeClass('action-unsubscribe');
+                    button.removeClass('btn-danger');
+                    button.addClass('action-subscribe');
+                    button.addClass('btn-success');                
+                    button.html('<i class="fa fa-plus"></i> Inscribirse')
+                    $('.counter').html(data.places);
+                    var obj = JSON.parse(data.user);
+                    var userContent=$('.user[data-id='+obj.id+']');
+                    userContent.hide(500);
+                    userContent.remove();
+                }
+            });
+        });
+    });
+</script>
 </script>
 
 {% endblock %}

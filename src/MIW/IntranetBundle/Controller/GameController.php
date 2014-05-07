@@ -191,7 +191,9 @@ class GameController extends Controller {
 
         $gamePlaces = $game->getNumPlayers();
         $places = count($game->getPlayers()) + 1;
-        $json = array('code' => $code, 'places' => "$places/$gamePlaces");
+        $serializer = $this->get('jms_serializer');
+        $data=$serializer->serialize($user, 'json');
+        $json = array('code' => $code, 'places' => "$places/$gamePlaces",'user'=>$data);
 
         $response = new Response();
         $response->setContent(json_encode($json));
@@ -219,7 +221,9 @@ class GameController extends Controller {
 
         $gamePlaces = $game->getNumPlayers();
         $places = count($game->getPlayers()) + 1;
-        $json = array('code' => $code, 'places' => "$places/$gamePlaces");
+        $serializer = $this->get('jms_serializer');
+        $data=$serializer->serialize($user, 'json');
+        $json = array('code' => $code, 'places' => "$places/$gamePlaces",'user'=>$data);
 
         $response = new Response();
         $response->setContent(json_encode($json));
