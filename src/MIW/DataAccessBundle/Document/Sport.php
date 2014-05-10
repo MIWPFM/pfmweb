@@ -29,6 +29,11 @@ class Sport
      */
     protected $minPlayers;
     
+    /**
+     * @MongoDB\String
+     */
+    private $level;
+    
     /** @MongoDB\Hash  */
     private $attributes;
     
@@ -103,7 +108,29 @@ class Sport
     {
         return $this->minPlayers;
     }
+    
+    /**
+     * Set level
+     *
+     * @param string $level
+     * @return self
+     */
+    public function setLevel($level)
+    {
+        $this->level = $level;
+        return $this;
+    }
 
+    /**
+     * Get level
+     *
+     * @return string $level
+     */
+    public function getLevel()
+    {
+        return $this->level;
+    }
+    
     /**
      * Set attributes
      *
