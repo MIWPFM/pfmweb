@@ -27,6 +27,9 @@ class MyProfileController extends Controller
     {
         $user = $this->get('security.context')->getToken()->getUser();
         $address = $user->getAddress();
+        if($address == null) {
+            $address = new Address();
+        }
         
         // create forms
         $formUser = $this->createForm(new UserType(), $user);
@@ -42,7 +45,7 @@ class MyProfileController extends Controller
             if ($formUser->isValid()) {  
                 $user->setName($formUser->get('name')->getData());
                 $user->setBirthday($formUser->get('birthday')->getData());
-                //falta email                
+                $user->setEmail($formUser->get('email')->getData());                
                 $dm->persist($user);
                 $dm->flush();                
                 return $this->redirect($this->generateUrl('intranet_myprofile_info'));
@@ -63,8 +66,10 @@ class MyProfileController extends Controller
            }
            
            if ($formPassword->isValid()) {  
-                $user->setHash($formPassword->get('passwordNew')->getData());
-                //verificar password
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($user);
+                $password = $encoder->encodePassword($formPassword->get('passwordNew')->getData(), $user->getSalt());
+                $user->setPassword($password);
                 $dm->persist($user);
                 $dm->flush();                
                 return $this->redirect($this->generateUrl('intranet_myprofile_info'));

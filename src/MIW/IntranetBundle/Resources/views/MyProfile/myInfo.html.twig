@@ -199,6 +199,7 @@
                             </div>
                         </div>
                     </div>
+                    {{ form_widget(formPassword._token) }}
                     <div class="row">
                         <div class="col-xs-12">
                             <button class="btn btn-success btn-block" type="submit">
@@ -238,8 +239,7 @@
     $('.datepicker').datepicker({
         changeMonth: true,
         changeYear: true,
-        dateFormat: 'd/m/y',
-        yearRange: "-0:+1"
+        dateFormat: 'd/m/y'
     });
 
 </script>

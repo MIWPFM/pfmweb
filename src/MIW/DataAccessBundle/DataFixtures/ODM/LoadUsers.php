@@ -31,6 +31,7 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         
         $football= $this->getReference('football');
         $paddel= $this->getReference('paddel');
+        $beisbol= $this->getReference('beisbol');
         
         $user = new User();
         $user->setUsername('alonsus91');
@@ -59,8 +60,9 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user2->setEmail('lienMIW@gmail.com');
         $user2->setRoles(array('ROLE_USER'));
         $user2->setName('Lien');
-        $user2->setSports(array($football->getId()=>array('position'=>"Delantero",'level'=>"Profesional"),
-                                $paddel->getId() => array('level'=>"Aficionado")));
+        $user2->setSports(array($football->getId()=>array('position'=>"Delantero",'level'=>5),
+                                $paddel->getId() => array('level'=>1),
+                                $beisbol->getId() => array('level'=>3)));
         
         $cryptedPassword2 = $encoder->encodePassword($password, $user2->getSalt());
         $user2->setPassword($cryptedPassword2);
