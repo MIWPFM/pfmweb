@@ -11,7 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -20,6 +21,8 @@ use Symfony\Component\Security\Core\Exception\AccountStatusException;
 class UserController extends BaseController {
 
     public function registerAction() {
+        $request = $this->getRequest();
+
         $form = $this->container->get('fos_user.registration.form');
         $formHandler = $this->container->get('fos_user.registration.form.handler');
         $confirmationEnabled = $this->container->getParameter('fos_user.registration.confirmation.enabled');
@@ -39,18 +42,29 @@ class UserController extends BaseController {
 
             $this->setFlash('fos_user_success', 'registration.flash.user_created');
             $url = $this->container->get('router')->generate($route);
-            $response = new RedirectResponse($url);
+            $response = new JsonResponse(array('url'=>$url));
 
             if ($authUser) {
                 $this->authenticateUser($user, $response);
             }
-           
+
             return $response;
         }
+        var_dump($form->getErrors());
 
-        return $this->container->get('templating')->renderResponse('MIWPublicBundle:Registration:register.html.' . $this->getEngine(), array(
-                    'form' => $form->createView(),
-        ));
+        if($request->attributes->get('embedded') || $request->getMethod()=="POST"){
+            return $this->container->get('templating')->renderResponse('MIWPublicBundle:Registration:register.html.' . $this->getEngine(), array(
+                        'form' => $form->createView(),
+            ));
+        }else{
+           return new RedirectResponse($this->container->get('router')->generate('fos_user_security_login'));
+        }
+        
+    }
+
+    public function getRequest() {
+
+        return $this->container->get('request');
     }
 
 }

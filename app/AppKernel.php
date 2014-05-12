@@ -24,8 +24,15 @@ class AppKernel extends Kernel
             new MIW\PublicBundle\MIWPublicBundle(),
             new MIW\IntranetBundle\MIWIntranetBundle(),
             new MIW\RestBundle\MIWRestBundle(),
-            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle()
-        
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+
+            new Sonata\CoreBundle\SonataCoreBundle(),
+            new Sonata\BlockBundle\SonataBlockBundle(),
+            new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+
+            new Sonata\AdminBundle\SonataAdminBundle(),
+            new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
+            new MIW\BackendBundle\MIWBackendBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

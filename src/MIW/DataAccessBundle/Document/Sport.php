@@ -125,4 +125,11 @@ class Sport
     {
         return $this->attributes;
     }
+    
+    public function __toString() {
+        if($this->name)
+            return $this->name;
+        else
+            return "Sin nombre";
+    }
 }

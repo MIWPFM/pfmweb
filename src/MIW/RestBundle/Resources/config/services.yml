@@ -1,7 +1,17 @@
 parameters:
 #    miw_rest.example.class: MIW\RestBundle\Example
 
-services:
-#    miw_rest.example:
-#        class: %miw_rest.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+services:   
+    wsse.security.authentication.provider:
+        class:  MIW\RestBundle\Security\Authentication\Provider\WSSEProvider
+        arguments: ["", "%kernel.cache_dir%/security/nonces"]
+
+    wsse.security.authentication.listener:
+        class:  MIW\RestBundle\Security\Firewall\WSSEListener
+        arguments: ["@security.context", "@security.authentication.manager"]
+        
+    miwpfm.rest_registration.form.type:
+        class:  MIW\RestBundle\Form\RestRegistrationFormType
+        arguments: ["@service_container", MIW\DataAccessBundle\Document\User]
+        tags:
+            - { name: form.type, alias: fos_user_rest_registration }

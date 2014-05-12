@@ -1,0 +1,30 @@
+parameters:
+#    miw_backend.example.class: MIW\BackendBundle\Example
+
+services:
+#    miw_backend.example:
+#        class: %miw_backend.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
+    miw_backend.admin.game:
+        class: MIW\BackendBundle\Admin\GameAdmin
+        arguments: [~, MIW\DataAccessBundle\Document\Game, MIWBackendBundle:GameAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Game}
+
+    miw_backend.admin.user:
+        class: MIW\BackendBundle\Admin\UserAdmin
+        arguments: [~, MIW\DataAccessBundle\Document\User, MIWBackendBundle:UserAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: User}
+
+    miw_backend.admin.sport:
+        class: MIW\BackendBundle\Admin\SportAdmin
+        arguments: [~, MIW\DataAccessBundle\Document\Sport, MIWBackendBundle:SportAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Sport}
+
+    miw_backend.admin.center:
+        class: MIW\BackendBundle\Admin\CenterAdmin
+        arguments: [~, MIW\DataAccessBundle\Document\Center, MIWBackendBundle:CenterAdmin]
+        tags:
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Center}

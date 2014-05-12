@@ -28,10 +28,10 @@ framework:
 sensio_framework_extra:
     router:   { annotations: true }
     request:  { converters: true }
-    view:     { annotations: true }
+    view:     { annotations: false }
     cache:    { annotations: true }
     security: { annotations: true }
-    
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -74,3 +74,32 @@ fos_user:
     db_driver: mongodb 
     firewall_name: main
     user_class: MIW\DataAccessBundle\Document\User
+    registration:
+        form:
+            type:  fos_user_rest_registration
+fos_rest:
+    routing_loader:
+        default_format: json
+    view:
+        view_response_listener: true
+        
+sonata_block:
+    default_contexts: [cms]
+    blocks:
+        # Enable the SonataAdminBundle block
+        sonata.admin.block.admin_list:
+            contexts:   [admin]
+        # Your other blocks
+        
+sonata_admin:
+    title:      WePlay Backend
+    
+jms_serializer:
+    metadata:
+        file_cache:
+            dir: "%kernel.cache_dir%/serializer"
+        auto_detection: true
+        directories:
+            FOSUserBundle:
+                namespace_prefix: "FOS\\UserBundle"
+                path: "%kernel.root_dir%/config/serializer/fosuser"

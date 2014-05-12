@@ -16,6 +16,11 @@ security:
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
     firewalls:
+        wsse_secured:
+            pattern:   /api/.*
+            stateless: false
+            wsse:      true
+            anonymous:    true
         main:
             pattern: ^/
             form_login:
@@ -32,4 +37,4 @@ security:
         - { path: ^/registrarse, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/intranet/, role: ROLE_USER }
-        - { path: ^/admin, role: ROLE_ADMIN }
+        - { path: ^/admin, role: ROLE_USER }

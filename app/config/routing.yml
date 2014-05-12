@@ -1,6 +1,6 @@
-miw_rest:
-    resource: "@MIWRestBundle/Resources/config/routing.yml"
-    prefix:   /api
+miw_backend:
+    resource: "@MIWBackendBundle/Resources/config/routing.yml"
+    prefix:   /admin
 
 miw_intranet:
     resource: "@MIWIntranetBundle/Resources/config/routing.yml"
@@ -36,11 +36,23 @@ fos_user_change_password:
 fos_user_security_login:
     pattern:  /
     defaults: { _controller: FOSUserBundle:Security:login }
-    
-fos_user_security_login:
-    pattern:  /
-    defaults: { _controller: FOSUserBundle:Security:login }
-    
+        
 fos_user_registration_register:
     pattern:  /registrarse
     defaults: { _controller: MIWPublicBundle:User:register }
+    
+cloud_rest:
+    resource: "@MIWRestBundle/Controller/"
+    prefix:   /api
+    defaults: {_format: json}
+    options:
+        expose: true
+        
+admin:
+    resource: '@SonataAdminBundle/Resources/config/routing/sonata_admin.xml'
+    prefix: /admin
+
+_sonata_admin:
+    resource: .
+    type: sonata_admin
+    prefix: /admin

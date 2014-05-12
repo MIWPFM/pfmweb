@@ -33,7 +33,7 @@
 {% endblock %}
 
 {% block maincontent %}
-    {% if error %}
+    {% if error is defined and error %}
     <div class="alert alert-dismissable alert-danger">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                  <strong>¡Atención!</strong> {{ error|trans({}, 'FOSUserBundle') }}
@@ -70,14 +70,44 @@
             <input type="submit" class="btn btn-primary btn-large" value="¡A Jugar!"/>
         </div>
         <div class="row">
-            <button class="btn btn-link" data-toggle="modal" data-target="#registerModal">Regístrate</button>
+            <a class="btn btn-link" data-toggle="modal" data-target="#registerModal">Regístrate</a>
         </div>
     </form>
     <div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        {{ render(controller("MIWPublicBundle:User:register")) }}
+        {{ render(controller("MIWPublicBundle:User:register",{'embedded':true})) }}
     </div> <!-- /modal -->
             {% endif %}
     
+    <script>
+            $(document).on("click", '#registerSubmit', function(event) {
+                event.preventDefault();
+                var button=$(this);
+                console.log("register");
+                var data = 'fos_user_registration_form[username]='+$('#fos_user_registration_form_username').val();
+                data += '&fos_user_registration_form[email]='+$('#fos_user_registration_form_email').val();
+                data += '&fos_user_registration_form[plainPassword][first]='+$('#fos_user_registration_form_plainPassword_first').val();
+                data += '&fos_user_registration_form[plainPassword][second]='+$('#fos_user_registration_form_plainPassword_second').val();
+                data += '&fos_user_registration_form[_token]='+$('#fos_user_registration_form__token').val();
+                $.ajax({
+                    url:"{{ path('fos_user_registration_register') }}",
+                    type:"POST",
+                    data:data,
+                    beforeSend: function(){
+                        button.html('<i class="fa fa-spinner fa-spin"></i>');
+                    },
+                    success:function(response){
+                        if(response.url)
+                        {
+                            window.location.href=response.url;
+                        }
+                        else{
+                              $('#registerModal').html(response);
+                        }   
+                    },
+                            
+                })
+            });
+        </script>
      
 
 </div> <!-- /content -->

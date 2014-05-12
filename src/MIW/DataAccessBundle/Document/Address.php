@@ -163,5 +163,9 @@ class Address
         $this->community = $community;
     }
 
+    public function __toString() {
+        return $this->address;
+    }
+
 
 }

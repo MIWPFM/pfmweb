@@ -6,9 +6,19 @@
             </button>
             <h3>Regístrate</h3>
         </div> <!-- /modal-header -->
-        <div class="modal-body">	
+        <div class="modal-body">
+            {% if form.email.vars.errors | length >0 or form.username.vars.errors|length>0 or form.plainPassword.vars.errors|length>0 %}
+             <div class="alert alert-dismissable alert-danger">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                 <strong>¡Atención!</strong>  {{ form_errors(form.username) }}
+                            {{ form_errors(form.email) }}
+                            {{ form_errors(form.plainPassword) }}
+                </div>
+            {% endif%}
             <div class="row">
                 <div class="col-xs-6 col-xs-offset-3 text-center">
+                     
+
                     <form action="{{ path('fos_user_registration_register') }}" {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
                         <div class="form-group">
                             <div class="input-group">
@@ -36,7 +46,7 @@
                         </div>
                 {% endfor %}
                  {{ form_widget(form._token) }}
-                        <input class="btn btn-primary btn-large" type="submit" value="Registrarse"/>
+                        <a id="registerSubmit" class="btn btn-primary btn-large">Registrarse</a>
                     </form>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 namespace MIW\DataAccessBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * @MongoDB\Document(repositoryClass="MIW\DataAccessBundle\Repository\GameRepository")

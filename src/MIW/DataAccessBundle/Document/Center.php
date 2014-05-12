@@ -75,4 +75,12 @@ class Center
     {
         return $this->address;
     }
+    
+    public function __toString() {
+        if($this->name)
+            return $this->name;
+        else
+            return "Sin nombre";
+    }
+
 }
