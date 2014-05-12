@@ -30,7 +30,7 @@ class Sport
     protected $minPlayers;
     
     /**
-     * @MongoDB\String
+     * @MongoDB\Int
      */
     private $level;
     
@@ -112,7 +112,7 @@ class Sport
     /**
      * Set level
      *
-     * @param string $level
+     * @param int $level
      * @return self
      */
     public function setLevel($level)
@@ -124,7 +124,7 @@ class Sport
     /**
      * Get level
      *
-     * @return string $level
+     * @return int $level
      */
     public function getLevel()
     {
