@@ -32,7 +32,7 @@ class Sport
     /**
      * @MongoDB\Int
      */
-    private $level;
+    protected $level;
     
     /** @MongoDB\Hash  */
     private $attributes;
