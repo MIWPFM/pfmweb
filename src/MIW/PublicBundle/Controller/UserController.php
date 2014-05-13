@@ -37,7 +37,7 @@ class UserController extends BaseController {
                 $route = 'fos_user_registration_check_email';
             } else {
                 $authUser = true;
-                $route = 'fos_user_security_login';
+                $route = 'intranet_myprofile_info';
             }
 
             $this->setFlash('fos_user_success', 'registration.flash.user_created');
