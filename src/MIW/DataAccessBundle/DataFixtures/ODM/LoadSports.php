@@ -41,7 +41,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $beisbol->setName("Beisbol");
         $beisbol->setDescription("CUBA - USA");
         $beisbol->setMinPlayers(9);
-        $beisbol->setLevel(3);
+        $beisbol->setLevel(5);
         $beisbol->setAttributes(array('position'=>array('1Base','2Base','3Base','Pitcher')));
        
         $manager->persist($beisbol);
@@ -51,8 +51,8 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $paddel->setName("Padel");
         $paddel->setDescription("Juego de raquetas");
         $paddel->setMinPlayers(2);
-        $paddel->setLevel(1);
-        $paddel->setAttributes(array('level'=>array('Aficionado','Intermedio','Profesional')));
+        $paddel->setLevel(5);
+        $paddel->setAttributes(array('position'=>array('Izquierda','Derecha')));
        
         $manager->persist($paddel);
     	$manager->flush();
