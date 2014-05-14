@@ -1,0 +1,78 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+            <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
+                    <i class="fa fa-times text-white"></i>
+            </button>
+            <h3>Modificar Deporte</h3>
+        </div> <!-- /modal-header -->
+        <div class="modal-body">	
+            <div class="row">
+                <div class="col-xs-6 col-xs-offset-3 text-center">
+                    <form action="" method="POST">
+                        <div class="form-group">
+                            <div class="row text-left">
+                                {{ form_label(form.sports) }}
+                            </div>
+                            {{ form_widget(form.sports,{ 'attr': {'class': 'form-control select-sport'} }) }}             
+                        </div>
+                        <div class="form-group">
+                            <div class="row text-left">
+                                <label>Nivel</label>
+                            </div>
+                            {% for i in 0..4 %}            
+                                <a href="#" class="btn btn-danger action-level" data-id="{{i}}"> <i class="fa fa-star"></i> </a>
+                            {% endfor %}
+                        </div>
+                        <input class="btn btn-primary" type="submit" value="Editar"/>
+                        <input class="btn btn-primary" type="submit" value="Borrar"/>
+                        <input class="hiddenId" type="hidden"/>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- /modal-body -->
+    </div> <!-- /modal-content -->
+</div> <!-- /modal-dialog -->
+<script>
+    $(document).ready(function() {
+        $(document).on("click", '.action-level', function(event) {
+            event.preventDefault();
+            var id=$(this).data('id');
+            var button=element.find('.action-subscribe');
+            $(this).find('i').addClass('fa-star-half-full');
+            $(this).find('i').removeClass('fa-star');
+        });
+            
+        $(document).on("click", '.btn-primary', function(event) {
+            event.preventDefault();
+            
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_subscribe_sport')}}",
+                dataType: "json",
+                data: {
+                    sport: $('.hiddenId').val(),
+                    level: 1
+                },
+                success: function(data) {
+                   $(document).close();   
+                }
+            });
+        });   
+        
+        $('.select-sport').on('change', function() {
+                $.ajax({
+                    method: "GET",
+                    url: "{{path('intranet_ajax_find_sport')}}",
+                    dataType: "json",
+                    data: {
+                        sport: this.value
+                    },
+                    success: function(data) {
+                        $('.hiddenId').val(data.id);
+                    }
+                });
+         });
+    });
+        
+</script>
