@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use MIW\DataAccessBundle\Document\User;
+use MIW\DataAccessBundle\Document\Sport;
 use MIW\DataAccessBundle\Document\Address;
 use MIW\IntranetBundle\Form\Type\UserType;
 use MIW\IntranetBundle\Form\Type\AddressType;
@@ -80,13 +81,42 @@ class MyProfileController extends Controller
                     'formAddress'=>$formAddress->createView(),
                     'formPassword'=>$formPassword->createView());
     }
+    
     /**
      * @Route("/mis-deportes",name="intranet_myprofile_sports")
      * @Template("MIWIntranetBundle:MyProfile:mySports.html.twig")
      */
     public function viewMySportsAction()
     {
-        return array();
+        $user = $this->get('security.context')->getToken()->getUser();
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $arraySports = array();
+        $mySports = $user->getSports();
+        $level = 0;
+        $position = null;
+        
+        foreach ($mySports as $obj_key=>$array){
+            $sport = $dm->getRepository('MIWDataAccessBundle:Sport')->find($obj_key);
+            foreach ($array as $key=>$value){
+                switch($key) {
+                    case "level": 
+                        $level = $value;
+                        break;
+                    case "position": 
+                        $position = $value;
+                        break;
+                }
+            }
+            $arraySports[] = array(
+                'id' => $obj_key,
+                'name' => $sport->getName(),
+                'attributes' => $sport->getAttributes(),
+                'level' => $level,
+                'position' => $position
+            );
+        }
+        
+        return array('mySports'=>$arraySports);
     }
     
     /**
@@ -116,7 +146,7 @@ class MyProfileController extends Controller
         $user = $this->get('security.context')->getToken()->getUser();
         
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);       
+        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findSports($user);       
             
         return array('ownerGames'=>$ownerGames);
     }
