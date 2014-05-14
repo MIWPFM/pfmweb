@@ -45,17 +45,16 @@ class UserController extends FOSRestController {
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function newUserAction() {
-        $user = new User();
-
-        $this->processForm($user);
+     
+        return $this->processForm();
     }
 
-    private function processForm($user) {
+    private function processForm() {
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
 
         $form = $this->container->get('fos_user.registration.form');
         $form->bind($this->getRequest()->request->all());
-
+        
         if ($form->isValid()) {
             $user = $form->getData();
             $statusCode = $user->getId() ? 204 : 201;
@@ -72,7 +71,7 @@ class UserController extends FOSRestController {
             $dm->flush();
 
             return $this->view($user, 201);
-        }
+        }   
 
         return $this->view($form, 400);
     }
