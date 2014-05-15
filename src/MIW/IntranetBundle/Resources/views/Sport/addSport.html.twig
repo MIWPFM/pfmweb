@@ -9,7 +9,7 @@
         <div class="modal-body">	
             <div class="row">
                 <div class="col-xs-6 col-xs-offset-3 text-center">
-                    <form action="" method="POST">
+                    <form action="{{path('intranet_ajax_subscribe_sport')}}" method="POST">
                         <div class="form-group">
                             <div class="row text-left">
                                 {{ form_label(form.sports) }}
@@ -24,8 +24,8 @@
                                 <a href="#" class="btn btn-danger action-level" data-id="{{i}}"> <i class="fa fa-star"></i> </a>
                             {% endfor %}
                         </div>
-                        <input class="btn btn-primary btn-large" type="submit" value="Guardar"/>
-                        <input class="hiddenId" type="hidden"/>
+                        <input class="btn btn-primary" type="submit" value="Guardar"/>
+                        {{ form_widget(form.idSport,{ 'attr': {'class': 'sport-id'} }) }}
                     </form>
                 </div>
             </div>
@@ -34,12 +34,9 @@
 </div> <!-- /modal-dialog -->
 <script>
     $(document).ready(function() {
-        $(document).on("click", '.action-level', function(event) {
+        $(document).on("click", '.btn-danger action-level', function(event) {
             event.preventDefault();
-            var id=$(this).data('id');
-            var button=element.find('.action-subscribe');
-            $(this).find('i').addClass('fa-star-half-full');
-            $(this).find('i').removeClass('fa-star');
+            
         });            
         
         $('.select-sport').on('change', function() {
@@ -51,25 +48,25 @@
                         sport: this.value
                     },
                     success: function(data) {
-                        $('.hiddenId').val(data.id);
+                        $('.sport-id').val(data.id);
                     }
                 });
          });
          
-         $(document).on("click", '.btn-primary btn-large', function(event) {
-            event.preventDefault();            
-            $.ajax({
-                method: "GET",
-                url: "{{path('intranet_ajax_subscribe_sport')}}",
-                dataType: "json",
-                data: {
-                    sport: $('.hiddenId').val(),
-                    level: 1
-                },
-                success: function(data) {
-                   $(this).close();  
-                }
-            });
+         $(document).on("click", '.btn-primary', function(event) {
+                event.preventDefault();            
+                $.ajax({
+                    method: "GET",
+                    url: "{{path('intranet_ajax_subscribe_sport')}}",
+                    dataType: "json",
+                    data: {
+                        sport: $('.sport-id').val(),
+                        level: 1
+                    },
+                    success: function(data) {
+                       $(this).close();  
+                    }
+                });
         });   
     });        
 </script>
