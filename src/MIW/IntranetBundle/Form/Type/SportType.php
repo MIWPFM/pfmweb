@@ -28,12 +28,15 @@ class SportType extends AbstractType {
                 'class' => 'MIWDataAccessBundle:Sport',
                 'property' => 'name',
                 'label' => 'Elige un Deporte',
-            ));           
+            ))
+            ->add('idSport', 'hidden', array( ));           
     }
     
     public function getDefaultOptions(array $options)
     {
-        return array();
+        return array(
+            'data_class' => 'MIW\DataAccessBundle\Document\Sport',
+        );
     }
     
 }
