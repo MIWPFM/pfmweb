@@ -41,51 +41,81 @@ class SportController extends Controller
     /**
         * @Route("/ajax/subscribe/sport/",name="intranet_ajax_subscribe_sport")
      */
-    public function subscribeSportAction(Request $request) {
-        $mySport = $request->get('sport');
+    public function ajaxsubscribeSportAction(Request $request) {
+        $idSport = $request->get('sport');
+        var_dump($idSport);
         $myLevel = $request->get('level');
         $user = $this->get('security.context')->getToken()->getUser();        
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        //hacer un concat
-        //$sports = $user->getSports();
-        //$result = array_merge($sports, array($mySport=>array('level'=>$myLevel)));
-        $user->setSports(array($mySport=>array('level'=>$myLevel)));
+        //no funciona
+        $sports = $user->getSports();
+        echo " deportes: ".$sports;
+        $newSport = array($idSport=>array('level'=>$myLevel));
+        echo " nuevo: ".$newSport;
+        $result = array_push($sports, $newSport);
+        echo " final: ".$sports;
+        $user->setSports($sports);
         $dm->persist($user);
         $dm->flush();   
     }
     
-    public function modifySportAction() {
-        $form = $this->createForm(new SportType());
+    public function modifySportAction(Request $request) {
+        $idSport = $request->get('idSport');
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $sport = $dm->getRepository('MIWDataAccessBundle:Sport')->find($idSport);
+        $name = $sport->getName();//no funciona
+                
+        $user = $this->get('security.context')->getToken()->getUser();
+        $mySports = $user->getSports();        
+        foreach ($mySports as $obj_key => $array) {
+            if($obj_key == $idSport) {
+                foreach ($array as $key => $value) {
+                    switch ($key) {
+                        case "level":
+                            $level = $value;
+                            break;
+                        case "position":
+                            $position = $value;
+                            break;
+                    }
+                }
+            }
+        }
+                
         return $this->container->get('templating')->renderResponse('MIWIntranetBundle:Sport:editSport.html.twig', 
-                array('form' => $form->createView()));
+                array('form' => $form->createView(), 'idSport' => $idSport, 'name' => $name, 'level' => $level, 'position' => $position));
     }
     
     /**
         * @Route("/ajax/edit/sport/",name="intranet_ajax_edit_sport")
      */
-    public function editSportAction(Request $request) {
+    public function ajaxeditSportAction(Request $request) {
         $mySport = $request->get('sport');
         $myLevel = $request->get('level');
-        $user = $this->get('security.context')->getToken()->getUser();
-        
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');                
-        $user->setSports(array($mySport->getId()=>array('level'=>$myLevel)));
+        $user = $this->get('security.context')->getToken()->getUser();        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $sports = $user->getSports();
+        $newSport = array($mySport=>array('level'=>$myLevel));
+        $result = array_push($sports, $newSport);
+        $user->setSports($sports);
         $dm->persist($user);
-        $dm->flush();                
+        $dm->flush();          
     }
     
     /**
         * @Route("/ajax/delete/sport/",name="intranet_ajax_delete_sport")
      */
-    public function deleteSportAction(Request $request) {
+    public function ajaxdeleteSportAction(Request $request) {
         $mySport = $request->get('sport');
         $myLevel = $request->get('level');
-        $user = $this->get('security.context')->getToken()->getUser();
-        
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');                
-        $user->setSports(array($mySport->getId()=>array('level'=>$myLevel)));
+        $user = $this->get('security.context')->getToken()->getUser();        
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $sports = $user->getSports();
+        $newSport = array($mySport=>array('level'=>$myLevel));
+        $result = array_push($sports, $newSport);
+        $user->setSports($sports);
         $dm->persist($user);
-        $dm->flush();                
+        $dm->flush();      
     }
     
 }
