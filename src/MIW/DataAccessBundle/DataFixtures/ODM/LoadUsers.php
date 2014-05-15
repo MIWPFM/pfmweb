@@ -21,10 +21,10 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $this->container = $container;
     }
 
-
     public function getOrder(){
         return 2;
     }
+    
    /* php app/console doctrine:mongodb:fixtures:load --fixtures src/MIW/DataAccessBundle/DataFixtures/ODM */
     public function load(ObjectManager $manager){
         print_r("Loading Users\n");
@@ -38,8 +38,9 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user->setEmail('alonsus91@gmail.com');
         $user->setRoles(array('ROLE_USER'));
         $user->setName('Adrian');
-        $user->setSports(array($football->getId()=>array('position'=>"Delantero",'level'=>"Profesional"),
-                                $paddel->getId() => array('level'=>"Aficionado")));
+        $user->setSports(array($football->getId()=>array('position'=>'Defensa', 'level'=>3),
+                                $paddel->getId() => array('position'=>'Izquierda', 'level'=>1),
+                                $beisbol->getId() => array('position'=>'Pitcher', 'level'=>5)));
         $password = 'admin';
         
         $address= new Address();
@@ -60,9 +61,9 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user2->setEmail('lienMIW@gmail.com');
         $user2->setRoles(array('ROLE_USER'));
         $user2->setName('Lien');
-        $user2->setSports(array($football->getId()=>array('position'=>"Delantero",'level'=>5),
-                                $paddel->getId() => array('level'=>1),
-                                $beisbol->getId() => array('level'=>3)));
+        $user2->setSports(array($football->getId()=>array('position'=>'Defensa', 'level'=>3),
+                                $paddel->getId() => array('position'=>'Izquierda', 'level'=>1),
+                                $beisbol->getId() => array('position'=>'Pitcher', 'level'=>5)));
         
         $cryptedPassword2 = $encoder->encodePassword($password, $user2->getSalt());
         $user2->setPassword($cryptedPassword2);
