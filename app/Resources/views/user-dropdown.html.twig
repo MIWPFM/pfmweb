@@ -27,6 +27,15 @@
                 </a>
             </li>
             <li class="divider"></li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{path('sonata_admin_dashboard')}}">
+                    <i class="fa fa-lock fa-fw"></i>
+                    Zona de Administración
+                </a>
+            </li>
+            <li class="divider"></li>
+            {% endif %}
             <li>
                 <a href="{{path('fos_user_security_logout')}}">
                     <i class="fa fa-power-off fa-fw"></i>

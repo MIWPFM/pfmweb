@@ -9,22 +9,22 @@ services:
         class: MIW\BackendBundle\Admin\GameAdmin
         arguments: [~, MIW\DataAccessBundle\Document\Game, MIWBackendBundle:GameAdmin]
         tags:
-            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Game}
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Partidos}
 
     miw_backend.admin.user:
         class: MIW\BackendBundle\Admin\UserAdmin
         arguments: [~, MIW\DataAccessBundle\Document\User, MIWBackendBundle:UserAdmin]
         tags:
-            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: User}
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Usuarios}
 
     miw_backend.admin.sport:
         class: MIW\BackendBundle\Admin\SportAdmin
         arguments: [~, MIW\DataAccessBundle\Document\Sport, MIWBackendBundle:SportAdmin]
         tags:
-            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Sport}
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Deportes}
 
     miw_backend.admin.center:
         class: MIW\BackendBundle\Admin\CenterAdmin
         arguments: [~, MIW\DataAccessBundle\Document\Center, MIWBackendBundle:CenterAdmin]
         tags:
-            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Center}
+            - {name: sonata.admin, manager_type: doctrine_mongodb, group: admin, label: Instalaciones}

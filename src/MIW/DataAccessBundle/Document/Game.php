@@ -280,5 +280,9 @@ class Game {
     public function isFull(){
         return (count($this->players)+1 == $this->numPlayers);
     }
+    
+    public function getCountSignedPlayers(){
+        return (count($this->players)+1);
+    }
 
 }

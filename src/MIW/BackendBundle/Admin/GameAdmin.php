@@ -18,7 +18,6 @@ class GameAdmin extends Admin
         $datagridMapper
             ->add('id')
             ->add('name')
-            ->add('description')
             ->add('gameDate')
             ->add('limitDate')
             ->add('created')
@@ -37,17 +36,14 @@ class GameAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('name')
-            ->add('description')
-            ->add('gameDate')
-            ->add('limitDate')
-            ->add('created')
-            ->add('numPlayers')
-            ->add('price')
-            ->add('center')
-            ->add('admin')
-            ->add('sport')
-            ->add('players')
+            ->add('gameDate','date', array('format' => 'd/m/Y H:i', 'label' => 'Fecha del Partido'))
+           
+            ->add('created','date', array('format' => 'd/m/Y H:i', 'label' => 'Fecha Creación'))
+            ->add('numPlayers',null, array('label' => 'Número de Jugadores'))
+            ->add('price',null, array('label' => 'Precio'))
+            ->add('center',null, array('label' => 'Instalación'))
+            ->add('admin',null, array('label' => 'Creador'))
+            ->add('sport',null, array('label' => 'Deporte'))  
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -65,8 +61,7 @@ class GameAdmin extends Admin
     {
         $formMapper
             ->add('id')
-            ->add('name')
-            ->add('description')
+            ->add('description',null, array('label' => 'Descripcion'))
             ->add('gameDate')
             ->add('limitDate')
             ->add('created')
@@ -86,8 +81,7 @@ class GameAdmin extends Admin
     {
         $showMapper
             ->add('id')
-            ->add('name')
-            ->add('description')
+             ->add('description',null, array('label' => 'Descripcion'))
             ->add('gameDate')
             ->add('limitDate')
             ->add('created')
@@ -99,4 +93,10 @@ class GameAdmin extends Admin
             ->add('players')
         ;
     }
+    
+    protected $datagridValues = array(
+        '_page'       => 1,
+        '_sort_order' => 'ASC', // sort direction
+        '_sort_by' => 'gameDate' // field name
+    );
 }

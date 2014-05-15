@@ -89,10 +89,23 @@ sonata_block:
         # Enable the SonataAdminBundle block
         sonata.admin.block.admin_list:
             contexts:   [admin]
+        sonata.admin.block.search_result:
+            contexts: [admin]
         # Your other blocks
         
 sonata_admin:
-    title:      WePlay Backend
+    title: WePlay Backend
+    dashboard:
+        groups:
+            acme.admin.group.content:
+                label: Administración
+                label_catalogue: AcmeDemoBundle
+                items:
+                    - miw_backend.admin.user
+                    - miw_backend.admin.game
+                    - miw_backend.admin.sport
+                    - miw_backend.admin.center
+                    
     
 jms_serializer:
     metadata:

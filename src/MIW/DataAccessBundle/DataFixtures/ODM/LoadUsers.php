@@ -68,9 +68,20 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user2->setPassword($cryptedPassword2);
         $user2->setAddress($address);
         $user2->setEnabled(true);
+        
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setEmail('admin@gmail.com');
+        $admin->setRoles(array('ROLE_USER','ROLE_ADMIN'));
+        $admin->setName('Administrador');
+      
+        $cryptedPassword3 = $encoder->encodePassword('admin', $admin->getSalt());
+        $admin->setPassword($cryptedPassword3);
+        $admin->setEnabled(true);
 
         $manager->persist($user);
         $manager->persist($user2);
+        $manager->persist($admin);
     	$manager->flush();
         
         $this->addReference('user', $user);
