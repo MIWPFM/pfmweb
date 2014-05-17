@@ -56,9 +56,31 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
        
         $manager->persist($paddel);
     	$manager->flush();
-
+        
+        $basket = new Sport();
+        $basket->setName("Basket");
+        $basket->setDescription("Juego de basketball");
+        $basket->setMinPlayers(12);
+        $basket->setLevel(5);
+        $basket->setAttributes(array('position'=>array('Izquierda','Derecha','Central','Defensa')));
+       
+        $manager->persist($basket);
+    	$manager->flush();
+        
+        $voleyball = new Sport();
+        $voleyball->setName("Voleyball");
+        $voleyball->setDescription("Juego de Voleyball");
+        $voleyball->setMinPlayers(9);
+        $voleyball->setLevel(5);
+        $voleyball->setAttributes(array('position'=>array('Izquierda','Derecha','Central','Defensa')));
+       
+        $manager->persist($voleyball);
+    	$manager->flush();
+        
         $this->addReference('football', $football);
         $this->addReference('beisbol', $beisbol);
         $this->addReference('paddel', $paddel);
+        $this->addReference('basket', $basket);
+        $this->addReference('voleyball', $voleyball);
     }
 }
