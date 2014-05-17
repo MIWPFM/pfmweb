@@ -184,6 +184,24 @@ class User extends BaseUser
         return $this->sports;
     }
     
+    /**
+     * Add sport
+     *
+     */
+    public function addSport($key, $sport)
+    {
+        $this->sports[$key] = $sport;
+    }
+    
+    /**
+     * Remove sport
+     *
+     */
+    public function removeSport($key)
+    {
+        unset($this->sports[$key]);
+    }
+    
     public function getCompletedProfile() {
         return $this->completedProfile;
     }
