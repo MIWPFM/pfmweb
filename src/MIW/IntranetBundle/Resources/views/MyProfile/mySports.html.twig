@@ -48,10 +48,11 @@
                     {% for sport in mySports %}
                         <div class="list-group-item" data-id="{{sport.id}}">
                             <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/message_avatar2.png') }}" alt="{{ sport.name }}"/>
-                            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#modifySportModal" data-id="{{sport.id}}">Modificar Deporte</button>
+                            <button class="btn btn-success pull-right" data-toggle="modal" data-target="#modifySportModal">Modificar Deporte</button>
                             <h4>{{ sport.name }}</h4>
                         </div>
                     {% endfor %}
+                    <input class="hiddenId" type="hidden" name="idSport"/>
                 </div>            
             {% endif %}
             <div class="row">
@@ -67,11 +68,25 @@
         </div>
     </div>
 
+<script>
+    $(document).ready(function() {
+        $(document).on("click", '.btn-success pull-right', function(event) {
+            event.preventDefault();
+            var element = $(this).closest('div.list-group-item');
+            var id = element.data('id');
+            var button = $(document).find('.hiddenId');
+            button.val(id);
+        });            
+         
+    });        
+</script>   
+
 {% endblock %}
 
 {% block commondown%}
 {% endblock %}
 
 {% block javascripts%}
+
 {% endblock%}
 

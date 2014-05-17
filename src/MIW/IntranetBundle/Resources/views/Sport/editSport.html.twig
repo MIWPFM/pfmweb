@@ -11,10 +11,9 @@
                 <div class="col-xs-6 col-xs-offset-3 text-center">
                     <form action="" method="POST">
                         <div class="form-group">
-                            <div class="row text-left">
-                                {{ form_label(form.sports) }}
-                            </div>
-                            {{ form_widget(form.sports,{ 'attr': {'class': 'form-control select-sport'} }) }}             
+                            <div class="row text-center">
+                                {{ name }}
+                            </div>           
                         </div>
                         <div class="form-group">
                             <div class="row text-left">
@@ -24,9 +23,9 @@
                                 <a href="#" class="btn btn-danger action-level" data-id="{{i}}"> <i class="fa fa-star"></i> </a>
                             {% endfor %}
                         </div>
-                        <input class="btn btn-primary" type="submit" value="Editar"/>
-                        <input class="btn btn-primary" type="submit" value="Borrar"/>
-                        <input class="hiddenId" type="hidden"/>
+                        <input class="hiddenId" type="hidden" value="{{ idSport }}"/>
+                        <input class="btn btn-succes" type="button" value="Editar"/>
+                        <input class="btn btn-danger" type="button" value="Borrar"/>
                     </form>
                 </div>
             </div>
@@ -35,44 +34,40 @@
 </div> <!-- /modal-dialog -->
 <script>
     $(document).ready(function() {
-        $(document).on("click", '.action-level', function(event) {
-            event.preventDefault();
-            var id=$(this).data('id');
-            var button=element.find('.action-subscribe');
-            $(this).find('i').addClass('fa-star-half-full');
-            $(this).find('i').removeClass('fa-star');
-        });
-            
-        $(document).on("click", '.btn-primary', function(event) {
+        $(document).on("click", '.btn-danger action-level', function(event) {
             event.preventDefault();
             
-            $.ajax({
-                method: "GET",
-                url: "{{path('intranet_ajax_subscribe_sport')}}",
-                dataType: "json",
-                data: {
-                    sport: $('.hiddenId').val(),
-                    level: 1
-                },
-                success: function(data) {
-                   $(document).close();   
-                }
-            });
-        });   
-        
-        $('.select-sport').on('change', function() {
+        });            
+         
+         $(document).on("click", '.btn-succes', function(event) {
+                event.preventDefault();            
                 $.ajax({
                     method: "GET",
-                    url: "{{path('intranet_ajax_find_sport')}}",
+                    url: "{{path('intranet_ajax_edit_sport')}}",
                     dataType: "json",
                     data: {
-                        sport: this.value
+                        sport: $('.hiddenId').val(),
+                        level: 1
                     },
                     success: function(data) {
-                        $('.hiddenId').val(data.id);
+                       $(this).close();  
                     }
                 });
-         });
-    });
+        });   
         
+        $(document).on("click", '.btn-danger', function(event) {
+                event.preventDefault();            
+                $.ajax({
+                    method: "GET",
+                    url: "{{path('intranet_ajax_delete_sport')}}",
+                    dataType: "json",
+                    data: {
+                        sport: $('.hiddenId').val()
+                    },
+                    success: function(data) {
+                       $(this).close();  
+                    }
+                });
+        });   
+    });        
 </script>
