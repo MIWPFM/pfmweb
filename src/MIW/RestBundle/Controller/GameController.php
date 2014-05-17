@@ -48,7 +48,9 @@ class GameController extends FOSRestController {
     public function getPlayigGamesAction() {
         $user = $this->get('security.context')->getToken()->getUser();
         
-
+        if($user=="anon.")
+              throw new NotFoundHttpException();
+        
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);

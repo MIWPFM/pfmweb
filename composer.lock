@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b685a344663b6995c2ab3967f94344d3",
+    "hash": "72e0e9bd9cc4704874b7ef101ad86245",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1616,6 +1616,61 @@
             "time": "2013-07-19 00:03:27"
         },
         {
+            "name": "laupifrpar/pusher-bundle",
+            "version": "dev-master",
+            "target-dir": "Lopi/Bundle/PusherBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laupiFrpar/LopiPusherBundle.git",
+                "reference": "b2157c6b854730d510fc2bbeae2923cef2c1baef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laupiFrpar/LopiPusherBundle/zipball/b2157c6b854730d510fc2bbeae2923cef2c1baef",
+                "reference": "b2157c6b854730d510fc2bbeae2923cef2c1baef",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "pusher/pusher-php-server": "~2.1"
+            },
+            "require-dev": {
+                "symfony/config": "~2.3",
+                "symfony/dependency-injection": "~2.3",
+                "symfony/http-kernel": "~2.3"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Lopi\\Bundle\\PusherBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre-Louis Launay",
+                    "email": "laupi.frpar@gmail.com",
+                    "homepage": "https://github.com/laupiFrpar",
+                    "role": "developer"
+                },
+                {
+                    "name": "Community contributors",
+                    "homepage": "https://github.com/laupifrpar/lopipusherbundle/contributors"
+                }
+            ],
+            "description": "A Pusher bundle for Symfony2",
+            "homepage": "https://github.com/laupifrpar/lopipusherbundle",
+            "keywords": [
+                "nosql",
+                "pusher",
+                "symfony"
+            ],
+            "time": "2014-03-07 10:57:33"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.9.1",
             "source": {
@@ -1819,6 +1874,47 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "v2.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-php-server.git",
+                "reference": "4bb96195dd9109c1197aedc7d1d1de09cac02279"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-php-server/zipball/4bb96195dd9109c1197aedc7d1d1de09cac02279",
+                "reference": "4bb96195dd9109c1197aedc7d1d1de09cac02279",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "homepage": "https://github.com/pusher/pusher-php-server",
+            "keywords": [
+                "events",
+                "php-pusher-server",
+                "publish",
+                "pusher",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2012-12-22 01:50:13"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2966,7 +3062,8 @@
         "doctrine/mongodb-odm-bundle": 20,
         "jms/serializer-bundle": 20,
         "sonata-project/admin-bundle": 20,
-        "sonata-project/doctrine-mongodb-admin-bundle": 20
+        "sonata-project/doctrine-mongodb-admin-bundle": 20,
+        "laupifrpar/pusher-bundle": 20
     },
     "platform": {
         "php": ">=5.3.3"

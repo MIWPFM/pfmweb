@@ -33,6 +33,8 @@ class AppKernel extends Kernel
             new Sonata\AdminBundle\SonataAdminBundle(),
             new Sonata\DoctrineMongoDBAdminBundle\SonataDoctrineMongoDBAdminBundle(),
             new MIW\BackendBundle\MIWBackendBundle(),
+            
+            new Lopi\Bundle\PusherBundle\LopiPusherBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

@@ -3,6 +3,7 @@ namespace MIW\DataAccessBundle\Document;
 
 use FOS\UserBundle\Document\User as BaseUser;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * @MongoDB\Document
@@ -29,13 +30,15 @@ class User extends BaseUser
      */
     private $created;
     
-        /** 
+    /** 
      * @MongoDB\Date 
      */
     private $birthday;
     
-    /** @MongoDB\EmbedOne(targetDocument="Address") */
-    public $address;
+    /** @MongoDB\EmbedOne(targetDocument="Address") 
+    *     @MaxDepth(0)
+     *      */
+    private $address;
     
     /** @MongoDB\Hash  */
     private $sports;
@@ -48,6 +51,7 @@ class User extends BaseUser
         parent::__construct();
         $this->created=new \DateTime();
         $this->completedProfile=false;
+        $this->address=array();
     }
     
 
@@ -127,28 +131,15 @@ class User extends BaseUser
         return $this->created;
     }
 
-    /**
-     * Set address
-     *
-     * @param MIW\DataAccessBundle\Document\Address $address
-     * @return self
-     */
-    public function setAddress(\MIW\DataAccessBundle\Document\Address $address)
-    {
-        $this->address = $address;
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return MIW\DataAccessBundle\Document\Address $address
-     */
-    public function getAddress()
-    {
+    public function getAddress() {
         return $this->address;
     }
 
+    public function setAddress($address) {
+        $this->address = $address;
+    }
+
+    
     /**
      * Set birthday
      *

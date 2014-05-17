@@ -116,3 +116,14 @@ jms_serializer:
             FOSUserBundle:
                 namespace_prefix: "FOS\\UserBundle"
                 path: "%kernel.root_dir%/config/serializer/fosuser"
+                
+lopi_pusher:
+    app_id: 75199
+    key: a559c43234e29ed6e683
+    secret: 9abdf690d8f8b0da077d
+
+    # Default configuration
+    debug: true 
+    host: http://api.pusherapp.com
+    port: 80
+    timeout: 30

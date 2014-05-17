@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use MIW\DataAccessBundle\Document\User;
 use MIW\DataAccessBundle\Document\Game;
 use MIW\DataAccessBundle\Document\Sport;
+use MIW\DataAccessBundle\Document\Comment;
 use MIW\DataAccessBundle\Document\Center;
 use MIW\DataAccessBundle\Document\Address;
 use MIW\IntranetBundle\Form\Type\GameType;
@@ -70,12 +71,13 @@ class GameController extends Controller {
         // get game
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+        $comments = $dm->getRepository('MIWDataAccessBundle:Comment')->findAllByGame($game);
 
         if (!$game) {
             throw new NotFoundHttpException("Partido no encontrado");
         }
 
-        return array('game' => $game);
+        return array('game' => $game,'comments'=>$comments);
     }
 
     /**
@@ -171,16 +173,17 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/ajax/subscribe/game/",name="intranet_ajax_subscribe_game")
+     * @Route("/partidos/inscribirse",name="intranet_ajax_subscribe_game")
      */
     public function ajaxSubscribeGameAction(Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
+        
         $idGame = $request->get('game');
-
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
 
         // Check if the user suscribed to the game
+        $now=new \DateTime('now');
         $code = 0;
         if (!$game->getPlayers()->contains($user)) {
             $game->addPlayer($user);
@@ -201,7 +204,7 @@ class GameController extends Controller {
     }
 
     /**
-     * @Route("/ajax/unsubscribe/game/",name="intranet_ajax_unsubscribe_game")
+     * @Route("/partidos/desinscribirse",name="intranet_ajax_unsubscribe_game")
      */
     public function ajaxUnsubscribeGameAction(Request $request) {
         $user = $this->get('security.context')->getToken()->getUser();
@@ -211,6 +214,7 @@ class GameController extends Controller {
         $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
 
         $code = 0;
+        $now=new \DateTime('now');
         // Check if the user suscribed to the game
         if ($game->getPlayers()->contains($user)) {
             $game->removePlayer($user);
@@ -229,5 +233,39 @@ class GameController extends Controller {
         $response->setContent(json_encode($json));
         return $response;
     }
+    
+    /**
+     * @Route("/partidos/{idGame}/comentar",name="intranet_ajax_comment_game")
+     */
+    public function commentGameAjaxAction(Request $request,$idGame) {
+
+        $user = $this->get('security.context')->getToken()->getUser();
+
+
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($idGame);
+
+        $commentText = $request->get('comment');
+        if($commentText){
+            $comment= new Comment();
+            $comment->setComment($commentText);
+            $comment->setGame($game);
+            $comment->setUser($user);
+            $dm->persist($comment);
+            $dm->flush();
+            
+            $pusher = $this->get('lopi_pusher.pusher');
+            $serializer = $this->get('jms_serializer');
+
+            $pusher->trigger('comments-channel', 'comments-'.$idGame, $serializer->serialize($comment, 'json'));
+            
+            return new Response(json_encode(array('result'=>"OK")));
+        }
+        
+        throw new NotFoundHttpException();
+        
+    }
+    
+   
 
 }
