@@ -51,7 +51,7 @@ class User extends BaseUser
         parent::__construct();
         $this->created=new \DateTime();
         $this->completedProfile=false;
-        $this->address=array();
+
     }
     
 
