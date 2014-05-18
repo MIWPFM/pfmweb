@@ -53,14 +53,14 @@ class WSSEProvider implements AuthenticationProviderInterface
     protected function validateDigest($digest, $nonce, $created, $secret)
     {
         // Check created time is not in the future
-        if (strtotime($created) > time()) {
+    /*    if (strtotime($created) > time()) {
             return false;
         }
-
+        
         // Expire timestamp after 5 minutes
         if (time() - strtotime($created) > 300) {
             return false;
-        }
+        }*/
 
         // Validate that the nonce is *not* used in the last 5 minutes
         // if it has, this could be a replay attack
@@ -75,7 +75,7 @@ class WSSEProvider implements AuthenticationProviderInterface
 
         // Validate Secret
         $expected = base64_encode(sha1(base64_decode($nonce).$created.$secret, true));
-
+       
         return $digest === $expected;
     }
 
