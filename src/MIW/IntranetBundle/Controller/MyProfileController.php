@@ -87,15 +87,21 @@ class MyProfileController extends Controller {
      */
     public function viewMySportsAction() {
         $user = $this->get('security.context')->getToken()->getUser();
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $arraySports = array();
         $mySports = $user->getSports();
-        $level = 0;
-        $position = null;
-
+        
+        $arraySports = array();
+        $arrayNotSports = array();
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $arrayAllSports = $dm->getRepository('MIWDataAccessBundle:Sport')->findAll();
+        
         if (!empty($mySports)) {
+            $arrayIdsSports = array();
             foreach ($mySports as $obj_key => $array) {
+                $arrayIdsSports[] = $obj_key;
                 $sport = $dm->getRepository('MIWDataAccessBundle:Sport')->find($obj_key);
+                $level = 0;
+                $position = null;   
+                
                 foreach ($array as $key => $value) {
                     switch ($key) {
                         case "level":
@@ -107,16 +113,22 @@ class MyProfileController extends Controller {
                     }
                 }
                 $arraySports[] = array(
-                    'id' => $obj_key,
-                    'name' => $sport->getName(),
-                    'attributes' => $sport->getAttributes(),
+                    'sport' => $sport,
                     'level' => $level,
                     'position' => $position
                 );
             }
+            foreach ($arrayAllSports as $array) {
+                $idSport = $array->getId();
+                if(!in_array($idSport, $arrayIdsSports)) {
+                    $arrayNotSports[] = $array;
+                }
+            }
+        } else {
+            $arrayNotSports = $arrayAllSports;
         }
-
-        return array('mySports' => $arraySports);
+        
+        return array('mySports' => $arraySports, 'myNotSports' => $arrayNotSports);
     }
 
     /**

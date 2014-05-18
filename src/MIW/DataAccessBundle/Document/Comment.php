@@ -5,7 +5,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /**
- * @MongoDB\Document
+ * @MongoDB\Document(repositoryClass="MIW\DataAccessBundle\Repository\CommentRepository")
  */
 class Comment
 {
@@ -28,6 +28,12 @@ class Comment
      * @MongoDB\String
      */
     protected $comment;
+    
+    function __construct() {
+        $this->created= new \DateTime();
+    }
+
+    
     /**
      * Get id
      *

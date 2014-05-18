@@ -26,7 +26,8 @@
         "jms/serializer-bundle": "dev-master",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "sonata-project/admin-bundle": "dev-master",
-        "sonata-project/doctrine-mongodb-admin-bundle": "dev-master"
+        "sonata-project/doctrine-mongodb-admin-bundle": "dev-master",
+        "laupifrpar/pusher-bundle": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -83,72 +83,98 @@
             <div class="row players">
                 <div class="col-xs-4 user">
                     <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">
-                    {{game.admin.name}} (Admin)
+                    {{game.admin.username}} (Admin)
                 </div>
                 {% for player in game.players %}
                 <div class="col-xs-4 user" data-id="{{player.id}}" id="{{player.id}}">
                     <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">
-                    {{player.name}}
+                    {{player.username}}
                 </div>
                 {% endfor%}
-                {% if not app.user in game.players and not app.user == game.admin%}
-                <div class="margin-top-20">
-                    <a href="" class="btn btn-success">Inscríbete</a>
-                </div>
-                {% endif %}
+                
             </div>
         </div>
         <div class="actions">
-        {% if game.players.contains(app.user)%}
-                <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> Desinscribirse </a>
-            {%elseif not game.isFull%}
-                <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> Inscribirse </a>
+            {% if app.user!= game.admin%}
+                {% if game.players.contains(app.user)%}
+                    <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> Desinscribirse </a>
+                {%elseif not game.isFull%}
+                    <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> Inscribirse </a>
+                {% endif%}
             {% endif%}
         </div>
     </div>
 
-    <div class="col-xs-12" style="display: none;">
+
+
+    <div class="col-xs-12 comments" style="    {% if not (app.user==game.admin or (app.user!=game.admin and game.players.contains(app.user)) )%}display:none{% endif %}">
         <div class="row">
             <h2>Comentarios</h2>
         </div>
-        <div class="row">
-            <input type="textarea" />
-            <input type="submit" value="Enviar Comentario" class="btn btn-succes">
+        <div class="row" style="margin-bottom:10px">
+            <div class="col-xs-12">
+                <textarea id="comment" style="width:100%"></textarea>
+            </div>
+            <div class="col-xs-12">
+                <a href="#" id="btn-comment" class="btn btn-success pull-right">Enviar Comentario</a>
+            </div>
+
         </div>
-            {% for i in 1..5 %}
-        <div class="qa-message-list" id="wallmessages">
-            <div class="message-item" id="m16">
+        <div class="qa-message-list" id="wall-messages">
+        {% for comment in comments if comments|length >0%}
+
+            <div class="message-item" >
                 <div class="message-inner">
                     <div class="message-head clearfix">
                         <div class="avatar pull-left"><a href=""><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px"></a></div>
                         <div class="user-detail">
-                            <h5 class="handle">Oleg Kolesnichenko</h5>
+                            <h5 class="handle">{{comment.user.username}} ({{comment.user.name}})</h5>
                             <div class="post-meta">
                                 <div class="asker-meta">
                                     <span class="qa-message-what"></span>
                                     <span class="qa-message-when">
-                                        <span class="qa-message-when-data">Jan 21</span>
-                                    </span>
-                                    <span class="qa-message-who">
-                                        <span class="qa-message-who-pad">by </span>
-                                        <span class="qa-message-who-data"><a href="./index.php?qa=user&qa_1=Oleg+Kolesnichenko">Oleg Kolesnichenko</a></span>
+                                        <span class="qa-message-when-data">{{comment.created | date('d/m/Y H:i:s')}}</span>
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="qa-message-content">
-                        Mensaje
+                        {{comment.comment}}
                     </div>
                 </div>
 
             </div>
+
+        {% else%}
+            <p id="no-comments">Todavia no ha habido comentarios</p>
+        {% endfor%}
         </div>
-            {% endfor %}
     </div>
+
 </div>
 
 <script>
+
+
+    // Enable pusher logging - don't include this in production
+    Pusher.log = function(message) {
+        if (window.console && window.console.log) {
+            window.console.log(message);
+        }
+    };
+
+    var pusher = new Pusher('a559c43234e29ed6e683');
+    var channel = pusher.subscribe('comments-channel');
+
+    channel.bind('comments-{{game.id}}', function(data) {
+        obj = JSON.parse(data);
+        date =  new Date(obj.created);
+        var formatDate=date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear()+" "+date.getUTCHours()+":"+date.getUTCMinutes()+":"+date.getUTCSeconds();
+        $('#wall-messages').prepend('<div class="message-item" ><div class="message-inner"><div class="message-head clearfix"><div class="avatar pull-left"><a href=""><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px"></a></div><div class="user-detail"><h5 class="handle">' + obj.user.username + '</h5><div class="post-meta"><div class="asker-meta"><span class="qa-message-what"></span><span class="qa-message-when"> <span class="qa-message-when-data">' + formatDate + '</span></span></div></div></div> </div><div class="qa-message-content">' + obj.comment + '</div></div> </div>').slideDown('slow');
+    });
+
+
     function initialize() {
         var geocoder = new google.maps.Geocoder();
         var infowindow = new google.maps.InfoWindow();
@@ -175,12 +201,12 @@
     }
 
     window.onload = loadScript;
-    
-     $(document).ready(function() {
+
+    $(document).ready(function() {
         $(document).on("click", '.action-subscribe', function(event) {
             event.preventDefault();
-            var id=$('#game-id').val();
-            
+            var id = $('#game-id').val();
+
             $.ajax({
                 method: "GET",
                 url: "{{path('intranet_ajax_subscribe_game')}}",
@@ -189,23 +215,23 @@
                     game: id
                 },
                 success: function(data) {
-                   var button=$('.action-subscribe');
+                    var button = $('.action-subscribe');
                     button.removeClass('action-subscribe');
                     button.removeClass('btn-success');
                     button.addClass('action-unsubscribe');
                     button.addClass('btn-danger');
                     button.html('<i class="fa fa-minus"></i> Desinscribirse')
-                     $('.counter').html(data.places);
-                     var obj = JSON.parse(data.user);
-                     $('.players').append('<div class="col-xs-4 user" data-id="'+obj.id+'" id="'+obj.id+'"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">'+obj.username+'</div>')
-     
+                    $('.counter').html(data.places);
+                    var obj = JSON.parse(data.user);
+                    $('.players').append('<div class="col-xs-4 user" data-id="' + obj.id + '" id="' + obj.id + '"><img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="height: 40px; width: 40px; margin-right: 10px;">' + obj.username + '</div>')
+                    $('.comments').show();
                 }
             });
         });
-        
-         $(document).on("click", '.action-unsubscribe', function(event) {
+
+        $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
-             var id=$('#game-id').val();
+            var id = $('#game-id').val();
             $.ajax({
                 method: "GET",
                 url: "{{path('intranet_ajax_unsubscribe_game')}}",
@@ -214,22 +240,57 @@
                     game: id
                 },
                 success: function(data) {
-                    var button=$('.action-unsubscribe');
+                    var button = $('.action-unsubscribe');
                     button.removeClass('action-unsubscribe');
                     button.removeClass('btn-danger');
                     button.addClass('action-subscribe');
-                    button.addClass('btn-success');                
+                    button.addClass('btn-success');
                     button.html('<i class="fa fa-plus"></i> Inscribirse')
                     $('.counter').html(data.places);
                     var obj = JSON.parse(data.user);
-                    var userContent=$('.user[data-id='+obj.id+']');
+                    var userContent = $('.user[data-id=' + obj.id + ']');
                     userContent.hide(500);
                     userContent.remove();
+                    $('.comments').hide();
                 }
             });
         });
+
+        $(document).on("click", '#btn-comment', function(event) {
+            event.preventDefault();
+            var comment = $('#comment').val();
+            var button= $(this);
+            
+            if (comment === "" || comment.length ===0 ) {
+                alert("debes escribir algo");
+                return false;
+            }
+
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_comment_game',{idGame:game.id})}}",
+                dataType: "json",
+                data: {
+                    comment: comment,
+                },
+                beforeSend: function(){
+                   button.html('<i class="fa fa-spinner fa-spin"></i>');
+               },
+                success: function(data) {
+                    $('#comment').val(" ");
+                     button.html('Enviar Comentario');
+                },
+                error: function(data) {
+                    alert("Ha ocurrido un Error");
+                    $('#comment').val(" ");
+                    button.html('Enviar Comentario');
+                },
+
+            });
+
+        });
     });
 </script>
-</script>
+
 
 {% endblock %}
