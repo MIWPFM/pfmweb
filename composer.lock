@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "b685a344663b6995c2ab3967f94344d3",
+    "hash": "11fd872b587359b99c860dc58e0cd30f",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -737,12 +737,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/mongodb-odm.git",
-                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5"
+                "reference": "a7f59648deba613fa6a43cdd54c00cf710a58b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/2e11467a5f55d636441248bae8efb8d7b0293cb5",
-                "reference": "2e11467a5f55d636441248bae8efb8d7b0293cb5",
+                "url": "https://api.github.com/repos/doctrine/mongodb-odm/zipball/a7f59648deba613fa6a43cdd54c00cf710a58b58",
+                "reference": "a7f59648deba613fa6a43cdd54c00cf710a58b58",
                 "shasum": ""
             },
             "require": {
@@ -807,7 +807,7 @@
                 "odm",
                 "persistence"
             ],
-            "time": "2014-05-06 20:42:59"
+            "time": "2014-05-12 15:32:53"
         },
         {
             "name": "doctrine/mongodb-odm-bundle",
@@ -1981,12 +1981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataAdminBundle.git",
-                "reference": "d89d9dc1447f2e0eaac14e89558a4738385c4099"
+                "reference": "26ecdeedf85d370408564f2c48cd3bb428030aed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/d89d9dc1447f2e0eaac14e89558a4738385c4099",
-                "reference": "d89d9dc1447f2e0eaac14e89558a4738385c4099",
+                "url": "https://api.github.com/repos/sonata-project/SonataAdminBundle/zipball/26ecdeedf85d370408564f2c48cd3bb428030aed",
+                "reference": "26ecdeedf85d370408564f2c48cd3bb428030aed",
                 "shasum": ""
             },
             "require": {
@@ -2052,7 +2052,7 @@
                 "bootstrap",
                 "sonata"
             ],
-            "time": "2014-05-07 08:41:34"
+            "time": "2014-05-13 12:38:31"
         },
         {
             "name": "sonata-project/block-bundle",
@@ -2120,22 +2120,22 @@
         },
         {
             "name": "sonata-project/cache",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/cache.git",
-                "reference": "3bd8c266c6184ebcf82846d659292e9680b979eb"
+                "reference": "7c91e7fd1ca5be4273b09388650709bff31d8966"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/cache/zipball/3bd8c266c6184ebcf82846d659292e9680b979eb",
-                "reference": "3bd8c266c6184ebcf82846d659292e9680b979eb",
+                "url": "https://api.github.com/repos/sonata-project/cache/zipball/7c91e7fd1ca5be4273b09388650709bff31d8966",
+                "reference": "7c91e7fd1ca5be4273b09388650709bff31d8966",
                 "shasum": ""
             },
             "require-dev": {
                 "doctrine/orm": "~2.2",
                 "doctrine/phpcr-odm": "~1.0",
-                "predis/predis": "~0.8",
+                "predis/predis": "~0.8,<1.0",
                 "psr/log": "~1.0"
             },
             "suggest": {
@@ -2176,7 +2176,7 @@
                 "mongodb",
                 "redis"
             ],
-            "time": "2014-02-13 15:12:33"
+            "time": "2014-05-12 08:55:48"
         },
         {
             "name": "sonata-project/core-bundle",
@@ -2244,18 +2244,21 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineMongoDBAdminBundle.git",
-                "reference": "dded105866e8b2346a26d3721779f09ffc575586"
+                "reference": "c299a327ebbf3fdb5b23bee7a8bfb9df30b68c2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineMongoDBAdminBundle/zipball/dded105866e8b2346a26d3721779f09ffc575586",
-                "reference": "dded105866e8b2346a26d3721779f09ffc575586",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineMongoDBAdminBundle/zipball/c299a327ebbf3fdb5b23bee7a8bfb9df30b68c2b",
+                "reference": "c299a327ebbf3fdb5b23bee7a8bfb9df30b68c2b",
                 "shasum": ""
             },
             "require": {
                 "doctrine/mongodb-odm": "1.0.*@dev",
                 "doctrine/mongodb-odm-bundle": "3.0.*@dev",
                 "sonata-project/admin-bundle": "~2.3@dev"
+            },
+            "provide": {
+                "sonata-project/admin-bundle-persistency-layer": "1.0.0"
             },
             "require-dev": {
                 "jmikola/geojson": "~1.0"
@@ -2300,7 +2303,7 @@
                 "mongodb",
                 "sonata"
             ],
-            "time": "2014-04-10 12:43:59"
+            "time": "2014-05-12 13:41:53"
         },
         {
             "name": "sonata-project/exporter",
