@@ -25,8 +25,7 @@ class AddressType extends AbstractType
             ->add('city', 'text', array(
                 'label' => 'Localidad'))
             ->add('zipcode', 'hidden', array( ))
-            ->add('lat', 'hidden', array( ))
-            ->add('long', 'hidden', array( ));           
+             ->add('coordinates', new CoordinatesType(),array('data_class'=>'MIW\DataAccessBundle\Document\Coordinates'));         
     }
 
     public function getDefaultOptions(array $options) {

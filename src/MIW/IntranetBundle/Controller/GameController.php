@@ -77,6 +77,7 @@ class GameController extends Controller {
             throw new NotFoundHttpException("Partido no encontrado");
         }
 
+
         return array('game' => $game,'comments'=>$comments);
     }
 

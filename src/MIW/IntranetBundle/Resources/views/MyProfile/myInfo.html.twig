@@ -156,8 +156,8 @@
                     </div>
                 </div>
                 <div class="col-xs-6 col-xs-offset-3">
-                        {{ form_widget(formAddress.lat,{ 'attr': {'class': 'center-lat'} }) }}
-                        {{ form_widget(formAddress.long,{ 'attr': {'class': 'center-long'} }) }}
+                        {{ form_widget(formAddress.coordinates.x,{ 'attr': {'class': 'center-lat'} }) }}
+                        {{ form_widget(formAddress.coordinates.y,{ 'attr': {'class': 'center-long'} }) }}
                         {{ form_widget(formAddress.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
                         {{ form_widget(formAddress._token) }}
                 </div>

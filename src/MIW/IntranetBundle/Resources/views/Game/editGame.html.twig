@@ -175,9 +175,9 @@
 {% block commondown%}
     <div class="row padding-top-20 padding-bottom-20">
         <div class="col-xs-6 col-xs-offset-3">
-            {{ form_widget(form.center.address.lat,{ 'attr': {'class': 'center-lat'} }) }}
-            {{ form_widget(form.center.address.long,{ 'attr': {'class': 'center-long'} }) }}
-            {{ form_widget(form.center.address.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
+            {{ form_widget(form.center.address.coordinates.x,{ 'attr': {'class': 'center-lat'} }) }}
+            {{ form_widget(form.center.address.coordinates.y,{ 'attr': {'class': 'center-long'} }) }}
+            {{ form_widget(form.center.address.coordinates.zipcode,{ 'attr': {'class': 'center-zipcode'} }) }}
             {{ form_widget(form._token) }}
             <div class="row">
                 <div class="col-xs-6">
