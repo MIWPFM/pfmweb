@@ -11,221 +11,249 @@
 
 {% block sidecontent %}
 
-    <div class="row margin-top-20">
-        <div class="col-xs-12">
-            <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/default-user-photo.png') }}" alt="Nombre de usuario"/>
-            <ul class="nav nav-pills nav-stacked">
-                <li>
-                    <a href="{{path('intranet_myprofile_info')}}">Mis Datos</a>
-                </li>
-                <li class="active">
-                    <a href="{{path('intranet_myprofile_sports')}}">Mis Deportes</a>
-                </li>
-                <li>
-                    <a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a>
-                </li>
-                <li>
-                    <a href="{{path('intranet_myprofile_messages')}}">
-                        <span class="badge pull-right">0</span>
-                        Mis Mensajes
-                    </a>
-                </li>
-            </ul>
-        </div>
+<div class="row margin-top-20">
+    <div class="col-xs-12">
+        <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/default-user-photo.png') }}" alt="Nombre de usuario"/>
+        <ul class="nav nav-pills nav-stacked">
+            <li>
+                <a href="{{path('intranet_myprofile_info')}}">Mis Datos</a>
+            </li>
+            <li class="active">
+                <a href="{{path('intranet_myprofile_sports')}}">Mis Deportes</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_games')}}">Mis Partidos</a>
+            </li>
+            <li>
+                <a href="{{path('intranet_myprofile_messages')}}">
+                    <span class="badge pull-right">0</span>
+                    Mis Mensajes
+                </a>
+            </li>
+        </ul>
     </div>
+</div>
 
 {% endblock %}
 
 {% block maincontent %}
 
-    <blockquote class="margin-top-20">
-        <p>Introduce los deportes a los que quieres jugar en WePlay.</p>
-    </blockquote>
+<blockquote class="margin-top-20">
+    <p>Introduce los deportes a los que quieres jugar en WePlay.</p>
+</blockquote>
 
-    <div class="row margin-top-20">        
-            <div class="col-xs-12">
-                {% if mySports | length > 0 %}            
-                    <div class="list-group">
+<div class="row margin-top-20">       
+    <div class="col-xs-12">            
+        <div class="row">
+                {% if mySports | length > 0 %}
                         {% for sports in mySports %}
-                            <div class="list-group-item" data-name="{{sports.sport.name}}" data-id="{{sports.sport.id}}" data-level="{{sports.level}}">
-                                <img class="img-responsive img-thumbnail" src="{{ asset('bundles/miwintranet/images/message_avatar2.png') }}" alt="{{ sports.sport.name }}"/>
-                                <button class="btn btn-success pull-right action-get-sport" data-toggle="modal" data-target="#modifySportModal">Modificar Deporte</button>
-                                <h4>{{ sports.sport.name }}</h4>
-                            </div>
-                        {% endfor %}
-                    </div>  
-                {% else%}
-                    <p> Actualmente no tienes deportes asignados </p>
-                {% endif %}
-                {% if myNotSports | length > 0 %} 
-                    <div class="row">
-                        <button class="btn btn-success pull-left" data-toggle="modal" data-target="#createSportModal">Añadir Deporte</button>
-                    </div>
-                {% endif %}
-                
-                    <!-- /modal-añadir -->
-                <div class="modal fade" id="createSportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
-                                        <i class="fa fa-times text-white"></i>
-                                </button>
-                                <h3>Añadir Deporte</h3>
-                            </div> <!-- /modal-header -->
-                            <div class="modal-body">	
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <label>Elige un Deporte</label>
-                                        <!-- actualizar lista de deportes -->
-                                        <select id="selectSports">
-                                            {% for notSports in myNotSports %}
-                                                <option value="{{ notSports.id }}">{{ notSports.name }}</option>
-                                            {% endfor %}
-                                        </select>  
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <label>Nivel</label>
-                                        {% for i in 0..4 %}
-                                            <a href="#" class="btn btn-danger action-level" data-id="{{i}}"> 
-                                                <i class="fa fa-star"></i> 
-                                            </a>
-                                        {% endfor %}                
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <input class="btn btn-primary action-add-sport" type="button" value="Guardar"/>
-                                    </div>
-                                </div>
-                            </div> <!-- /modal-body -->
-                        </div> <!-- /modal-content -->
-                    </div> <!-- /modal-dialog -->
+            <div class="col-xs-3 item-sport">
+                <div class="btn-img action-get-sport" data-name="{{sports.sport.name}}" data-id="{{sports.sport.id}}" data-level="{{sports.level}}" data-toggle="modal" data-target="#modifySportModal">
+                    <img class="btn-img-img img-responsive" src="{{ asset('bundles/miwintranet/images/sports/' ~ sports.sport.name|lower ~ 'w.png') }}" alt="{{ sports.sport.name }}"/>
+                    <h4 class="btn-img-text">{{ sports.sport.name }}</h4>
                 </div>
-                
-                <!-- /modal-modificar -->
-                <div class="modal fade" id="modifySportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary text-white">
-                                <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
-                                        <i class="fa fa-times text-white"></i>
-                                </button>
-                                <h3>Modificar Deporte</h3>
-                            </div> <!-- /modal-header -->
-                            <div class="modal-body">	
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <label>Deporte: </label> 
-                                        <a class="label-nameSport"></a>
-                                        <input class="hidden-idSport" type="hidden"></input>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <label>Nivel</label>
-                                        {% for i in 0..4 %}
-                                            <a href="#" class="btn btn-danger action-level" data-id="{{ i }}"> 
-                                                <i class="fa fa-star"></i> 
-                                            </a>
-                                        {% endfor %}
-                                    </div>            
-                                </div>
-                                <div class="row text-center">
-                                    <div class="form-group">
-                                        <input class="btn btn-primary action-edit-sport" type="button" value="Editar"/>
-                                        <input class="btn btn-primary action-delete-sport" type="button" value="Borrar"/>
-                                    </div>
-                                </div>
-                            </div> <!-- /modal-body -->
-                        </div> <!-- /modal-content -->
-                    </div> <!-- /modal-dialog -->
-                </div>            
             </div>
-        
+                        {% endfor %}
+                {% endif %}
+            <div class="col-xs-3 item-add">
+                <div class="btn-add action-get-new-sport"  data-toggle="modal" data-target="#createSportModal">
+                    <i class="fa fa-plus-circle fa-x"></i>
+                    <h4 class="btn-add-text">Añadir deporte</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- /modal-añadir -->
+        <div class="modal fade" id="createSportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
+                            <i class="fa fa-times text-white"></i>
+                        </button>
+                        <h3>Añadir Deporte</h3>
+                    </div> <!-- /modal-header -->
+                    <div class="modal-body">	
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <label for="selectSports" class="col-xs-4 col-xs-offset-4 control-label text-center">Elige un Deporte</label>
+                                <!-- actualizar lista de deportes -->
+                                <div class="col-xs-4 col-xs-offset-4">
+                                    <select id="selectSports" class="form-control">
+                                            {% for notSports in myNotSports %}
+                                        <option value="{{ notSports.id }}">{{ notSports.name }}</option>
+                                            {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <label>Nivel</label>
+                                        {% for i in 0..4 %}
+                                <button class="btn btn-star action-level" data-id="{{ i }}">
+                                {% if i==0 %}
+                                    <i class="fa fa-star"></i>
+                                {% else %}
+                                    <i class="fa fa-star-o"></i>
+                                {% endif %}
+                                </button>
+                                        {% endfor %}                
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <button class="btn btn-success action-add-sport" type="button">
+                                    <i class="fa fa-check fa-fw"></i>
+                                    Añadir Deporte
+                                </button>
+                            </div>
+                        </div>
+                    </div> <!-- /modal-body -->
+                </div> <!-- /modal-content -->
+            </div> <!-- /modal-dialog -->
+        </div>
+
+        <!-- /modal-modificar -->
+        <div class="modal fade" id="modifySportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-hidden="true">
+                            <i class="fa fa-times text-white"></i>
+                        </button>
+                        <h3>Editar Deporte</h3>
+                    </div> <!-- /modal-header -->
+                    <div class="modal-body">	
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <h3 class="label-nameSport"></h3>
+                                <input class="hidden-idSport" type="hidden"></input>
+                            </div>
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <label>Nivel</label>
+                                        {% for i in 0..4 %}
+                                <button class="btn btn-star action-level" data-id="{{ i }}"> 
+                                    <i class="fa fa-star-o"></i> 
+                                </button>
+                                        {% endfor %}
+                            </div>            
+                        </div>
+                        <div class="row text-center">
+                            <div class="form-group">
+                                <button class="btn btn-success action-edit-sport" type="button">
+                                    <i class="fa fa-save fa-fw"></i>
+                                    Guardar Cambios
+                                </button>
+                                <button class="btn btn-danger action-delete-sport" type="button">
+                                    <i class="fa fa-trash-o fa-fw"></i>
+                                    Borrar Deporte
+                                </button>
+                            </div>
+                        </div>
+                    </div> <!-- /modal-body -->
+                </div> <!-- /modal-content -->
+            </div> <!-- /modal-dialog -->
+        </div>            
     </div>
+
+</div>
 
 <script>
     $(document).ready(function() {
-        $(document).on("click", '.action-get-sport', function(event) {
-            event.preventDefault();
-            var element = $(this).closest('div.list-group-item');
-            var id = element.data('id');
-            var nameSport = element.data('name');
-            var level = element.data('level');
-            $(document).find('.label-nameSport').html(nameSport);
-            $(document).find('.hidden-idSport').val(id);
+        function setRating(elem) {
+            elem.find('.fa-star-o').removeClass('fa-star-o').addClass('fa-star');
+            elem.prevUntil().find('.fa-star-o').removeClass('fa-star-o').addClass('fa-star');
+            elem.nextUntil().find('.fa-star').removeClass('fa-star').addClass('fa-star-o');
+        }
+        $(document).on('click', '.action-get-sport', function() {
+            var id = $(this).data('id');
+            var nameSport = $(this).data('name');
+            var level = $(this).data('level');
+            $('.label-nameSport').html(nameSport);
+            $('.hidden-idSport').val(id);
+            setRating($('.btn-star[data-id="' + (level - 1) + '"]'));
         });
-        
-        $(document).on("click", '.action-level', function(event) {
-            event.preventDefault();
-            //cambiar imagen de estrellitas 
+
+        $('.btn-star').click(function() {
+            //cambiar imagen de estrellitas
+            setRating($(this));
         });
-        
+
         $('.action-add-sport').on('click', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{path('intranet_ajax_add_sport')}}",
-                    dataType: "json",
-                    data: {
-                        id: $('#selectSports option:selected').val(),
-                        name: $('#selectSports option:selected').text(),
-                        level: 1 //contar estrellitas seleccionadas
-                    },
-                    success: function(data) {
-                        $('#createSportModal').modal('hide');   
-                        var list = $(document).find('.list-group');
-                        var html = "<div class='list-group-item' data-name=" + data.name + " data-id=" + data.id + " data-level=" + data.level + ">";
-                        html += "<img class='img-responsive img-thumbnail' src='bundles/miwintranet/images/message_avatar2.png' />";
-                        html += "<button class='btn btn-success pull-right action-get-sport' data-toggle='modal' data-target='#modifySportModal'>Modificar Deporte</button>";
-                        html += "<h4>" + data.name + "</h4></div>";
-                        list.append(html);                        
-                    }
-                });
-         });
-         
-         $('.action-edit-sport').on('click', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{path('intranet_ajax_add_sport')}}",
-                    dataType: "json",
-                    data: {
-                        id: $('.hidden-idSport').val(),
-                        name: $('.label-nameSport').val(),
-                        level: 3 //contar estrellitas seleccionadas
-                    },
-                    success: function(data) {
-                        $('#modifySportModal').modal('hide');
-                        /*var list = $(document).find('.list-group');
-                        var html = "<div class='list-group-item' data-name=" + data.name + " data-id=" + data.id + ">";
-                        html += "<img class='img-responsive img-thumbnail' src='bundles/miwintranet/images/message_avatar2.png' />";
-                        html += "<button class='btn btn-success pull-right action-get-sport' data-toggle='modal' data-target='#modifySportModal'>Modificar Deporte</button>";
-                        html += "<h4>" + data.name + "</h4></div>";
-                        list.replaceWith(html); */
-                    }
-                });
-         });
-         
-         $('.action-delete-sport').on('click', function() {
-                $.ajax({
-                    method: "GET",
-                    url: "{{path('intranet_ajax_delete_sport')}}",
-                    dataType: "json",
-                    data: {
-                        id: $('.hidden-idSport').val()
-                    },
-                    success: function(data) {
-                        $('#modifySportModal').modal('hide');
-                        var element = $(document).find('.list-group-item');
-                        var node = element.find("[data-id='" + data.id + "']");
-                        node.remove(); 
-                    }
-                });
-         });
-         
-    });        
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_add_sport')}}",
+                dataType: "json",
+                data: {
+                    id: $('#selectSports option:selected').val(),
+                    name: $('#selectSports option:selected').text(),
+                    level: $('#createSportModal .btn-star .fa-star').length
+                },
+                success: function(data) {
+                    //Añado deporte
+                    var elem = $('.item-add');
+                    var html = "<div class='col-xs-3 item-sport'>";
+                    html += "<div class='btn-img action-get-sport' data-name=" + data.name + " data-id=" + data.id + " data-level=" + data.level + " data-toggle='modal' data-target='#modifySportModal'>";
+                    html += "<img class='btn-img-img img-responsive' src={{ asset('bundles/miwintranet/images/sports/') }}" + data.name.toLowerCase() + "w.png alt=" + data.name + " />";
+                    html += "<h4>" + data.name + "</h4></div></div>";
+                    elem.before(html);
+
+                    //Elimino opción del select
+                    $('#selectSports option:selected').remove();
+                    $('#createSportModal').modal('hide');
+
+                }
+            });
+        });
+
+        $('.action-edit-sport').on('click', function() {
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_add_sport')}}",
+                dataType: "json",
+                data: {
+                    id: $('.hidden-idSport').val(),
+                    name: $('.label-nameSport').text(),
+                    level: $('#modifySportModal .btn-star .fa-star').length
+                },
+                success: function(data) {
+                    $(".action-get-sport[data-id='" + data.id + "']").data('level', data.level);
+
+                    $('#modifySportModal').modal('hide');
+                }
+            });
+        });
+
+        $('.action-delete-sport').on('click', function() {
+            $.ajax({
+                method: "GET",
+                url: "{{path('intranet_ajax_delete_sport')}}",
+                dataType: "json",
+                data: {
+                    id: $('.hidden-idSport').val(),
+                    name: $('.label-nameSport').text()
+                },
+                success: function(data) {
+                    var elem = $(".action-get-sport[data-id='" + data.id + "']").parent();
+                    elem.remove();
+
+                    //Añado deporte al select
+                    var html = "<option value=" + data.id + ">" + data.name + "</option>";
+                    $('#selectSports').append(html);
+                    $('#modifySportModal').modal('hide');
+                }
+            });
+        });
+
+        $('.action-get-new-sport').on('click', function() {
+            //Restablezco nivel por defecto
+            setRating($('.btn-star[data-id=0]'));
+        });
+
+    });
 </script>   
 
 {% endblock %}

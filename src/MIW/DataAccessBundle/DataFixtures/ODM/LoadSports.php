@@ -29,8 +29,8 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         print_r("Loading Sports\n");
         $football = new Sport();
         $football->setName("Futbol");
-        $football->setDescription("Real Madrid - Barca");
-        $football->setMinPlayers(12);
+        $football->setDescription("ATLEEEETI!!!");
+        $football->setMinPlayers(22);
         $football->setLevel(5);
         $football->setAttributes(array('position'=>array('Portero','Defensa','Centrocampista','Delantero')));
        
@@ -40,7 +40,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $beisbol = new Sport();
         $beisbol->setName("Beisbol");
         $beisbol->setDescription("CUBA - USA");
-        $beisbol->setMinPlayers(9);
+        $beisbol->setMinPlayers(18);
         $beisbol->setLevel(5);
         $beisbol->setAttributes(array('position'=>array('1Base','2Base','3Base','Pitcher')));
        
@@ -58,11 +58,11 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
     	$manager->flush();
         
         $basket = new Sport();
-        $basket->setName("Basket");
+        $basket->setName("Baloncesto");
         $basket->setDescription("Juego de basketball");
-        $basket->setMinPlayers(12);
+        $basket->setMinPlayers(10);
         $basket->setLevel(5);
-        $basket->setAttributes(array('position'=>array('Izquierda','Derecha','Central','Defensa')));
+        $basket->setAttributes(array('position'=>array('Base','Escolta','Alero','Ala-Pívot','Pívot')));
        
         $manager->persist($basket);
     	$manager->flush();
@@ -70,7 +70,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $voleyball = new Sport();
         $voleyball->setName("Voleyball");
         $voleyball->setDescription("Juego de Voleyball");
-        $voleyball->setMinPlayers(9);
+        $voleyball->setMinPlayers(12);
         $voleyball->setLevel(5);
         $voleyball->setAttributes(array('position'=>array('Izquierda','Derecha','Central','Defensa')));
        

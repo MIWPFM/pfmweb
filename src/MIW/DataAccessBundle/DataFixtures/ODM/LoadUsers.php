@@ -70,6 +70,19 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user2->setAddress($address);
         $user2->setEnabled(true);
         
+        $user3 = new User();
+        $user3->setUsername('alberto');
+        $user3->setEmail('albertoMIW@gmail.com');
+        $user3->setRoles(array('ROLE_USER'));
+        $user3->setName('Alberto');
+        $user3->setSports(array($football->getId()=>array('position'=>'Defensa', 'level'=>3),
+                                $paddel->getId() => array('position'=>'Izquierda', 'level'=>3)));
+        
+        $cryptedPassword3 = $encoder->encodePassword($password, $user3->getSalt());
+        $user3->setPassword($cryptedPassword3);
+        $user3->setAddress($address);
+        $user3->setEnabled(true);
+        
         $admin = new User();
         $admin->setUsername('admin');
         $admin->setEmail('admin@gmail.com');
@@ -82,10 +95,12 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
 
         $manager->persist($user);
         $manager->persist($user2);
+        $manager->persist($user3);
         $manager->persist($admin);
     	$manager->flush();
         
         $this->addReference('user', $user);
         $this->addReference('user2', $user2);
+        $this->addReference('user3', $user3);
     }
 }

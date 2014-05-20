@@ -60,14 +60,16 @@ class SportController extends Controller
         * @Route("/ajax/delete/sport/",name="intranet_ajax_delete_sport")
      */
     public function ajaxDeleteSportAction(Request $request) {
-        $idSport = $request->get('id');        
+        $idSport = $request->get('id');
+        $nameSport = $request->get('name');     
         $dm = $this->get('doctrine.odm.mongodb.document_manager');        
         $user = $this->get('security.context')->getToken()->getUser();
         $user->removeSport($idSport);
         $dm->persist($user);
         $dm->flush();   
         
-        $json = array('id' => $idSport);        
+        $json = array('id' => $idSport,
+                        'name' => $nameSport);        
         $response = new Response();
         $response->setContent(json_encode($json));
         return $response;

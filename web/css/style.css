@@ -83,6 +83,35 @@ textarea[class="form-control"] {
     height: auto !important;
 }
 
+.btn-img, .btn-add {
+    background: #18BC9C;
+    border: 1px solid #2C3E50;
+    border-radius: 4px;
+    color: #FFFFFF;
+    cursor: pointer;
+    margin: 10px;
+    padding: 5px;
+    height: 235px;
+    text-align: center;
+    width: 100%;
+}
+.btn-add .fa {
+    font-size: 10em;
+    height: 183px;
+}
+.btn-img .btn-img-text, .btn-add .btn-img-text {
+    padding: 5px;
+}
+.btn-star {
+    background: transparent;
+    color: #e4c652;
+}
+.btn-star:hover,
+.btn-star:focus {
+    background: transparent;
+    color: #e4c652;
+}
+
 // blockquoutes 
 
 .panel-body .btn:not(.btn-block) { width:131px;margin-bottom:10px; }
@@ -320,11 +349,16 @@ textarea[class="form-control"] {
 
 
 // game lists
-div.list-group-item{height: 150px}
-div.list-group-item div.date{float: left;
-width: 75px;
-text-align: center;
-margin-right: 15px;}
+div.list-group-item{
+    height: 150px
+}
+div.list-group-item div.date{
+    float: left;
+    width: 75px;
+    text-align: center;
+    margin-right: 15px;
+}
 
-div.list-group-item div.details{float: left;
+div.list-group-item div.details{
+    float: left;
 }
