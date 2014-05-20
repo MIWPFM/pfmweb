@@ -59,4 +59,15 @@ class GameRepository extends DocumentRepository
             ->execute();
     }  
     
+    public function findAllByCenter($center)
+    {
+         $now=new \DateTime('now');
+        return $this->createQueryBuilder()
+            ->field('center.id')->equals($center->getId())
+            ->field('gameDate')->gte($now)
+            //->field('admin.id')->notEqual($idUser)
+            ->getQuery()
+            ->execute();
+    }  
+    
 }

@@ -10,6 +10,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use MIW\DataAccessBundle\Document\Center;
 use MIW\DataAccessBundle\Document\Address;
+use MIW\DataAccessBundle\Document\Coordinates;
 
 class LoadCenters extends AbstractFixture implements OrderedFixtureInterface,ContainerAwareInterface
 {
@@ -38,8 +39,10 @@ class LoadCenters extends AbstractFixture implements OrderedFixtureInterface,Con
         $address->setCommunity("Comunidad de Madrid");
         $address->setProvince("Madrid");
         $address->setCity("Coslada");
-        $address->setLat(40.4298909);
-        $address->setLong(-3.5406173);
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.4298909);
+        $coordinates->setY(-3.5406173);
+        $address->setCoordinates($coordinates);
         $center->setAddress($address);
         $manager->persist($center);
         $manager->flush();

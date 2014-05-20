@@ -42,6 +42,36 @@ class GameController extends FOSRestController {
     }
     
     /**
+     * @Rest\GET("/me/recommended-games")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function getRecommendedGamesAction() {
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        
+        $lat=40.40;
+        $long=-3.54;
+        
+        $nearCenters = $dm->getRepository('MIWDataAccessBundle:Center')->findClosestCenters($lat,$long);
+        $geolocationService=$this->get('geolocation_service');
+        
+        $recommendedGames=array();
+
+        foreach ($nearCenters as $key => $center) {
+          
+           $games=$dm->getRepository('MIWDataAccessBundle:Game')->findAllByCenter($center);
+           $coordinates=$center->getAddress()->getCoordinates();
+           foreach ($games as $game) {
+               $line=array();
+               $line['distance']=$geolocationService->getDistance($lat,$long,$coordinates->getX(),$coordinates->getY(),"K");
+               $line['game']=$game;
+               $recommendedGames[]=$line;
+           }
+        }
+     
+        return $this->view($recommendedGames, 200);
+    }
+    
+    /**
      * @Rest\GET("/me/playing-games")
      * @View(serializerEnableMaxDepthChecks=true)
      */

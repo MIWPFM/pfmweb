@@ -5,7 +5,7 @@ namespace MIW\DataAccessBundle\Document;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 
 /** @MongoDB\EmbeddedDocument 
- * @MongoDB\Index(keys={"cordenadas"="2d"})**/
+  @MongoDB\Index(keys={"coordinates"="2d"}) */
 class Address
 { 
     /**
@@ -33,29 +33,28 @@ class Address
      */
     protected $community;
     
-    /** @MongoDB\Float */
-    public $long;
+    /** @MongoDB\EmbedOne(targetDocument="Coordinates") */
+    public $coordinates;
 
-    /** @MongoDB\Float */
-    public $lat;
+    /** @MongoDB\Distance */
+    public $distance;
 
-    public function getLong() {
-        return $this->long;
+    public function getCoordinates() {
+        return $this->coordinates;
     }
 
-    public function getLat() {
-        return $this->lat;
+    public function getDistance() {
+        return $this->distance;
     }
 
-    public function setLong($long) {
-        $this->long = $long;
+    public function setCoordinates($coordinates) {
+        $this->coordinates = $coordinates;
     }
 
-    public function setLat($lat) {
-        $this->lat = $lat;
+    public function setDistance($distance) {
+        $this->distance = $distance;
     }
 
-    
     /**
      * Get id
      *

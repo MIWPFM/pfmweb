@@ -19,4 +19,12 @@ class CenterRepository extends DocumentRepository
             ->getQuery()
             ->execute();
     }
+    
+    public function findClosestCenters($lat,$long)
+    {
+        return $this->createQueryBuilder()
+            ->field('address.coordinates')->near($lat,$long)
+            ->getQuery()
+            ->execute();
+    }
 }

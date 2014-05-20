@@ -10,7 +10,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use MIW\DataAccessBundle\Document\User;
 use MIW\DataAccessBundle\Document\Address;
-
+use MIW\DataAccessBundle\Document\Coordinates;
 class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,ContainerAwareInterface
 {
 
@@ -46,8 +46,11 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $address= new Address();
         $address->setAddress("C\Perú 22 4º 1");
         $address->setCity("Madrid");
-        $address->setLat(40.4);
-        $address->setLong(-3.4);
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.4298909);
+        $coordinates->setY(-3.5406173);
+        $address->setCoordinates($coordinates);
+  
         $address->setProvince("Madrid");
         
         $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);

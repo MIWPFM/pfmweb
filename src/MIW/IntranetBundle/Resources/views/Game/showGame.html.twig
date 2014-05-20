@@ -177,7 +177,7 @@
     function initialize() {
         var geocoder = new google.maps.Geocoder();
         var infowindow = new google.maps.InfoWindow();
-        var position = new google.maps.LatLng({{game.center.address.lat}}, {{game.center.address.long}});
+        var position = new google.maps.LatLng({{game.center.address.coordinates.x}}, {{game.center.address.coordinates.y}});
 
         var mapOptions = {
             zoom: 16,
