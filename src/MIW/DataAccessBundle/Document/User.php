@@ -36,7 +36,7 @@ class User extends BaseUser
     private $birthday;
     
     /** @MongoDB\EmbedOne(targetDocument="Address") 
-    *     @MaxDepth(0)
+         @MaxDepth(1)
      *      */
     private $address;
     
