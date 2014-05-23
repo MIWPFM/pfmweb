@@ -106,5 +106,109 @@ class GameController extends FOSRestController {
         return $this->view($playingGames->toArray(), 200);
     }
 
-   
+    /**
+     * @Rest\GET("/me/games")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function getGamesUserAction() {
+        $user = $this->get('security.context')->getToken()->getUser(); 
+        
+        if($user == "anon.") {
+              throw new NotFoundHttpException();
+        } else {
+            
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $organizedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
+            
+            $toPlayGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
+            
+            $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
+            
+            $arrayResult = array('organizedGames' => $organizedGames, 
+                                'toPlayGames' => $toPlayGames,
+                                'playedGames' => $playedGames);
+            return $this->view($arrayResult, 200);
+        }
+    }
+    
+    /**
+     * @Rest\DELETE("/game/{id}")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function deleteGameAction($id) {            
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+        $dm->remove($game);
+        $dm->flush(); 
+            
+        $result = array('id' => $id);
+        return $this->view($result, 200)->setFormat('json');
+    }
+    
+    /**
+     * @Rest\PUT("/game/suscribe/{id}")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function putSuscribeGameAction($id) {
+        $user = $this->get('security.context')->getToken()->getUser(); 
+        
+        if($user == "anon.") {
+            throw new NotFoundHttpException();
+        } else {
+            
+            $code = 0;
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+            if (!$game->getPlayers()->contains($user)) {
+                $game->addPlayer($user);
+                $code = 1;
+            }
+            $dm->persist($game);
+            $dm->flush();
+            
+            $gamePlaces = $game->getNumPlayers();
+            $places = count($game->getPlayers()) + 1;
+            $serializer = $this->get('jms_serializer');
+            $data = $serializer->serialize($user, 'json');
+            
+            $result = array('code' => $code, 
+                            'places' => "$places/$gamePlaces", 
+                            'user' => $data);
+            return $this->view($result, 200)->setFormat('json');
+        }
+    }
+    
+    /**
+     * @Rest\PUT("/game/unsuscribe/{id}")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function putUnsuscribeGameAction($id) {
+        $user = $this->get('security.context')->getToken()->getUser();   
+        
+        if($user == "anon.") {
+            throw new NotFoundHttpException();
+        } else {
+            
+            $code = 0;
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $game = $dm->getRepository('MIWDataAccessBundle:Game')->find($id);
+            if ($game->getPlayers()->contains($user)) {
+                $game->removePlayer($user);
+                $code = 1;
+            }
+            $dm->persist($game);
+            $dm->flush();
+            
+            $gamePlaces = $game->getNumPlayers();
+            $places = count($game->getPlayers()) + 1;
+            $serializer = $this->get('jms_serializer');
+            $data = $serializer->serialize($user, 'json');
+            
+            $result = array('code' => $code, 
+                            'places' => "$places/$gamePlaces", 
+                            'user' => $data);
+            return $this->view($result, 200)->setFormat('json');
+        }
+    }
+    
 }
