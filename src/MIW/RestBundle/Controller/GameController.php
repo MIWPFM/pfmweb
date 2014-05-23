@@ -24,6 +24,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Request\ParamFetcher;
 use MIW\DataAccessBundle\Document\User;
 
+
 class GameController extends FOSRestController {
 
     /**
@@ -43,31 +44,48 @@ class GameController extends FOSRestController {
     
     /**
      * @Rest\GET("/me/recommended-games")
+     * @QueryParam(name="lat", nullable=true)
+     * @QueryParam(name="long", nullable=true)
      * @View(serializerEnableMaxDepthChecks=true)
      */
-    public function getRecommendedGamesAction() {
+    public function getRecommendedGamesAction(ParamFetcher $paramFetcher) {
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         
-        $lat=40.40;
-        $long=-3.54;
+        $user = $this->get('security.context')->getToken()->getUser();
         
+        if ($user == "anon.") {
+            throw new NotFoundHttpException();
+        }
+
+        $lat=($paramFetcher->get('lat')!=null) ? $paramFetcher->get('lat') :$user->getAddress()->getCoordinates()->getX();
+        $long=($paramFetcher->get('long')!=null) ? $paramFetcher->get('long') : $user->getAddress()->getCoordinates()->getY();
+
+        if (!isset($lat) || !isset($long)) {
+            throw new NotFoundHttpException(" Debe haber alguna localización");
+        }
+
         $nearCenters = $dm->getRepository('MIWDataAccessBundle:Center')->findClosestCenters($lat,$long);
         $geolocationService=$this->get('geolocation_service');
         
         $recommendedGames=array();
+        $sports=$user->getSports();
+        $sportsKey= array_keys($sports);
 
-        foreach ($nearCenters as $key => $center) {
+        foreach ($nearCenters as $center) {
           
-           $games=$dm->getRepository('MIWDataAccessBundle:Game')->findAllByCenter($center);
+           $games=$dm->getRepository('MIWDataAccessBundle:Game')->findAllByCenterAndSports($center,$sportsKey);
            $coordinates=$center->getAddress()->getCoordinates();
-           foreach ($games as $game) {
-               $line=array();
-               $line['distance']=$geolocationService->getDistance($lat,$long,$coordinates->getX(),$coordinates->getY(),"K");
-               $line['game']=$game;
-               $recommendedGames[]=$line;
+          
+           if(count($games) > 0){
+                foreach ($games as $game) {
+                    $line=array();
+                    $line['distance']=$geolocationService->getDistance($lat,$long,$coordinates->getX(),$coordinates->getY(),"K");
+                    $line['game']=$game;
+                    $recommendedGames[]=$line;
+                }
            }
         }
-     
+
         return $this->view($recommendedGames, 200);
     }
     

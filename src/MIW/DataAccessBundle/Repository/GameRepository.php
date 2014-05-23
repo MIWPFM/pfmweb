@@ -59,15 +59,18 @@ class GameRepository extends DocumentRepository
             ->execute();
     }  
     
-    public function findAllByCenter($center)
+    public function findAllByCenterAndSports($center,$sports)
     {
-         $now=new \DateTime('now');
-        return $this->createQueryBuilder()
-            ->field('center.id')->equals($center->getId())
-            ->field('gameDate')->gte($now)
-            //->field('admin.id')->notEqual($idUser)
-            ->getQuery()
-            ->execute();
+        $now=new \DateTime('now');
+        $qb= $this->createQueryBuilder()
+                ->field('center.id')->equals($center->getId())
+                ->field('gameDate')->gte($now);
+        
+        if(count($sports) > 0) {
+            $qb->field('sport.id')->in($sports);
+        }
+
+        return $qb->getQuery()->execute();
     }  
     
 }
