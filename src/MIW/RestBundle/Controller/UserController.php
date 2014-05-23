@@ -23,6 +23,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use FOS\RestBundle\Request\ParamFetcher;
 use MIW\DataAccessBundle\Document\User;
+use MIW\DataAccessBundle\Document\Coordinates;
+use MIW\DataAccessBundle\Document\Address;
+use MIW\IntranetBundle\Form\Type\UserType;
+use MIW\IntranetBundle\Form\Type\AddressType;
+use MIW\IntranetBundle\Form\Type\PasswordType;
 
 class UserController extends FOSRestController {
 
@@ -77,7 +82,7 @@ class UserController extends FOSRestController {
     }
 
     /**
-     * @Rest\PUT("/me/edit/info")
+     * @Rest\PUT("/me/info")
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function putEditUserInfoAction() {
@@ -88,7 +93,7 @@ class UserController extends FOSRestController {
         } else {
             $dm = $this->get('doctrine.odm.mongodb.document_manager');
             
-            $form = $this->createForm(new UserType(), $user);
+            $form = $this->createForm(new UserType(), $user,array('csrf_protection'=> false));
             $form->bind($this->getRequest()->request->all());
 
             if ($form->isValid()) {
@@ -107,7 +112,7 @@ class UserController extends FOSRestController {
     }
 
     /**
-     * @Rest\PUT("/me/edit/location")
+     * @Rest\PUT("/me/location")
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function putEditUserLocationAction() {
@@ -119,7 +124,7 @@ class UserController extends FOSRestController {
         } else {
             $dm = $this->get('doctrine.odm.mongodb.document_manager');
             
-            $form = $this->createForm(new AddressType(), $address);
+            $form = $this->createForm(new AddressType(), $address,array('csrf_protection'=> false));
             $form->bind($this->getRequest()->request->all());
 
             if ($form->isValid()) {
@@ -145,7 +150,7 @@ class UserController extends FOSRestController {
     }
 
     /**
-     * @Rest\PUT("/user/edit/password")
+     * @Rest\PUT("/me/password")
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function putEditUserPasswordAction() {
