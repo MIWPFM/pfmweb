@@ -93,7 +93,7 @@ class UserController extends FOSRestController {
         } else {
             $dm = $this->get('doctrine.odm.mongodb.document_manager');
             
-            $form = $this->createForm(new UserType(), $user,array('csrf_protection'=> false));
+            $form = $this->createForm(new UserType(), $user, array('csrf_protection'=> false));
             $form->bind($this->getRequest()->request->all());
 
             if ($form->isValid()) {
@@ -124,7 +124,7 @@ class UserController extends FOSRestController {
         } else {
             $dm = $this->get('doctrine.odm.mongodb.document_manager');
             
-            $form = $this->createForm(new AddressType(), $address,array('csrf_protection'=> false));
+            $form = $this->createForm(new AddressType(), $address, array('csrf_protection'=> false));
             $form->bind($this->getRequest()->request->all());
 
             if ($form->isValid()) {
@@ -161,7 +161,7 @@ class UserController extends FOSRestController {
         } else {
             $dm = $this->get('doctrine.odm.mongodb.document_manager');
             
-            $form = $this->createForm(new PasswordType());
+            $form = $this->createForm(new PasswordType(), null, array('csrf_protection'=> false));
             $form->bind($this->getRequest()->request->all());
 
             if ($form->isValid()) {
