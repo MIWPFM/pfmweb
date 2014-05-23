@@ -45,7 +45,7 @@ class UserController extends FOSRestController {
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function newUserAction() {
-     
+
         return $this->processForm();
     }
 
@@ -54,7 +54,7 @@ class UserController extends FOSRestController {
 
         $form = $this->container->get('fos_user.registration.form');
         $form->bind($this->getRequest()->request->all());
-        
+
         if ($form->isValid()) {
             $user = $form->getData();
             $statusCode = $user->getId() ? 204 : 201;
@@ -71,9 +71,108 @@ class UserController extends FOSRestController {
             $dm->flush();
 
             return $this->view($user, 201);
-        }   
+        }
 
         return $this->view($form, 400);
+    }
+
+    /**
+     * @Rest\PUT("/me/edit/info")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function putEditUserInfoAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == "anon.") {
+            throw new NotFoundHttpException();
+        } else {
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            
+            $form = $this->createForm(new UserType(), $user);
+            $form->bind($this->getRequest()->request->all());
+
+            if ($form->isValid()) {
+                $user->setName($form->get('name')->getData());
+                $user->setBirthday($form->get('birthday')->getData());
+                $user->setEmail($form->get('email')->getData());
+
+                $dm->persist($user);
+                $dm->flush();
+
+                return $this->view($user, 201);
+            }
+
+            return $this->view($form, 400);
+        }
+    }
+
+    /**
+     * @Rest\PUT("/me/edit/location")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function putEditUserLocationAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        $address = $user->getAddress();
+
+        if ($user == "anon.") {
+            throw new NotFoundHttpException();
+        } else {
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            
+            $form = $this->createForm(new AddressType(), $address);
+            $form->bind($this->getRequest()->request->all());
+
+            if ($form->isValid()) {
+                $address->setAddress($form->get('address')->getData());
+                $address->setCommunity($form->get('community')->getData());
+                $address->setProvince($form->get('province')->getData());
+                $address->setCity($form->get('city')->getData());
+                $address->setZipcode($form->get('zipcode')->getData());
+                $coordinates= new Coordinates();
+                $coordinates->setX($form->get('coordinates')->get('x')->getData());
+                $coordinates->setY($form->get('coordinates')->get('y')->getData());
+                $address->setCoordinates($coordinates);
+                $user->setAddress($address);
+
+                $dm->persist($user);
+                $dm->flush();
+
+                return $this->view($user, 201);
+            }
+
+            return $this->view($form, 400);
+        }
+    }
+
+    /**
+     * @Rest\PUT("/user/edit/password")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function putEditUserPasswordAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        if ($user == "anon.") {
+            throw new NotFoundHttpException();
+        } else {
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            
+            $form = $this->createForm(new PasswordType());
+            $form->bind($this->getRequest()->request->all());
+
+            if ($form->isValid()) {
+                $factory = $this->get('security.encoder_factory');
+                $encoder = $factory->getEncoder($user);
+                $password = $encoder->encodePassword($form->get('passwordNew')->getData(), $user->getSalt());
+                $user->setPassword($password);
+
+                $dm->persist($user);
+                $dm->flush();
+
+                return $this->view($user, 201);
+            }
+
+            return $this->view($form, 400);
+        }
     }
 
 }
