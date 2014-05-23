@@ -95,10 +95,10 @@ class SportController extends FOSRestController {
     }
     
     /**
-     * @Rest\DELETE("/sport/{id, name}")
+     * @Rest\DELETE("/me/sports/{id}")
      * @View(serializerEnableMaxDepthChecks=true)
      */
-    public function deleteSportAction($id, $name) {
+    public function deleteSportAction($id) {
         $user = $this->get('security.context')->getToken()->getUser();  
 
         if($user == "anon.") {
@@ -110,16 +110,16 @@ class SportController extends FOSRestController {
             $dm->persist($user);
             $dm->flush(); 
             
-            $result = array('id' => $id, 'name' => $name);
+            $result = array('result' => 'ok');
             return $this->view($result, 200)->setFormat('json');
         }
     }
     
     /**
-     * @Rest\PUT("/sport/{id, name, level}")
+     * @Rest\PUT("/me/sports/{id}/{level}")
      * @View(serializerEnableMaxDepthChecks=true)
      */
-    public function putSportAction($id, $name, $level) {
+    public function putSportAction($id, $level) {
         $user = $this->get('security.context')->getToken()->getUser(); 
         
         if($user == "anon.") {
@@ -132,19 +132,17 @@ class SportController extends FOSRestController {
             $dm->flush(); 
             
             $result = array(
-                'id' => $id,
-                'name' => $name,
-                'level' => $level
+                'result' => 'OK',
             );        
             return $this->view($result, 200)->setFormat('json');
         }
     }
     
     /**
-     * @Rest\POST("/sport/{id, name, level}")
+     * @Rest\POST("/me/sports/{id}/{level}")
      * @View(serializerEnableMaxDepthChecks=true)
      */
-    public function postSportAction($id, $name, $level) {
+    public function postSportAction($id, $level) {
         $user = $this->get('security.context')->getToken()->getUser();  
         
         if($user == "anon.") {
@@ -157,10 +155,9 @@ class SportController extends FOSRestController {
             $dm->flush(); 
             
             $result = array(
-                'id' => $id,
-                'name' => $name,
-                'level' => $level
-            );        
+                'result' => 'OK',
+            );       
+            
             return $this->view($result, 200)->setFormat('json');
         }
     }
