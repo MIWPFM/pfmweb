@@ -69,7 +69,9 @@ class GameController extends FOSRestController {
         
         $recommendedGames=array();
         $sports=$user->getSports();
-        $sportsKey= array_keys($sports);
+        
+        
+        $sportsKey= (is_array($sports) ? array_keys($sports): array());
 
         foreach ($nearCenters as $center) {
           

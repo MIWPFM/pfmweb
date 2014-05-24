@@ -50,7 +50,7 @@ class UserController extends BaseController {
 
             return $response;
         }
-        var_dump($form->getErrors());
+
 
         if($request->attributes->get('embedded') || $request->getMethod()=="POST"){
             return $this->container->get('templating')->renderResponse('MIWPublicBundle:Registration:register.html.' . $this->getEngine(), array(
