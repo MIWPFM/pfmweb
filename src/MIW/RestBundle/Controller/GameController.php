@@ -107,7 +107,42 @@ class GameController extends FOSRestController {
          
         return $this->view($playingGames->toArray(), 200);
     }
+    
+        
+    /**
+     * @Rest\GET("/me/played-games")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function getPlayedGamesAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        if($user=="anon.")
+              throw new NotFoundHttpException();
+        
+        // querys of games
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
+         
+        return $this->view($playedGames->toArray(), 200);
+    }
 
+        /**
+     * @Rest\GET("/me/organized-games")
+     * @View(serializerEnableMaxDepthChecks=true)
+     */
+    public function getOrganizedGamesAction() {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        if($user=="anon.")
+              throw new NotFoundHttpException();
+        
+        // querys of games
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $organizedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
+         
+        return $this->view($organizedGames->toArray(), 200);
+    }
+    
     /**
      * @Rest\GET("/me/games")
      * @View(serializerEnableMaxDepthChecks=true)
