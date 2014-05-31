@@ -144,7 +144,7 @@ class GameController extends FOSRestController {
     }
     
     /**
-     * @Rest\GET("/me/games")
+     * @Rest\GET("/me/next-games")
      * @View(serializerEnableMaxDepthChecks=true)
      */
     public function getGamesUserAction() {
@@ -154,17 +154,15 @@ class GameController extends FOSRestController {
               throw new NotFoundHttpException();
         } else {
             
-            $dm = $this->get('doctrine.odm.mongodb.document_manager');
-            $organizedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
-            
-            $toPlayGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
-            
-            $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
-            
-            $arrayResult = array('organizedGames' => $organizedGames, 
-                                'toPlayGames' => $toPlayGames,
-                                'playedGames' => $playedGames);
-            return $this->view($arrayResult, 200);
+        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $today = new \DateTime('now');
+
+        $nextMonth = clone $today;
+        $nextMonth->add(new \DateInterval('P30D'));
+        $nextMonth->setTime(0, 0, 0);
+        $games = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $nextMonth, $user->getId());
+ 
+        return $this->view($games->toArray(), 200);
         }
     }
     
