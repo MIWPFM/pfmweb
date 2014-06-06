@@ -57,9 +57,10 @@ class GameController extends FOSRestController {
             throw new NotFoundHttpException();
         }
 
-        $lat=($paramFetcher->get('lat')!=null) ? $paramFetcher->get('lat') :$user->getAddress()->getCoordinates()->getX();
-        $long=($paramFetcher->get('long')!=null) ? $paramFetcher->get('long') : $user->getAddress()->getCoordinates()->getY();
+        $lat=($paramFetcher->get('lat')!=null) ? floatval($paramFetcher->get('lat')) :$user->getAddress()->getCoordinates()->getX();
+        $long=($paramFetcher->get('long')!=null) ? floatval($paramFetcher->get('long')) : $user->getAddress()->getCoordinates()->getY();
 
+ 
         if (!isset($lat) || !isset($long)) {
             throw new NotFoundHttpException(" Debe haber alguna localización");
         }
