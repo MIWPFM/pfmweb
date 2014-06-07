@@ -255,8 +255,11 @@ class Game {
      * @param MIW\DataAccessBundle\Document\User $player
      */
     public function addPlayer(\MIW\DataAccessBundle\Document\User $player) {
-        //$this->players[] = $player;
-        $this->players->add($player);
+
+        if($this->admin!=$player && !$this->players->contains($player) && !$this->isFull())
+            
+            
+            $this->players->add($player);
     }
 
     /**

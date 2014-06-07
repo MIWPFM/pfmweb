@@ -16,7 +16,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('admin.id')->equals($user->getId())
-            ->sort('created', 'desc')
+             ->sort('gameDate')
             ->getQuery()
             ->execute();
     }
@@ -25,6 +25,7 @@ class GameRepository extends DocumentRepository
     {
         return $this->createQueryBuilder()
             ->field('players.$id')->equals(new \MongoId($user->getId()))
+                 ->sort('gameDate')
             ->getQuery()
             ->execute();
     }
@@ -35,6 +36,8 @@ class GameRepository extends DocumentRepository
         return $this->createQueryBuilder()
             ->field('players.$id')->equals(new \MongoId($user->getId()))
             ->field('gameDate')->lte($now)
+                 ->sort('gameDate')
+                
             ->getQuery()
             ->execute();
     }
@@ -45,6 +48,7 @@ class GameRepository extends DocumentRepository
         return $this->createQueryBuilder()
             ->field('players.$id')->equals(new \MongoId($user->getId()))
             ->field('gameDate')->gte($now)
+            ->sort('gameDate')
             ->getQuery()
             ->execute();
     }

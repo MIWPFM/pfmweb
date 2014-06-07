@@ -16,10 +16,10 @@ class CenterAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('name')
-            ->add('description')
-
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('address.address',null, array('label' => 'Dirección'))
+            ->add('address.province',null, array('label' => 'Provincia'))
+            ->add('address.city',null, array('label' => 'Ciudad'))
         ;
     }
 
@@ -29,10 +29,11 @@ class CenterAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('address')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+            ->add('address.address',null, array('label' => 'Dirección'))
+            ->add('address.province',null, array('label' => 'Provincia'))
+            ->add('address.city',null, array('label' => 'Ciudad'))
             ->add('_action', 'actions', array(
                 'actions' => array(
                     'show' => array(),
@@ -49,10 +50,9 @@ class CenterAdmin extends Admin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('address')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+
         ;
     }
 
@@ -63,9 +63,14 @@ class CenterAdmin extends Admin
     {
         $showMapper
             ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('address')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+            ->add('address.address',null, array('label' => 'Dirección'))
+            ->add('address.city',null, array('label' => 'Ciudad'))
+            ->add('address.province',null, array('label' => 'Provincia'))
+            ->add('address.community',null, array('label' => 'Comunidad'))
+            ->add('address.coordinates.x',null, array('label' => 'Latitud'))
+            ->add('address.coordinates.y',null, array('label' => 'Longitud'))
         ;
     }
 }

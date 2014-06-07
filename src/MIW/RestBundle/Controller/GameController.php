@@ -105,8 +105,13 @@ class GameController extends FOSRestController {
         // querys of games
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
-         
-        return $this->view($playingGames->toArray(), 200);
+        
+        $playingsArray=array();
+        foreach ($playingGames as $key => $value) {
+            $playingsArray[]=$value;
+        }
+
+        return $this->view($playingsArray, 200);
     }
     
         
@@ -124,7 +129,11 @@ class GameController extends FOSRestController {
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $playedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayedGames($user);
          
-        return $this->view($playedGames->toArray(), 200);
+        $playedArray=array();
+        foreach ($playedGames as $key => $value) {
+            $playedArray[]=$value;
+        }
+        return $this->view($playedArray, 200);
     }
 
         /**
@@ -141,7 +150,12 @@ class GameController extends FOSRestController {
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $organizedGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
          
-        return $this->view($organizedGames->toArray(), 200);
+        $organizedArray=array();
+        foreach ($organizedGames as $key => $value) {
+            $organizedArray[]=$value;
+        }
+        
+        return $this->view($organizedArray, 200);
     }
     
     /**
@@ -163,7 +177,12 @@ class GameController extends FOSRestController {
         $nextMonth->setTime(0, 0, 0);
         $games = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $nextMonth, $user->getId());
  
-        return $this->view($games->toArray(), 200);
+        $gamesArray=array();
+        foreach ($games as $key => $value) {
+            $gamesArray[]=$value;
+        }
+        
+        return $this->view($gamesArray, 200);
         }
     }
     

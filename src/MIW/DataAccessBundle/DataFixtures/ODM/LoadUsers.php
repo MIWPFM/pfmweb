@@ -32,15 +32,17 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $football= $this->getReference('football');
         $paddel= $this->getReference('paddel');
         $beisbol= $this->getReference('beisbol');
+        $basket= $this->getReference('basket');
+        $volleyball= $this->getReference('voleyball');
         
         $user = new User();
         $user->setUsername('alonsus91');
         $user->setEmail('alonsus91@gmail.com');
         $user->setRoles(array('ROLE_USER'));
         $user->setName('Adrian');
-        $user->setSports(array($football->getId()=>array('position'=>'Defensa', 'level'=>3),
-                                $paddel->getId() => array('position'=>'Izquierda', 'level'=>1),
-                                $beisbol->getId() => array('position'=>'Pitcher', 'level'=>5)));
+        $user->setSports(array($football->getId()=>array('level'=>3),
+                                $paddel->getId() => array('level'=>1),
+                                $beisbol->getId() => array('level'=>5)));
         $password = 'admin';
         
         $address= new Address();
@@ -64,9 +66,9 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $user2->setEmail('lienMIW@gmail.com');
         $user2->setRoles(array('ROLE_USER'));
         $user2->setName('Lien');
-        $user2->setSports(array($football->getId()=>array('position'=>'Defensa', 'level'=>3),
-                                $paddel->getId() => array('position'=>'Izquierda', 'level'=>1),
-                                $beisbol->getId() => array('position'=>'Pitcher', 'level'=>5)));
+        $user2->setSports(array($football->getId()=>array('level'=>3),
+                                $paddel->getId() => array( 'level'=>1),
+                                $volleyball->getId() => array('level'=>5)));
         
         $cryptedPassword2 = $encoder->encodePassword($password, $user2->getSalt());
         $user2->setPassword($cryptedPassword2);
@@ -92,8 +94,8 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $admin->setRoles(array('ROLE_USER','ROLE_ADMIN'));
         $admin->setName('Administrador');
       
-        $cryptedPassword3 = $encoder->encodePassword('admin', $admin->getSalt());
-        $admin->setPassword($cryptedPassword3);
+        $cryptedPassword4 = $encoder->encodePassword('admin', $admin->getSalt());
+        $admin->setPassword($cryptedPassword4);
         $admin->setEnabled(true);
 
         $manager->persist($user);
@@ -102,8 +104,9 @@ class LoadUsers extends AbstractFixture implements OrderedFixtureInterface,Conta
         $manager->persist($admin);
     	$manager->flush();
         
-        $this->addReference('user', $user);
-        $this->addReference('user2', $user2);
-        $this->addReference('user3', $user3);
+        $this->addReference('adrian', $user);
+        $this->addReference('lien', $user2);
+        $this->addReference('alberto', $user3);
+        $this->addReference('admin', $admin);
     }
 }

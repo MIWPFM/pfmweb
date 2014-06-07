@@ -34,7 +34,7 @@ class LoadCenters extends AbstractFixture implements OrderedFixtureInterface,Con
         $center->setName("Polideportivo Valleaguado");
         $center->setDescription("Polideportivo en Coslada");
         $address= new Address();
-        $address->setAddress('Calle Perú 25,27');
+        $address->setAddress('Calle del Perú 17');
         $address->setZipcode(28823);
         $address->setCommunity("Comunidad de Madrid");
         $address->setProvince("Madrid");
@@ -46,7 +46,79 @@ class LoadCenters extends AbstractFixture implements OrderedFixtureInterface,Con
         $center->setAddress($address);
         $manager->persist($center);
         $manager->flush();
+        
+        $center2 = new Center();
+        $center2->setName("Centro Deportivo Municipal Barajas");
+        $center2->setDescription("Polideportivo en Barajas");
+        $address= new Address();
+        $address->setAddress('Avenida de Logroño 70');
+        $address->setZipcode(28042);
+        $address->setCommunity("Comunidad de Madrid");
+        $address->setProvince("Madrid");
+        $address->setCity("Barajas");
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.4629582);
+        $coordinates->setY(-3.5877265999999963);
+        $address->setCoordinates($coordinates);
+        $center2->setAddress($address);
+        $manager->persist($center2);
+        $manager->flush();
+        
+        $center3 = new Center();
+        $center3->setName("Centro Deportivo Municipal Barajas");
+        $center3->setDescription("Polideportivo en Barajas");
+        $address= new Address();
+        $address->setAddress('Ronda del Sur 4');
+        $address->setZipcode(28053);
+        $address->setCommunity("Comunidad de Madrid");
+        $address->setProvince("Madrid");
+        $address->setCity("Vallecas");
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.3784168);
+        $coordinates->setY(3.6745260000000144);
+        $address->setCoordinates($coordinates);
+        $center3->setAddress($address);
+        $manager->persist($center3);
+        $manager->flush();
+        
+        $center4 = new Center();
+        $center4->setName("Centro Deportivo Municipal La Elipa");
+        $center4->setDescription("Polideportivo en La Elipa");
+        $address= new Address();
+        $address->setAddress('Parque de la Elipa 6');
+        $address->setZipcode(28030);
+        $address->setCommunity("Comunidad de Madrid");
+        $address->setProvince("Madrid");
+        $address->setCity("Moratalaz");
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.416598);
+        $coordinates->setY(-3.656454800000006);
+        $address->setCoordinates($coordinates);
+        $center4->setAddress($address);
+        $manager->persist($center4);
+        $manager->flush();
+        
+        $center5 = new Center();
+        $center5->setName("Centro Deportivo Municipal Luis Aragonés");
+        $center5->setDescription("Polideportivo Hortaleza");
+        $address= new Address();
+        $address->setAddress('Calle el Provencio 20');
+        $address->setZipcode(28030);
+        $address->setCommunity("Comunidad de Madrid");
+        $address->setProvince("Madrid");
+        $address->setCity("Hortaleza");
+        $coordinates= new Coordinates();
+        $coordinates->setX(40.4655682);
+        $coordinates->setY(-3.6282562999999755);
+        $address->setCoordinates($coordinates);
+        $center5->setAddress($address);
+        $manager->persist($center5);
+        $manager->flush();
            
         $this->addReference('center', $center);
+        $this->addReference('center2', $center2);
+        $this->addReference('center3', $center3);
+        $this->addReference('center4', $center4);
+        $this->addReference('center5', $center5);
     }
 }

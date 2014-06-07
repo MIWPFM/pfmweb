@@ -30,42 +30,71 @@ class LoadGames extends AbstractFixture implements OrderedFixtureInterface,Conta
         print_r("Loading Games\n");
         $football= $this->getReference('football');
         $paddel= $this->getReference('paddel');
-        $user= $this->getReference('user');
-        $user2= $this->getReference('user2');
+        $volleyball= $this->getReference('voleyball');
+        $basket= $this->getReference('basket');
+        $beisbol= $this->getReference('beisbol');
+        
+        $sports=array($football,$paddel,$volleyball,$basket,$beisbol);
+        
+        $user= $this->getReference('adrian');
+        $user2= $this->getReference('lien');
+        $user3= $this->getReference('alberto');
+        $user4= $this->getReference('admin');
+        
+        $users=array($user,$user2,$user3,$user4);
+        
         $center= $this->getReference('center');
+        $center2= $this->getReference('center2');
+        $center3= $this->getReference('center3');
+        $center4= $this->getReference('center4');
+        $center5= $this->getReference('center5');
+                
+        $centers=array($center,$center2,$center3,$center4,$center5);
         
-        $gameDate=new \DateTime();
-        $gameDate->modify('+3 days');
+        for ($index = 0; $index < 100; $index++) {
+            $game=$this->createRandomGame($users,$sports,$centers);
+            $manager->persist($game);
+            $manager->flush();
+        }
+ 
+    }
+    
+    
+    public function createRandomGame($users,$sports,$centers){
         
+        $gameDate=$this->getRandomDate();
+        $createdDate= clone $gameDate;
+        $limitDate= clone $gameDate;
         $game = new Game();
-        $game->setAdmin($user);
-        $game->setCreated(new \DateTime());
+        $game->setAdmin($users[rand(0,3)]);
+        $game->setCreated($createdDate->modify("-10 days"));
         $game->setGameDate($gameDate);
-        $game->setLimitDate($gameDate);
-        $game->setPrice(10);
-        $game->setNumPlayers(22);
-        $game->setSport($football);
+        $game->setLimitDate($limitDate->modify("-1 day"));
+        $game->setPrice(rand(3,10));
+        $game->setNumPlayers(rand(3,10));
+        $game->setSport($sports[rand(0,4)]);
         $game->setDescription("Creo este evento en tal sitio por que quiero bla bla");
-        $game->setCenter($center);
-        $game->addPlayer($user2);
+        $game->setCenter($centers[rand(0,4)]);
+        $game->addPlayer($users[rand(0,3)]);
+        $game->addPlayer($users[rand(0,3)]);
         
-        $game2 = new Game();
-        $game2->setAdmin($user2);
-        $game2->setGameDate($gameDate);
-        $game2->setCreated($gameDate);
-        $game2->setLimitDate(new \Datetime());
-        $game2->setPrice(2);
-        $game2->setNumPlayers(2);
-        $game2->setSport($paddel);
-        $game2->setDescription("Creo este evento en tal sitio por que quiero bla bla");
-        $game2->setCenter($center);
-        $game2->addPlayer($user);
+        return $game;
         
-        $manager->persist($game);
-        $manager->persist($game2);
-    	$manager->flush();
-        
-        $this->addReference('game', $game);
-        $this->addReference('game2', $game2);
+    }
+    public function getRandomDate()
+    {
+        $days=rand(1,10);
+        $bool=rand(0,1);
+        if($bool==0)
+            $char="+";
+        else
+            $char="-";
+
+        $date= new \DateTime();
+        $date->setTime(rand(0,23), rand(0,59), rand(0,59));
+        $date->modify("$char$days days");
+       
+       
+        return $date;
     }
 }

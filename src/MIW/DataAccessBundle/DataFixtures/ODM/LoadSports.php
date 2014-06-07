@@ -30,10 +30,8 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $football = new Sport();
         $football->setName("Futbol");
         $football->setDescription("ATLEEEETI!!!");
-        $football->setMinPlayers(22);
-        $football->setLevel(5);
-        $football->setAttributes(array('position'=>array('Portero','Defensa','Centrocampista','Delantero')));
-       
+        $football->setMinPlayers(22);       
+        
         $manager->persist($football);
     	$manager->flush();
         
@@ -41,9 +39,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $beisbol->setName("Beisbol");
         $beisbol->setDescription("CUBA - USA");
         $beisbol->setMinPlayers(18);
-        $beisbol->setLevel(5);
-        $beisbol->setAttributes(array('position'=>array('1Base','2Base','3Base','Pitcher')));
-       
+            
         $manager->persist($beisbol);
     	$manager->flush();
         
@@ -51,8 +47,6 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $paddel->setName("Padel");
         $paddel->setDescription("Juego de raquetas");
         $paddel->setMinPlayers(2);
-        $paddel->setLevel(5);
-        $paddel->setAttributes(array('position'=>array('Izquierda','Derecha')));
        
         $manager->persist($paddel);
     	$manager->flush();
@@ -61,9 +55,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $basket->setName("Baloncesto");
         $basket->setDescription("Juego de basketball");
         $basket->setMinPlayers(10);
-        $basket->setLevel(5);
-        $basket->setAttributes(array('position'=>array('Base','Escolta','Alero','Ala-Pívot','Pívot')));
-       
+        
         $manager->persist($basket);
     	$manager->flush();
         
@@ -71,9 +63,7 @@ class LoadSports extends AbstractFixture implements OrderedFixtureInterface,Cont
         $voleyball->setName("Voleyball");
         $voleyball->setDescription("Juego de Voleyball");
         $voleyball->setMinPlayers(12);
-        $voleyball->setLevel(5);
-        $voleyball->setAttributes(array('position'=>array('Izquierda','Derecha','Central','Defensa')));
-       
+
         $manager->persist($voleyball);
     	$manager->flush();
         

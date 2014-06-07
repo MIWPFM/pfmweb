@@ -16,11 +16,8 @@ class SportAdmin extends Admin
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper
-            ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('minPlayers')
-            ->add('attributes')
+            ->add('id',null, array('label' => 'Id'))
+            ->add('name',null, array('label' => 'Nombre'))
         ;
     }
 
@@ -30,10 +27,9 @@ class SportAdmin extends Admin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('minPlayers')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+            ->add('minPlayers',null, array('label' => 'Jugadores Recomendados'))
  
             ->add('_action', 'actions', array(
                 'actions' => array(
@@ -52,9 +48,9 @@ class SportAdmin extends Admin
     {
         $formMapper
             ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('minPlayers')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+            ->add('minPlayers',null, array('label' => 'Jugadores Recomendados'))
 
         ;
     }
@@ -66,9 +62,9 @@ class SportAdmin extends Admin
     {
         $showMapper
             ->add('id')
-            ->add('name')
-            ->add('description')
-            ->add('minPlayers')
+            ->add('name',null, array('label' => 'Nombre'))
+            ->add('description',null, array('label' => 'Descripción'))
+            ->add('minPlayers',null, array('label' => 'Jugadores Recomendados'))
     
         ;
     }

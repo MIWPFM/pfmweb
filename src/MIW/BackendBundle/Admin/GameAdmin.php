@@ -17,16 +17,11 @@ class GameAdmin extends Admin
     {
         $datagridMapper
             ->add('id')
-            ->add('name')
-            ->add('gameDate')
-            ->add('limitDate')
-            ->add('created')
-            ->add('numPlayers')
-            ->add('price')
-            ->add('center')
-            ->add('admin')
-            ->add('sport')
-            ->add('players')
+            ->add('numPlayers',null, array('label' => 'Número de jugadores'))
+            ->add('price',null, array('label' => 'Precio'))
+            ->add('center',null, array('label' => 'Instalación'))
+            ->add('admin',null, array('label' => 'Creador'))
+            ->add('sport',null, array('label' => 'Deporte'))
         ;
     }
 
@@ -67,9 +62,9 @@ class GameAdmin extends Admin
             ->add('created')
             ->add('numPlayers')
             ->add('price')
-            ->add('center.name')
+            ->add('center')
             ->add('admin')
-            ->add('sport.name')
+            ->add('sport')
             ->add('players')
         ;
     }
@@ -82,21 +77,21 @@ class GameAdmin extends Admin
         $showMapper
             ->add('id')
              ->add('description',null, array('label' => 'Descripcion'))
-            ->add('gameDate')
-            ->add('limitDate')
-            ->add('created')
-            ->add('numPlayers')
-            ->add('price')
-            ->add('center')
-            ->add('admin')
-            ->add('sport')
-            ->add('players')
+            ->add('gameDate',null, array('label' => 'Fecha del Partido'))
+            ->add('limitDate',null, array('label' => 'Fecha límite de Baja'))
+            ->add('created',null, array('label' => 'Fecha de Creacion'))
+            ->add('numPlayers',null, array('label' => 'Número de jugadores'))
+            ->add('price',null, array('label' => 'Precio'))
+            ->add('center',null, array('label' => 'Instalación'))
+            ->add('admin',null, array('label' => 'Creador'))
+            ->add('sport',null, array('label' => 'Deporte'))
+            ->add('players',null, array('label' => 'Jugadores'))
         ;
     }
     
     protected $datagridValues = array(
         '_page'       => 1,
-        '_sort_order' => 'ASC', // sort direction
+        '_sort_order' => 'DESC', // sort direction
         '_sort_by' => 'gameDate' // field name
     );
 }
