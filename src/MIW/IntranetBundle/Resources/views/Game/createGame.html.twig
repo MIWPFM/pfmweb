@@ -27,7 +27,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-                                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
+                                        {{ form_widget(form.gameDate,{ 'attr': {'class': 'form-control input-group-element datepicker-gameDate'} }) }}
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar fa-fw"></i></span>
-                                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control input-group-element datepicker'} }) }}
+                                        {{ form_widget(form.limitDate,{ 'attr': {'class': 'form-control input-group-element datepicker-limitDate'} }) }}
                                     </div>
                                 </div>
                             </div>
@@ -85,12 +85,10 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.price) }}
-
                             <div class="input-group">
-                            {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element z-index-0'} }) }}
+                                {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element price'} }) }}
                                 <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -112,6 +110,7 @@
         <p>Para encontrar tu localización utiliza el autocompletado del campo instalación.</p>
     </blockquote>
     <h2>¿Dónde Jugamos?</h2>
+    <div id="alert_placeholder"></div>
     <div class="row margin-top-20">
         <div class="col-xs-5">
             <div class="row">
@@ -181,7 +180,7 @@
             {{ form_widget(form._token) }}
             <div class="row">
                 <div class="col-xs-6">
-                    <button class="btn btn-success btn-block" type="submit">
+                    <button class="btn btn-success btn-block action-create-game" type="submit">
                         <i class="fa fa-check fa-fw"></i>
                         Crear
                     </button>
@@ -199,6 +198,7 @@
 
 <script>
     $(document).ready(function() {
+        
         $('.center-name').autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -231,22 +231,33 @@
             },
             select: function(event, ui) {
                 $('#game_center_address_address').val(ui.item.item.address);
-                $('.center-name').val(ui.item.item.name)
+                $('.center-name').val(ui.item.item.name);
                 $('#game_center_address_province').val(ui.item.item.province);
                 $('#game_center_address_community').val(ui.item.item.community);
                 $('#game_center_address_city').val(ui.item.item.city);
                 event.preventDefault();
             }
-        })
+        });
 
-
-        $('.datepicker').datepicker({
+        $('.datepicker-gameDate').datepicker({
             changeMonth: true,
             changeYear: true,
             dateFormat: 'd/m/y',
-            yearRange: "-0:+1"
+            minDate: '+0D'
         });
-
+        
+        $('.datepicker-limitDate').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'd/m/y',
+            minDate: '+0D',            
+            onChange: function() { 
+                if(this.val() > $('.datepicker-gameDate').val()) {
+                    $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La fecha limite debe ser menor que la fecha del partido.</strong></div>');
+                }
+            }
+        });
+        
         $('.timepicker').timepicker({
             defaultTime: 'current',
             showMeridian: false,
@@ -254,7 +265,12 @@
             template: 'dropdown'
         });
         
+        var html = "<option value=0 selected>Seleccione un deporte</option>";
+        $('.select-sport').prepend(html);                    
         $('.select-sport').on('change', function() {
+            if (this.value == 0) {
+                $('#alert_placeholder').html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Debe seleccionar un deporte.</strong></div>');
+            } else {
                 $.ajax({
                     method: "GET",
                     url: "{{path('intranet_ajax_find_sport')}}",
@@ -266,9 +282,24 @@
                         $('.num-players').val(data.min_players);
                     }
                 });
-    
-
+            }
          });
+         
+        /*$('.num-players').numeric({
+            decimal: false, 
+            negative: false 
+            }, function() { 
+                this.value = ""; 
+                this.focus(); 
+        });*/
+        
+        /*$('.price').numeric({
+            negative: false 
+            }, function() { 
+                this.value = ""; 
+                this.focus(); 
+        });*/
+        
  });
 </script>
 {% endblock %}
