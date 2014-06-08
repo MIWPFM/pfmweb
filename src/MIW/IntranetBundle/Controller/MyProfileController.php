@@ -49,7 +49,7 @@ class MyProfileController extends Controller {
                 $user->setEmail($formUser->get('email')->getData());
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 1)));
             }
 
             if ($formAddress->isValid()) {
@@ -65,7 +65,7 @@ class MyProfileController extends Controller {
                 $user->setAddress($address);
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 2)));
             }
 
             if ($formPassword->isValid()) {
@@ -75,13 +75,13 @@ class MyProfileController extends Controller {
                 $user->setPassword($password);
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info'));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 3)));
             }
         }
 
         return array('formUser' => $formUser->createView(),
-            'formAddress' => $formAddress->createView(),
-            'formPassword' => $formPassword->createView());
+                    'formAddress' => $formAddress->createView(),
+                    'formPassword' => $formPassword->createView());
     }
 
     /**
