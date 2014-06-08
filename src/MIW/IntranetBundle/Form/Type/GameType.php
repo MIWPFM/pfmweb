@@ -14,8 +14,8 @@ class GameType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $now=new \DateTime('now');
-         $builder
+        $now = new \DateTime('now');
+        $builder
             ->add('gameDate', 'date', array(
                 'label' => 'Fecha',
                 'widget' => 'single_text',
@@ -43,19 +43,18 @@ class GameType extends AbstractType
             ->add('sport', 'document', array(
                 'class' => 'MIWDataAccessBundle:Sport',
                 'property' => 'name',
-                'label' => 'Deporte',
-            ))
+                'label' => 'Deporte'))
+            ->add('numPlayers', 'integer', array(
+                'label' => 'Nº Jugadores',
+                'data' => 1))
             ->add('price', 'money', array(
                 'divisor' => 1,
                 'label' => 'Precio',
                 'currency' => 'false',
-            ))
-            ->add('numPlayers', 'integer', array(
-                'label' => 'Nº Jugadores',
-            ))
+                'data' => 0.00))            
             ->add('description', 'textarea', array(
                 'label' => 'Descripción',
-            ))
+                'required' => false))
             ->add('center', new CenterType(),array('data_class'=>'MIW\DataAccessBundle\Document\Center'));
            
     }
