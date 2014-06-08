@@ -8,10 +8,6 @@
     <li class="active">Mostrar Partidos</li>
 </ul>
 
-<div class="alert alert-success fade in"style="display:none">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-      <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
-    </div>
 
 {% endblock%}
 
@@ -22,6 +18,34 @@
         <div class="well bs-component">
             <legend>Filtrar</legend>
 
+            <div class="row">
+                <form action="{{path('intranet_games')}}" method="POST">
+                    <div class="col-xs-12">
+
+                            
+                                <div class="form-group">
+                                    <label>Deporte</label>
+                                    <div class="input-group">
+                                        <select name="sport" class="form-control select-sport text-center">
+                                            <option value="-1">Seleccionar deporte</option>
+                                            {% for sportValue in sports%}
+                                            <option value="{{sportValue.id}}" {% if sportValue.id == sport%}selected{% endif%} >{{sportValue.name}}</option>
+                                            {% endfor%}
+                                        </select> 
+
+                                    </div>
+                                    
+                                </div>
+                            
+                                <div class="form-group">
+
+                                      <input type="submit" class="btn btn-success" value="Filtrar">
+                                </div>
+                        </div>
+                      
+            
+                </form>
+            </div>
         </div>
     </div>
 </div>  
@@ -50,9 +74,9 @@
             </div>
             <div class="details">
                 {% if ((game.players | length) + 1) == game.numPlayers%}
-                    <span class="label label-warning">Completo</span>
+                <span class="label label-warning">Completo</span>
                 {% else %}
-                    <span class="label label-success">Organizandose</span>
+                <span class="label label-success">Organizandose</span>
                 {% endif%}
                 <h3 class="list-group-item-heading">{{game.sport.name}}</h3>
                 <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
@@ -60,9 +84,9 @@
             <div class="actions pull-right">
                 <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>      
                 {% if game.players.contains(app.user)%}
-                    <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
+                <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
                 {%elseif not game.isFull%}
-                    <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
+                <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
                 {% endif%}
 
                 <a href="#" class="btn btn-default counter"> {{game.players | length + 1}}  / {{game.numPlayers}}</a>
@@ -101,7 +125,7 @@
             </div>
             <div class="actions pull-right">
                 <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>
-      
+
              {% if game.players.contains(app.user)%}
                 <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
             {%elseif not game.isFull%}
@@ -143,15 +167,15 @@
                 <p> {% if game.center is defined and game.center is not null%} {{game.center.name}} - {{game.center.address.address}} - {{game.center.address.city}} ({{game.center.address.province}}) {% endif%}</p>
 
             </div>
-           <div class="actions pull-right">
+            <div class="actions pull-right">
                 <a href="{{path('intranet_games_show',{'id':game.id})}}" class="btn btn-success"><i class="fa fa-eye"></i></a>
-      
+
             {% if game.players.contains(app.user)%}
                 <a href="#" class="btn btn-danger action-unsubscribe"> <i class="fa fa-minus"></i> </a>
             {%elseif not game.isFull%}
                 <a href="#" class="btn btn-success action-subscribe"> <i class="fa fa-plus"></i> </a>
             {% endif%}
-                
+
 
                 <a href="#" class="btn btn-default counter"> {{game.players | length + 1}}  / {{game.numPlayers}}</a>
 
@@ -172,9 +196,9 @@
     $(document).ready(function() {
         $(document).on("click", '.action-subscribe', function(event) {
             event.preventDefault();
-            var element=$(this).closest('div.list-group-item');
-            var id=element.data('id');
-            
+            var element = $(this).closest('div.list-group-item');
+            var id = element.data('id');
+
             $.ajax({
                 method: "GET",
                 url: "{{path('intranet_ajax_subscribe_game')}}",
@@ -183,7 +207,7 @@
                     game: id
                 },
                 success: function(data) {
-                   var button=element.find('.action-subscribe');
+                    var button = element.find('.action-subscribe');
                     button.removeClass('action-subscribe');
                     button.removeClass('btn-success');
                     button.addClass('action-unsubscribe');
@@ -191,15 +215,15 @@
                     button.find('i').addClass('fa-minus');
                     button.find('i').removeClass('fa-plus')
                     element.find('.counter').html(data.places);
-                    $('.alert-success').alert();    
+                    $('.alert-success').alert();
                 }
             });
         });
-        
-         $(document).on("click", '.action-unsubscribe', function(event) {
+
+        $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
-            var element=$(this).closest('div.list-group-item');
-            var id=element.data('id');
+            var element = $(this).closest('div.list-group-item');
+            var id = element.data('id');
             $.ajax({
                 method: "GET",
                 url: "{{path('intranet_ajax_unsubscribe_game')}}",
@@ -208,11 +232,11 @@
                     game: id
                 },
                 success: function(data) {
-                    var button=element.find('.action-unsubscribe');
+                    var button = element.find('.action-unsubscribe');
                     button.removeClass('action-unsubscribe');
                     button.removeClass('btn-danger');
                     button.addClass('action-subscribe');
-                    button.addClass('btn-success');                
+                    button.addClass('btn-success');
                     button.find('i').removeClass('fa-minus');
                     button.find('i').addClass('fa-plus')
                     element.find('.counter').html(data.places);

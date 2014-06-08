@@ -7,6 +7,7 @@ use JMS\Serializer\Annotation\MaxDepth;
 
 /**
  * @MongoDB\Document
+ * @MongoDB\HasLifecycleCallbacks 
  */
 class User extends BaseUser
 {
@@ -209,6 +210,33 @@ class User extends BaseUser
     public function setCompletedProfile($completedProfile) {
         $this->completedProfile = $completedProfile;
     }
+
+    /** 
+    * @MongoDB\PrePersist()
+    * @MongoDB\PreUpdate()
+    */
+    public function uploadImage()
+    {
+ 
+        if($this->image != null){
+
+            $this->hash = sha1($this->username);     
+            $this->image->move(__DIR__.'/../../../../web/images/avatar/',$this->hash.".".$this->image->getClientOriginalExtension());
+            $this->hash.=".".$this->image->getClientOriginalExtension();
+            $this->image = null;
+        }
+    }
+ 
+    public $image;
+    
+    public function getImage() {
+        return $this->image;
+    }
+
+    public function setImage($image) {
+        $this->image = $image;
+    }
+
 
 
 }

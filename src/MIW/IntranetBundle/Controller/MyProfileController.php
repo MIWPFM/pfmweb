@@ -156,21 +156,23 @@ class MyProfileController extends Controller {
      * @Template("MIWIntranetBundle:MyProfile:ownerGames.html.twig")
      */
     public function viewMyOwnerGamesAction() {
+
         $user = $this->get('security.context')->getToken()->getUser();
 
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
-        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findSports($user);
+        $ownerGames = $dm->getRepository('MIWDataAccessBundle:Game')->findUserGames($user);
 
         return array('ownerGames' => $ownerGames);
     }
 
-    /**
+    /** 
      * @Route("/mis-partidos/por-jugar",name="intranet_myprofile_games_playing")
      * @Template("MIWIntranetBundle:MyProfile:playingGames.html.twig")
      */
     public function viewMyPlayingGamesAction() {
+          
         $user = $this->get('security.context')->getToken()->getUser();
-
+    
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
 
@@ -191,11 +193,26 @@ class MyProfileController extends Controller {
     }
 
     /**
-     * @Route("/mis-mensajes",name="intranet_myprofile_messages")
+     * @Route("/upload-avatar",name="intranet_myprofile_upload_avatar")
      * @Template("MIWIntranetBundle:MyProfile:myMessages.html.twig")
      */
-    public function viewMyMessagesAction() {
-        return array();
+    public function uploadAvatarAction(Request $request) {
+        $user = $this->get('security.context')->getToken()->getUser();
+        
+        $avatar = $request->files->get('avatar');
+ 
+        $mimeType=$avatar->getMimeType();
+
+        if(strpos($mimeType,'image') !== false){
+            $user->setImage($avatar);
+            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $user->uploadImage();
+            $dm->persist($user);
+            $dm->flush();
+        }
+        return $this->redirect($this->generateUrl('intranet_myprofile_info'));
     }
+    
+    
 
 }

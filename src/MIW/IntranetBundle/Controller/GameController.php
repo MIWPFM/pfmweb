@@ -30,7 +30,7 @@ class GameController extends Controller {
      * @Route("/partidos",name="intranet_games")
      * @Template("MIWIntranetBundle:Game:showGames.html.twig");
      */
-    public function showGamesAction() {
+    public function showGamesAction(Request $request) {
         // get user
         $user = $this->get('security.context')->getToken()->getUser();
         $idUser = $user->getId();
@@ -39,27 +39,35 @@ class GameController extends Controller {
         $dm = $this->get('doctrine.odm.mongodb.document_manager');
 
         $playingGames = $dm->getRepository('MIWDataAccessBundle:Game')->findPlayingGames($user);
-
+        $sports=$dm->getRepository('MIWDataAccessBundle:Sport')->findAll();
+        
+        $sport=false;
+        if($request->getMethod()=="POST"){
+            $sport=$request->request->get("sport");
+            if($sport==-1)
+                $sport=false;
+        }
+        
         $today = new DateTime('now');
 
         $tomorrow = clone $today;
         $tomorrow->add(new DateInterval('P1D'));
         $tomorrow->setTime(0, 0, 0);
-        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $tomorrow, $idUser);
+        $gamesToday = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($today, $tomorrow, $idUser,$sport);
 
         $twodays = clone $today;
         $twodays->add(new DateInterval('P2D'));
         $twodays->setTime(0, 0, 0);
-        $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($tomorrow, $twodays, $idUser);
+        $gamesTomorrow = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($tomorrow, $twodays, $idUser,$sport);
 
         $week = clone $today;
         $week->add(new DateInterval('P7D'));
         $week->setTime(0, 0, 0);
-        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($twodays, $week, $idUser);
+        $gamesThisWeek = $dm->getRepository('MIWDataAccessBundle:Game')->findAllBetweenDates($twodays, $week, $idUser,$sport);
 
 
         return array('gamesToday' => $gamesToday, 'gamesTomorrow' => $gamesTomorrow,
-            'gamesThisWeek' => $gamesThisWeek, 'playingGames' => $playingGames);
+            'gamesThisWeek' => $gamesThisWeek, 'playingGames' => $playingGames,'sports'=>$sports,'sport'=>$sport);
     }
 
     /**

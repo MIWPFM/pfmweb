@@ -85,8 +85,8 @@ textarea[class="form-control"] {
 
 .btn-img, .btn-add {
     background: #18BC9C;
-    border: 1px solid #2C3E50;
-    border-radius: 4px;
+    /* border: 1px solid #2C3E50; */
+     border-radius: 10px; 
     color: #FFFFFF;
     cursor: pointer;
     margin: 10px;
@@ -361,4 +361,13 @@ div.list-group-item div.date{
 
 div.list-group-item div.details{
     float: left;
+}
+
+.recuadro
+{
+    width: 132px;
+}
+
+.recuadros i{
+    margin-bottom: 5px;
 }

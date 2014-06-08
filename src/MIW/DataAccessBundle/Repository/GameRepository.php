@@ -53,14 +53,17 @@ class GameRepository extends DocumentRepository
             ->execute();
     }
     
-    public function findAllBetweenDates($initDate, $endDate, $idUser)
+    public function findAllBetweenDates($initDate, $endDate, $idUser,$sport=false)
     {
-        return $this->createQueryBuilder()
+        $qb= $this->createQueryBuilder()
             ->field('gameDate')->range($initDate, $endDate)
             ->field('admin.id')->notEqual($idUser)
-            ->sort('gameDate', 'asc')
-            ->getQuery()
-            ->execute();
+            ->sort('gameDate', 'asc');
+           
+        if($sport)
+             $qb->field('sport.id')->equals(new \MongoId($sport));      
+                
+        return $qb->getQuery()->execute();
     }  
     
     public function findAllByCenterAndSports($center,$sports)
