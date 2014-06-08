@@ -42,7 +42,7 @@
 <div class="row margin-top-20">
     <div class="col-xs-12">
         <!-- Nav tabs -->
-        <ul class="nav nav-pills nav-justified">
+        <ul class="nav nav-pills nav-justified" id="myInfoTab">
             <li class="active">
                 <a href="#userInfo" data-toggle="tab">Datos de Usuario</a>
             </li>
@@ -53,9 +53,9 @@
                 <a href="#userPassword" data-toggle="tab">Cambiar Contraseña</a>
             </li>
         </ul>
-
         <!-- Tab panes -->
         <div class="tab-content margin-top-20"> 
+            <div id="alert_placeholder_info"></div>
             <div class="tab-pane active" id="userInfo">
                 {{ form_start(formUser, {'method': 'POST'}) }}
                 <div class="col-xs-6 col-xs-offset-3 margin-top-20">
@@ -93,8 +93,9 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div id="alert_placeholder_userInfo"></div>
                         <div class="col-xs-8 col-xs-offset-2">
-                            <button class="btn btn-success btn-block" type="submit">
+                            <button class="btn btn-success btn-block action-userInfo" type="submit">
                                 <i class="fa fa-check fa-fw"></i>
                                 Guardar Cambios
                             </button>
@@ -162,8 +163,9 @@
                         {{ form_widget(formAddress._token) }}
                 </div>
                 <div class="row">
+                    <div id="alert_placeholder_userLocation"></div>
                     <div class="col-xs-4 col-xs-offset-4">
-                        <button class="btn btn-success btn-block" type="submit">
+                        <button class="btn btn-success btn-block action-userLocation" type="submit">
                             <i class="fa fa-check fa-fw"></i>
                             Guardar Cambios
                         </button>
@@ -179,7 +181,7 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                     {{ form_label(formPassword.passwordOld) }}
-                                    {{ form_widget(formPassword.passwordOld, { 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_widget(formPassword.passwordOld, { 'attr': {'class': 'form-control password-old'} }) }}
                             </div>
                         </div>
                     </div>
@@ -187,7 +189,7 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                     {{ form_label(formPassword.passwordNew) }}
-                                    {{ form_widget(formPassword.passwordNew, { 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_widget(formPassword.passwordNew, { 'attr': {'class': 'form-control password-new'} }) }}
                             </div>
                         </div>
                     </div>
@@ -195,14 +197,15 @@
                         <div class="col-xs-12">
                             <div class="form-group">
                                     {{ form_label(formPassword.passwordConfirmNew) }}
-                                    {{ form_widget(formPassword.passwordConfirmNew, { 'attr': {'class': 'form-control'} }) }}
+                                    {{ form_widget(formPassword.passwordConfirmNew, { 'attr': {'class': 'form-control password-confirmNew'} }) }}
                             </div>
                         </div>
                     </div>
                     {{ form_widget(formPassword._token) }}
                     <div class="row">
+                        <div id="alert_placeholder_userPassword"></div>
                         <div class="col-xs-12">
-                            <button class="btn btn-success btn-block" type="submit">
+                            <button class="btn btn-success btn-block action-userPassword" type="submit">
                                 <i class="fa fa-check fa-fw"></i>
                                 Guardar Cambios
                             </button>
@@ -213,6 +216,7 @@
             </div>
 
         </div>
+        <input class="hidden-idTab" type="hidden" value="{{ app.request.get('idTab') }}"></input>
     </div>
 </div>
 
@@ -226,22 +230,51 @@
 
 <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
 <script type="text/javascript">
-
+    
     $('#myInfoTab a').click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
-
+        
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
         initialize();
     });
-
+    
+    switch($('.hidden-idTab').val()) {
+        case '1':
+                $('#myInfoTab a[href="#userInfo"]').tab('show');
+                $('#alert_placeholder_info').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Los datos de usuario han sido guardados satisfactoriamente.</strong></div>');
+                break;
+        case '2':
+                $('#myInfoTab a[href="#userLocation"]').tab('show');
+                $('#alert_placeholder_info').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Los datos de localizacion han sido guardados satisfactoriamente.</strong></div>');
+                break;
+        case '3':
+                $('#myInfoTab a[href="#userPassword"]').tab('show');
+                $('#alert_placeholder_info').html('<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La contraseña han sido cambiada satisfactoriamente.</strong></div>');
+                break;
+    }
+    
     $('.datepicker').datepicker({
         changeMonth: true,
         changeYear: true,
-        dateFormat: 'd/m/y'
+        dateFormat: 'd/m/y',
+        maxDate: '+0D',
+        yearRange: '-114:+0'
     });
 
+    $('.action-userLocation').click(function() {
+        if(!$('.center-lat').val() || !$('.center-long').val()) {
+            $('#alert_placeholder_userLocation').html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Comprueba la direccion.</strong></div>');
+        }
+    });
+
+    $('.action-userPassword').click(function() {
+        if($('.password-new').val() !== $('.password-confirmNew').val()) {
+            $('#alert_placeholder_userPassword').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La contraseña nueva y la repetida deben ser iguales.</strong></div>');
+        }
+    });
+        
 </script>
 
 {% endblock%}
