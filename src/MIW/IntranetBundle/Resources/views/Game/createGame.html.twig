@@ -2,17 +2,18 @@
 
 {% block commonup%}
 
-<ul class="breadcrumb" style="margin-bottom: 5px;">
-    <li><a href="{{path('intranet_home')}}">WePlay</a></li>
-    <li><a href="{{path('intranet_games')}}">Partidos</a></li>
-    <li class="active">Organizar Partido</li>
-</ul>
+    <ul class="breadcrumb" style="margin-bottom: 5px;">
+        <li><a href="{{path('intranet_home')}}">WePlay</a></li>
+        <li><a href="{{path('intranet_games')}}">Partidos</a></li>
+        <li class="active">Organizar Partido</li>
+    </ul>
 
-<form action="{{path('intranet_create_game')}}" method="POST">
+    <form id="formGame" action="{{path('intranet_create_game')}}" method="POST">
 
 {% endblock%}
-{% block sidecontent %}
 
+{% block sidecontent %}
+    
     <div class="row margin-top-20">
         <div class="col-xs-12">
             <div class="well bs-component">
@@ -79,14 +80,14 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.numPlayers) }}
-                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control num-players'} }) }}
+                        {{ form_widget(form.numPlayers,{ 'attr': {'class': 'form-control num-players','min': '1'} }) }}
                         </div>
                     </div>
                     <div class="col-xs-6">
                         <div class="form-group">
                         {{ form_label(form.price) }}
                             <div class="input-group">
-                                {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element price'} }) }}
+                                {{ form_widget(form.price,{ 'attr': {'class': 'form-control input-group-element price','pattern': '^[0-9]*\.[0-9]*$'} }) }}
                                 <span class="input-group-addon"><i class="fa fa-euro fa-fw"></i></span>
                             </div>
                         </div>
@@ -180,7 +181,7 @@
             {{ form_widget(form._token) }}
             <div class="row">
                 <div class="col-xs-6">
-                    <button class="btn btn-success btn-block action-create-game" type="submit">
+                    <button class="btn btn-success btn-block" type="submit">
                         <i class="fa fa-check fa-fw"></i>
                         Crear
                     </button>
@@ -197,6 +198,7 @@
 </form>
 
 <script>
+    
     $(document).ready(function() {
         
         $('.center-name').autocomplete({
@@ -218,7 +220,6 @@
                             };
                         });
                         response(array);
-
                     }
                 });
             },
@@ -250,12 +251,7 @@
             changeMonth: true,
             changeYear: true,
             dateFormat: 'd/m/y',
-            minDate: '+0D',            
-            onChange: function() { 
-                if(this.val() > $('.datepicker-gameDate').val()) {
-                    $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La fecha limite debe ser menor que la fecha del partido.</strong></div>');
-                }
-            }
+            minDate: '+0D'
         });
         
         $('.timepicker').timepicker({
@@ -267,42 +263,40 @@
         
         var html = "<option value=0 selected>Seleccione un deporte</option>";
         $('.select-sport').prepend(html);                    
-        $('.select-sport').on('change', function() {
-            if (this.value == 0) {
-                $('#alert_placeholder').html('<div class="alert alert-warning alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Debe seleccionar un deporte.</strong></div>');
-            } else {
-                $.ajax({
+        $('.select-sport').on('change', function() {            
+            var idSport = $(this).val();    
+            $.ajax({
                     method: "GET",
                     url: "{{path('intranet_ajax_find_sport')}}",
                     dataType: "json",
                     data: {
-                        sport: this.value
+                        sport: idSport
                     },
                     success: function(data) {
                         $('.num-players').val(data.min_players);
                     }
-                });
+            });
+        });
+ 
+        $('#formGame').submit(function() {
+            if ($('.datepicker-limitDate').datepicker("getDate") > $('.datepicker-gameDate').datepicker("getDate")) {
+                $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable alert-date"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La fecha límite debe ser menor que la fecha del partido.</strong></div>');
+                $('.alert-date').alert();
+                return false;
+            } else if($('.select-sport').val() == 0) {
+                $('#alert_placeholder').html('<div class="alert alert-warning alert-dismissable alert-sport"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Debe seleccionar un deporte.</strong></div>');
+                $('.alert-sport').alert();
+                return false;
+            } else {
+                return true;
             }
-         });
-         
-        /*$('.num-players').numeric({
-            decimal: false, 
-            negative: false 
-            }, function() { 
-                this.value = ""; 
-                this.focus(); 
-        });*/
+        });
         
-        /*$('.price').numeric({
-            negative: false 
-            }, function() { 
-                this.value = ""; 
-                this.focus(); 
-        });*/
-        
- });
+    });
+    
 </script>
 {% endblock %}
+
 {% block javascripts%}
 <script type="text/javascript" src="{{ asset('js/maps.js') }}"></script>
 {% endblock%}
