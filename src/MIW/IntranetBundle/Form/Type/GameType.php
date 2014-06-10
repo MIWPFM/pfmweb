@@ -48,7 +48,6 @@ class GameType extends AbstractType
                 'label' => 'Nº Jugadores',
                 'data' => 1))
             ->add('price', 'money', array(
-                'divisor' => 1,
                 'label' => 'Precio',
                 'currency' => 'false',
                 'data' => 0.00))            
