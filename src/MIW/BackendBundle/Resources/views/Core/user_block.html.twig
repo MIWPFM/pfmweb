@@ -1,0 +1,9 @@
+{% block user_block %}
+<li role="presentation" class="dropdown-header">{{app.user.name}}</li>
+<li role="presentation">
+    <a role="menuitem" tabindex="1" href="{{path('intranet_home')}}">Volver</a>
+</li>
+<li role="presentation">
+    <a role="menuitem" tabindex="2" href="{{path('fos_user_security_logout')}}">Salir</a>
+</li>
+{% endblock %}

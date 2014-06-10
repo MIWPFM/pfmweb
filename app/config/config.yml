@@ -96,6 +96,10 @@ sonata_block:
         
 sonata_admin:
     title: WePlay Backend
+    templates:
+        layout:  MIWBackendBundle::standard_layout.html.twig
+        user_block:          MIWBackendBundle:Core:user_block.html.twig
+        
     dashboard:
         groups:
             acme.admin.group.content:
