@@ -49,7 +49,8 @@ class MyProfileController extends Controller {
                 $user->setEmail($formUser->get('email')->getData());
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 1)));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', 
+                        array('idTab' => 1, 'msgOK' => 'Los datos de usuario han sido guardados satisfactoriamente.')));
             }
 
             if ($formAddress->isValid()) {
@@ -65,7 +66,8 @@ class MyProfileController extends Controller {
                 $user->setAddress($address);
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 2)));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', 
+                        array('idTab' => 2, 'msgOK' => 'Los datos de localizacion han sido guardados satisfactoriamente.')));
             }
 
             if ($formPassword->isValid()) {
@@ -75,7 +77,8 @@ class MyProfileController extends Controller {
                 $user->setPassword($password);
                 $dm->persist($user);
                 $dm->flush();
-                return $this->redirect($this->generateUrl('intranet_myprofile_info', array('idTab' => 3)));
+                return $this->redirect($this->generateUrl('intranet_myprofile_info', 
+                        array('idTab' => 3, 'msgOK' => 'La contraseña han sido modificada satisfactoriamente.')));
             }
         }
 
