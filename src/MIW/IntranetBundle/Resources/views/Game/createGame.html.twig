@@ -201,6 +201,9 @@
     
     $(document).ready(function() {
         
+        $('.center-name').on('change',function(){
+             $("#game_center_address_address,#game_center_address_community,#game_center_address_province,#game_center_address_city").attr("disabled",false);
+        })
         $('.center-name').autocomplete({
             source: function(request, response) {
                 $.ajax({
@@ -220,6 +223,7 @@
                             };
                         });
                         response(array);
+                       
                     }
                 });
             },
@@ -236,6 +240,7 @@
                 $('#game_center_address_province').val(ui.item.item.province);
                 $('#game_center_address_community').val(ui.item.item.community);
                 $('#game_center_address_city').val(ui.item.item.city);
+                $("#game_center_address_address,#game_center_address_community,#game_center_address_province,#game_center_address_city").attr("disabled","disabled");
                 event.preventDefault();
             }
         });
@@ -283,13 +288,18 @@
                 $('#alert_placeholder').html('<div class="alert alert-danger alert-dismissable alert-date"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>La fecha límite debe ser menor que la fecha del partido.</strong></div>');
                 $('.alert-date').alert();
                 return false;
-            } else if($('.select-sport').val() == 0) {
+            }
+            if($('.select-sport').val() == 0) {
                 $('#alert_placeholder').html('<div class="alert alert-warning alert-dismissable alert-sport"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Debe seleccionar un deporte.</strong></div>');
                 $('.alert-sport').alert();
                 return false;
-            } else {
-                return true;
-            }
+            } 
+            if( ! $('#game_center_address_coordinates_x').val() || ! $('#game_center_address_coordinates_y').val()) {
+                $('#alert_placeholder').html('<div class="alert alert-warning alert-dismissable alert-coordinates"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><strong>Debes comprobar la dirección.</strong></div>');
+                $('.alert-coordinates').alert();
+                return false;
+            } 
+            return true;
         });
         
     });
