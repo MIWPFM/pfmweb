@@ -74,7 +74,7 @@
                   {% endfor%}
 
 
-                <a href="{{path('intranet_myprofile_games_owner')}}" class="btn btn-success pull-right">ver todos</a>
+                <a href="{{path('intranet_myprofile_games_owner')}}" class="btn btn-info pull-right">Ver todos</a>
             </div>
             {% endif%}
 
@@ -117,7 +117,7 @@
             {% endfor%}
 
 
-                <a href="{{path('intranet_myprofile_games_playing')}}" class="btn btn-success pull-right">ver todos</a>
+                <a href="{{path('intranet_myprofile_games_playing')}}" class="btn btn-info pull-right">Ver todos</a>
             </div>
             {% endif%}
 
@@ -146,7 +146,7 @@
                   {% endfor%}
 
 
-                <a href="{{path('intranet_myprofile_games_played')}}" class="btn btn-success pull-right">Ver todos</a>
+                <a href="{{path('intranet_myprofile_games_played')}}" class="btn btn-info pull-right">Ver todos</a>
             </div>
             {% endif%}
         </div>
@@ -162,8 +162,6 @@
         $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
             var element = $(this).closest('div.list-group-item');
-            console.log(element);
-            console.log(element.parent());
             var id = element.data('id');
             $.ajax({
                 method: "GET",

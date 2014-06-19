@@ -29,22 +29,6 @@ function initialize() {
     var autocomplete = new google.maps.places.Autocomplete(inputAddress, {
         types: ["geocode"]
     });
-    /*var inputCity = document.getElementsByClassName('center-city')[0];
-     console.log(inputCity);
-     var autocomplete2 = new google.maps.places.Autocomplete(inputCity, {
-     types: ['(cities)']
-     });
-     var inputCommunity = document.getElementsByClassName('center-community')[0];
-     console.log(inputCommunity);
-     var autocomplete3 = new google.maps.places.Autocomplete(inputCommunity, {
-     types: ['(regions)']
-     });
-     var inputProvince = document.getElementsByClassName('center-province')[0];
-     console.log(inputProvince);
-     var autocomplete4 = new google.maps.places.Autocomplete(inputProvince, {
-     types: ['(regions)']
-     });*/
-
 
     autocomplete.bindTo('bounds', map);
 
@@ -65,22 +49,18 @@ function initialize() {
 function findPosition() {
     var placeToFind = "";
     var address = $("form").find(".center-address").val();
-    console.log(address);
     if (address.length > 0) {
         placeToFind += address + " ";
     }
     var city = $("form").find(".center-city").val();
-    console.log(city);
     if (city.length > 0) {
         placeToFind += city + " ";
     }
     var community = $("form").find(".center-community").val();
-    console.log(community);
     if (community.length > 0) {
         placeToFind += community + " ";
     }
     var province = $("form").find(".center-province").val();
-    console.log(province);
     if (province.length > 0) {
         placeToFind += province;
     }
@@ -155,9 +135,6 @@ function handleNoGeolocation(errorFlag) {
 }
 
 function fillLatLongInputs(lat, long) {
-    console.log("Coordenadas");
-    console.log(lat);
-    console.log(long);
     $("form").find(".center-lat").val(lat);
     $("form").find(".center-long").val(long);
 }
@@ -167,7 +144,6 @@ function fillReducedFormInputs(item) {
 
     $.each(arrAddress, function(i, address_component) {
         if (address_component.types[0] == "postal_code") {
-            console.log("itemZipcode:" + address_component.long_name);
             itemZipcode = address_component.long_name;
         }
     });
@@ -185,31 +161,24 @@ function fillFormInputs(item) {
 
     $.each(arrAddress, function(i, address_component) {
         if (address_component.types[0] == "premise") {
-            console.log(i + ": itemCenterName:" + address_component.long_name);
             itemCenterName = address_component.long_name;
         }
         if (address_component.types[0] == "route") {
-            console.log("itemAddress:" + address_component.long_name);
             itemAddress = address_component.long_name;
         }
         if (address_component.types[0] == "locality") {
-            console.log("itemCity:" + address_component.long_name);
             itemCity = address_component.long_name;
         }
         if (address_component.types[0] == "administrative_area_level_2") {
-            console.log("itemProvince:" + address_component.long_name);
             itemProvince = address_component.long_name;
         }
         if (address_component.types[0] == "administrative_area_level_1") {
-            console.log("itemCommunity:" + address_component.long_name);
             itemCommunity = address_component.long_name;
         }
         if (address_component.types[0] == "postal_code") {
-            console.log("itemZipcode:" + address_component.long_name);
             itemZipcode = address_component.long_name;
         }
         if (address_component.types[0] == "street_number") {
-            console.log("itemNumber:" + address_component.long_name);
             itemNumber = address_component.long_name;
         }
     });

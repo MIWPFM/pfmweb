@@ -82,7 +82,6 @@
             $(document).on("click", '#registerSubmit', function(event) {
                 event.preventDefault();
                 var button=$(this);
-                console.log("register");
                 var data = 'fos_user_registration_form[username]='+$('#fos_user_registration_form_username').val();
                 data += '&fos_user_registration_form[email]='+$('#fos_user_registration_form_email').val();
                 data += '&fos_user_registration_form[plainPassword][first]='+$('#fos_user_registration_form_plainPassword_first').val();

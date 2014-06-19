@@ -214,7 +214,6 @@
                         center: $('.center-name').val()
                     },
                     success: function(data) {
-                        console.log(data);
                         var array = data.error ? [] : $.map(data, function(item) {
                             return {
                                 label: item.name,

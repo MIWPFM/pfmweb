@@ -92,8 +92,6 @@
         $(document).on("click", '.action-unsubscribe', function(event) {
             event.preventDefault();
             var element = $(this).closest('div.list-group-item');
-            console.log(element);
-            console.log(element.parent());
             var id = element.data('id');
             $.ajax({
                 method: "GET",
